@@ -43,3 +43,57 @@ class Word(bytes):
         return format(arg)
 
     __repr__ = __str__
+
+
+# TODO: Refactor this copy and paste based code.
+class Worm(bytes):
+
+    def __new__(cls, s):
+
+        mapping = dict()
+        mapping['1'] = 1
+        mapping['2'] = 2
+        mapping['|'] = 3
+
+        lookup = mapping.__getitem__
+
+        if isinstance(s, str):
+            s = bytes(map(lookup, s))
+
+            # Already checked that values are in range.
+            return bytes.__new__(cls, s)
+
+    @property
+    def mass(self):
+        return sum(self)
+
+    @property
+    def c(self):
+        return self.count(b'\x01')
+
+    @property
+    def d(self):
+        return self.count(b'\x02')
+
+    @property
+    def order(self):
+        return self.count(b'\x03')
+
+
+    def __str__(self):
+
+        mapping = dict()
+        mapping[1] = '1'
+        mapping[2] = '2'
+        mapping[3] = '|'
+        lookup = mapping.__getitem__
+
+        if not self:
+            return "Worm('')"
+
+        format = "Worm('{0}')".format
+        arg = ''.join(map(lookup, self))
+
+        return format(arg)
+
+    __repr__ = __str__
