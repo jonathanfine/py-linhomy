@@ -7,7 +7,39 @@ This is used to define the (candidate) formula for linear homology
 Betti numbers.
 '''
 
-def iter_123_from_12(items):
+class Word(bytes):
 
-    if False:
-        yield None
+    def __new__(cls, s):
+
+        if isinstance(s, str):
+            s = bytes(int(c, 36) for c in s)
+
+        # Check values are in range.
+        if s.lstrip(b'\x01\x02'):
+            raise ValueError
+
+        return bytes.__new__(cls, s)
+
+    @property
+    def mass(self):
+        return sum(self)
+
+    @property
+    def c(self):
+        return self.count(b'\x01')
+
+    @property
+    def d(self):
+        return self.count(b'\x02')
+
+    def __str__(self):
+
+        if not self:
+            return 'Word()'
+
+        format = "Word('{0}')".format
+        arg = ''.join(map(str, self))
+
+        return format(arg)
+
+    __repr__ = __str__

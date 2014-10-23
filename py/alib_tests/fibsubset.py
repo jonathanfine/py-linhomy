@@ -1,8 +1,9 @@
-from linehomy.fibsubset import iter_123_from_12
+from linehomy.fibsubset import Word
 
-def t_123_12(items):
-    '''Return tuple(iter_123_from_12(iter(items))).
-    '''
-    return tuple(iter_123_from_12(iter(items)))
+Word('?') ** ValueError
+Word('3') ** ValueError
 
-t_123_12([]) == ()
+Word('12').c == 1
+Word('12').d == 1
+Word('12').mass == 3
+str(Word('12')) == repr(Word('12')) == "Word('12')"
