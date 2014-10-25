@@ -294,6 +294,10 @@ class Shape(MixIn, bytes):
 
     def contract(self, indices):
 
+        # Handle special case of no indices.
+        if not indices:
+            return self
+
         # Check indices are in bounds.
         indices = set(indices)
         index_list = sorted(indices)

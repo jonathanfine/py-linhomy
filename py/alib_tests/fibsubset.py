@@ -87,6 +87,7 @@ Shape('12;57')._helper(Shape('12,34;12')) == [1]
 
 
 # TODO: Rename?
+Shape(';00').contains2(Shape(';00')) == True
 Shape('12,34;12').contains2(Shape('12;57')) == False
 Shape('12;57').contains2(Shape('12,34;12')) == True
 
