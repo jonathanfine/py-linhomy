@@ -163,3 +163,34 @@ class Shape(MixIn, bytes):
         tail_str = segment_format(*tail)
 
         return shape_format(body_str, tail_str)
+
+
+    def expand_data(self, delimiter):
+
+        # Split into body and tail.  Assume length is even.
+        body, tail = self[:-2], self[-2:]
+
+        # Process the body.
+        iter_body = iter(body)
+        for c, d in zip(iter_body, iter_body):
+            yield b'\x01' * c
+            yield b'\x02' * d
+            yield delimiter
+
+        # Process the tail.
+        c, d = tail
+        yield b'\x01' * c
+        yield b'\x02' * d
+
+
+    @property
+    def word(self):
+
+        data = b''.join(self.expand_data(b'\x02\x01'))
+        return Word(data)
+
+    @property
+    def worm(self):
+
+        data = b''.join(self.expand_data(b'\x03'))
+        return Worm(data)

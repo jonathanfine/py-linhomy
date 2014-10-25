@@ -53,5 +53,9 @@ str(sh) == "Shape(';00')"
 
 sh1 = Shape(b'\x00\x01\x02\x03\x04\x05')
 str(sh1) == "Shape('01,23;45')"
-
 sh1 == Shape('01,23;45')
+
+# Can convert shape to worm and word.
+sh1 = Shape('01,23;45')
+sh1.worm == Worm('2|11222|111122222')
+sh1.word == Word('2211122221111122222')
