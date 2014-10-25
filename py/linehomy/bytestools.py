@@ -1,5 +1,6 @@
 class MixIn:
 
+    __str_format = "{0}({1})".format
 
     def __new__(cls, data_or_str):
 
@@ -10,3 +11,13 @@ class MixIn:
 
         cls.check_data(data)
         return super().__new__(cls, data)
+
+
+    def __str__(self):
+
+        name = self.__class__.__name__
+        arg = self.arg
+
+        return self.__str_format(name, repr(arg))
+
+    __repr__ = __str__

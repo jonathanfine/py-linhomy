@@ -28,6 +28,12 @@ class Word(MixIn, bytes):
 
 
     @property
+    def arg(self):
+        '''Return object that can be passed to constructor.'''
+        return ''.join(map(str, self))
+
+
+    @property
     def mass(self):
         return sum(self)
 
@@ -39,17 +45,7 @@ class Word(MixIn, bytes):
     def d(self):
         return self.count(b'\x02')
 
-    def __str__(self):
 
-        if not self:
-            return 'Word()'
-
-        format = "Word('{0}')".format
-        arg = ''.join(map(str, self))
-
-        return format(arg)
-
-    __repr__ = __str__
 
 
 # TODO: Refactor this copy and paste based code.
