@@ -47,11 +47,10 @@ class Word(MixIn, bytes):
 
 
 
+class Worm(MixIn, bytes):
 
-# TODO: Refactor this copy and paste based code.
-class Worm(bytes):
-
-    def __new__(cls, s):
+    @staticmethod
+    def data_from_str(s):
 
         mapping = dict()
         mapping['1'] = 1
@@ -60,11 +59,27 @@ class Worm(bytes):
 
         lookup = mapping.__getitem__
 
-        if isinstance(s, str):
-            s = bytes(map(lookup, s))
+        return bytes(map(lookup, s))
 
-            # Already checked that values are in range.
-            return bytes.__new__(cls, s)
+
+    @staticmethod
+    def check_data(data):
+
+        # Check values are in range.
+        if data.lstrip(b'\x01\x02\x03'):
+            raise ValueError
+
+    @property
+    def arg(self):
+
+        mapping = dict()
+        mapping[1] = '1'
+        mapping[2] = '2'
+        mapping[3] = '|'
+        lookup = mapping.__getitem__
+
+        return ''.join(map(lookup, self))
+
 
     @property
     def mass(self):
@@ -83,7 +98,7 @@ class Worm(bytes):
         return self.count(b'\x03')
 
 
-    def __str__(self):
+    def AAA__str__(self):
 
         mapping = dict()
         mapping[1] = '1'
@@ -98,5 +113,3 @@ class Worm(bytes):
         arg = ''.join(map(lookup, self))
 
         return format(arg)
-
-    __repr__ = __str__
