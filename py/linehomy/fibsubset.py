@@ -124,3 +124,25 @@ class Shape(MixIn, bytes):
         length = len(data)
         if length % 2 or length < 2:
             raise ValueError
+
+    @property
+    def arg(self):
+
+        shape_format = '{0};{1}'.format
+        segment_format = '{0}{1}'.format
+
+        # Split into body and tail.  Assume length is even.
+        body, tail = self[:-2], self[-2:]
+
+        # Create body_str
+        iter_body = iter(body)
+        body_str = ','.join(
+            segment_format(*seg)
+            for seg
+            in zip(iter_body, iter_body)
+        )
+
+        # Create tail_str
+        tail_str = segment_format(*tail)
+
+        return shape_format(body_str, tail_str)

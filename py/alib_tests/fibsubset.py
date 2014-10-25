@@ -46,3 +46,9 @@ Shape(b'\x00\x01\x02') ** ValueError
 
 # This works.
 sh = Shape(b'\x00\x00')
+
+# TODO: Don't mention tail if 'empty'.
+sh.arg == ';00'
+str(sh) == "Shape(';00')"
+
+str(Shape(b'\x00\x01\x02\x03\x04\x05')) == "Shape('01,23;45')"
