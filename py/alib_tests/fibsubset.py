@@ -59,3 +59,8 @@ sh1 == Shape('01,23;45')
 sh1 = Shape('01,23;45')
 sh1.worm == Worm('2|11222|111122222')
 sh1.word == Word('2211122221111122222')
+
+sh1.contains(sh1) == True
+Shape('00;41').contains(Shape('00;22')) == False
+
+Shape(';00') ** ValueError      # TODO: Fix.

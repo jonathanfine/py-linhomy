@@ -194,3 +194,55 @@ class Shape(MixIn, bytes):
 
         data = b''.join(self.expand_data(b'\x03'))
         return Worm(data)
+
+
+    # TODO: Is this transitive?  I think so.
+    def contains(self, other):
+
+        # Deal with the simple cases first.
+        if type(self) != type(other):
+            raise TypeError
+
+        if len(self) != len(other):
+            return False
+
+        # TODO: Check total mass the same.
+
+        # Produce list of (c_1, d_1, c_2, d_2) quads.
+        iter_1, iter_2  = iter(self), iter(other)
+        quads = list(zip(iter_1, iter_1, iter_2, iter_2))
+
+        # Split into body_quads and tail_quad (note tail singular).
+        body_quads = quads[:-1]
+        tail_quad = quads[-1]
+
+        # The body loop.
+        mass_1 = mass_2 = 0
+        for c_1, d_1, c_2, d_2 in body_quads:
+
+            # Each other segment to have at least as many d's.
+            if not d_1 <= d_2:
+                return False
+
+            # Keep a running total of the mass.
+            mass_1 += c_1 + 2 * d_1 + 3
+            mass_2 += c_2 + 2 * d_2 + 3
+
+            # The other total mass to be no larger than self.
+            if not mass_2 <= mass_1:
+                return False
+
+        # Now check the tail.
+        c_1, d_1, c_2, d_2 = tail_quad
+
+        # The other tail to have at least as many d's.
+        if not d_1 <= d_2:
+            return False
+
+        # Any extra d must come from extra c (and not existing c).
+        extra_c, extra_d = c_2 - c_1, d_2 - d_1
+        if not extra_d <= extra_c:
+            return False
+
+        # Still here?  Then true.
+        return True
