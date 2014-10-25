@@ -165,6 +165,20 @@ class Shape(MixIn, bytes):
         return shape_format(body_str, tail_str)
 
 
+    @property
+    def order(self):
+        return len(self) // 2 - 1
+
+
+    @property
+    def mass(self):
+
+        c_mass = sum(self[::2])
+        d_mass = sum(self[1::2])
+
+        return c_mass + 2 * d_mass + 3 * self.order
+
+
     def expand_data(self, delimiter):
 
         # Split into body and tail.  Assume length is even.
@@ -206,7 +220,8 @@ class Shape(MixIn, bytes):
         if len(self) != len(other):
             return False
 
-        # TODO: Check total mass the same.
+        if self.mass != other.mass:
+            return False
 
         # Produce list of (c_1, d_1, c_2, d_2) quads.
         iter_1, iter_2  = iter(self), iter(other)
@@ -239,8 +254,14 @@ class Shape(MixIn, bytes):
         if not d_1 <= d_2:
             return False
 
+        # TODO: Clarify this code and logic.
         # Any extra d must come from extra c (and not existing c).
         extra_c, extra_d = c_2 - c_1, d_2 - d_1
+
+        # Consistency check - and to help explain the logic.
+        if not mass_2 - mass_1 == extra_c + 2 * extra_d:
+            raise ThisCannotHappen
+
         if not extra_d <= extra_c:
             return False
 
