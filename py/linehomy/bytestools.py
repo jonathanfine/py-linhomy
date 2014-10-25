@@ -21,3 +21,11 @@ class MixIn:
         return self.__str_format(name, repr(arg))
 
     __repr__ = __str__
+
+
+    def __eq__(self, other):
+
+        if type(self) != type(other):
+            raise TypeError
+
+        return super().__eq__(self, other)
