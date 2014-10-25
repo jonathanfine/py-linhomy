@@ -12,16 +12,19 @@ from .bytestools import MixIn
 class Word(MixIn, bytes):
 
     @staticmethod
-    def bytes_from_str(s):
+    def data_from_str(s):
 
         if isinstance(s, str):
-            s = bytes(int(c, 36) for c in s)
+            data = bytes(int(c, 36) for c in s)
+        return data
+
+
+    @staticmethod
+    def check_data(data):
 
         # Check values are in range.
-        if s.lstrip(b'\x01\x02'):
+        if data.lstrip(b'\x01\x02'):
             raise ValueError
-
-        return s
 
 
     @property
