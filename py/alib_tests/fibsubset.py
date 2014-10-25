@@ -67,3 +67,9 @@ Shape(';41').mass == Shape(';22').mass == 6
 
 sh1.contains(sh1) == True
 Shape(';41').contains(Shape(';22')) == False
+
+
+# Every worm has a shape.
+Worm('').shape == Shape(';00')
+Worm('12').shape == Worm('21').shape == Shape(';11')
+Worm('12|').shape == Worm('21|').shape == Shape('11;00')

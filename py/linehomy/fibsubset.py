@@ -111,6 +111,25 @@ class Worm(MixIn, bytes):
         data = self.replace(b'\x03', b'\x02\x01')
         return Word(data)
 
+    @property
+    def shape(self):
+
+        # Deal with troublesome special case.
+        if False and not self:
+            # TODO: Gotcha - want to write Shape('') or Shape().
+            return Shape(';00')
+
+        bits = self.split(b'\x03')
+
+        pending = []
+        for bit in bits:
+            c = bit.count(b'\x01')
+            d = bit.count(b'\x02')
+            pending.extend([c, d])
+
+        data = bytes(pending)
+        return Shape(data)
+
 
 class Shape(MixIn, bytes):
 
