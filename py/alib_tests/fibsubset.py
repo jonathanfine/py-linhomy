@@ -73,3 +73,9 @@ Shape(';41').contains(Shape(';22')) == False
 Worm('').shape == Shape(';00')
 Worm('12').shape == Worm('21').shape == Shape(';11')
 Worm('12|').shape == Worm('21|').shape == Shape('11;00')
+
+
+# Step 5. Contraction of a shape
+# TODO: More testing.
+Shape('12,34;12').contract([0]) == Shape('57;12')
+Shape('12,34;12').contract([1]) == Shape('12;57')

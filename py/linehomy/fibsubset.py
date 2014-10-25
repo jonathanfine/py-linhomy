@@ -7,6 +7,7 @@ This is used to define the (candidate) formula for linear homology
 Betti numbers.
 '''
 
+import itertools
 from .bytestools import MixIn
 
 class Word(MixIn, bytes):
@@ -287,3 +288,45 @@ class Shape(MixIn, bytes):
 
         # Still here?  Then true.
         return True
+
+
+    def contract(self, indices):
+
+        # Check indices are in bounds.
+        indices = set(indices)
+        index_list = sorted(indices)
+
+        if not 0 <= index_list[0]:
+            raise ValueError('negative index')
+
+        # Ensures loop finishes with pending.extend.
+        if not index_list[-1] <= len(self) - 2:
+            raise ValueError('nothing to join')
+
+        # The main loop iterates over (i, c, d) triples.
+        iter_self = iter(self)
+        triples = zip(itertools.count(), iter_self, iter_self)
+
+        # Start the main loop.
+        pending = []
+        c_total = d_total = 0
+        for i, c, d in triples:
+
+            c_total += c
+            d_total += d
+
+            if i in indices:
+                c_total += 1
+                d_total += 1
+            else:
+                pending.extend([c_total, d_total])
+                c_total, d_total = 0, 0
+
+        data = bytes(pending)
+
+        # Check for logic error.
+        value = Shape(data)
+        if value.mass != self.mass:
+            raise ThisCannotHappen
+
+        return value
