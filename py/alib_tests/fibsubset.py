@@ -24,3 +24,4 @@ worm.mass == 1 * worm.c + 2 * worm.d + 3 * worm.order == 1 + 4 + 9
 del worm
 
 (Word('') == Worm('')) ** TypeError
+Worm('') == Worm('')

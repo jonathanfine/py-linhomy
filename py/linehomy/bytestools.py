@@ -28,4 +28,4 @@ class MixIn:
         if type(self) != type(other):
             raise TypeError
 
-        return super().__eq__(self, other)
+        return super().__eq__(other)
