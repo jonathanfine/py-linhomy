@@ -23,5 +23,14 @@ worm.order == 3
 worm.mass == 1 * worm.c + 2 * worm.d + 3 * worm.order == 1 + 4 + 9
 del worm
 
+# Misc
+
 (Word('') == Worm('')) ** TypeError
 Worm('') == Worm('')
+
+
+# Step 3. Worms from words and vice versa
+Word('12').worm == Worm('12')
+Word('21').worm == Worm('|')
+
+Worm('|').word == Word('21')

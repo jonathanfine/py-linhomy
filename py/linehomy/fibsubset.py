@@ -46,6 +46,13 @@ class Word(MixIn, bytes):
         return self.count(b'\x02')
 
 
+    @property
+    def worm(self):
+
+        data = self.replace(b'\x02\x01', b'\x03')
+        return Worm(data)
+
+
 
 class Worm(MixIn, bytes):
 
@@ -98,18 +105,8 @@ class Worm(MixIn, bytes):
         return self.count(b'\x03')
 
 
-    def AAA__str__(self):
+    @property
+    def word(self):
 
-        mapping = dict()
-        mapping[1] = '1'
-        mapping[2] = '2'
-        mapping[3] = '|'
-        lookup = mapping.__getitem__
-
-        if not self:
-            return "Worm('')"
-
-        format = "Worm('{0}')".format
-        arg = ''.join(map(lookup, self))
-
-        return format(arg)
+        data = self.replace(b'\x03', b'\x02\x01')
+        return Word(data)
