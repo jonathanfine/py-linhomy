@@ -7,9 +7,12 @@ This is used to define the (candidate) formula for linear homology
 Betti numbers.
 '''
 
-class Word(bytes):
+from .bytestools import MixIn
 
-    def __new__(cls, s):
+class Word(MixIn, bytes):
+
+    @staticmethod
+    def bytes_from_str(s):
 
         if isinstance(s, str):
             s = bytes(int(c, 36) for c in s)
@@ -18,7 +21,8 @@ class Word(bytes):
         if s.lstrip(b'\x01\x02'):
             raise ValueError
 
-        return bytes.__new__(cls, s)
+        return s
+
 
     @property
     def mass(self):
