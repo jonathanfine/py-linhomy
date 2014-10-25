@@ -238,9 +238,11 @@ class Shape(MixIn, bytes):
         if type(self) != type(other):
             raise TypeError
 
+        # TODO: ValueError?
         if len(self) != len(other):
             return False
 
+        # TODO: ValueError?
         if self.mass != other.mass:
             return False
 
@@ -330,3 +332,28 @@ class Shape(MixIn, bytes):
             raise ThisCannotHappen
 
         return value
+
+
+    # TODO: Rename.
+    # TODO: Return value more helpful for testing?
+    def _helper(self, other):
+
+        # Deal with the simple cases first.
+        if type(self) != type(other):
+            raise TypeError
+
+        # TODO: ValueError?
+        if self.mass != other.mass:
+            return False
+
+        other_ds = iter(other[::2])
+        skips = []
+        for i, d_self in enumerate(self[::2]):
+
+            d_other = next(other_ds)
+            while d_other < d_self:
+                d_other += next(other_ds)
+                d_other += 1
+                skips.append(i)
+
+        return skips

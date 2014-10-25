@@ -79,3 +79,11 @@ Worm('12|').shape == Worm('21|').shape == Shape('11;00')
 # TODO: More testing.
 Shape('12,34;12').contract([0]) == Shape('57;12')
 Shape('12,34;12').contract([1]) == Shape('12;57')
+
+
+Shape('12,34;12')._helper(Shape('12;57')) ** StopIteration
+Shape('12;57')._helper(Shape('12,34;12')) == [1]
+
+
+# TODO: Fix? # : need more than 1 value to unpack
+Shape('12:57') ** ValueError
