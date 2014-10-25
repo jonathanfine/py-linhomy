@@ -81,8 +81,14 @@ Shape('12,34;12').contract([0]) == Shape('57;12')
 Shape('12,34;12').contract([1]) == Shape('12;57')
 
 
+# TODO: Return value / exception more helpful for testing?
 Shape('12,34;12')._helper(Shape('12;57')) ** StopIteration
 Shape('12;57')._helper(Shape('12,34;12')) == [1]
+
+
+# TODO: Rename?
+Shape('12,34;12').contains2(Shape('12;57')) == False
+Shape('12;57').contains2(Shape('12,34;12')) == True
 
 
 # TODO: Fix? # : need more than 1 value to unpack

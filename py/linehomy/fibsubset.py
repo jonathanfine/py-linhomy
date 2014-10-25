@@ -350,6 +350,7 @@ class Shape(MixIn, bytes):
         skips = []
         for i, d_self in enumerate(self[::2]):
 
+            # TODO: For testing return the new d's?
             d_other = next(other_ds)
             while d_other < d_self:
                 d_other += next(other_ds)
@@ -357,3 +358,16 @@ class Shape(MixIn, bytes):
                 skips.append(i)
 
         return skips
+
+
+    # TODO: Rename?
+    def contains2(self, other):
+
+        try:
+            indices = self._helper(other)
+        except StopIteration:
+            return False
+
+        contracted = other.contract(indices)
+
+        return self.contains(contracted)
