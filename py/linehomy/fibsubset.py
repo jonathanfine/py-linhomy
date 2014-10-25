@@ -110,3 +110,17 @@ class Worm(MixIn, bytes):
 
         data = self.replace(b'\x03', b'\x02\x01')
         return Word(data)
+
+
+class Shape(MixIn, bytes):
+
+    @staticmethod
+    def data_from_str(s):
+        ddt
+
+    @staticmethod
+    def check_data(data):
+
+        length = len(data)
+        if length % 2 or length < 2:
+            raise ValueError

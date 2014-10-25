@@ -34,3 +34,15 @@ Word('12').worm == Worm('12')
 Word('21').worm == Worm('|')
 
 Worm('|').word == Word('21')
+
+
+# Step 4. Shapes
+from linehomy.fibsubset import Shape
+
+# Length must be even number, at least two.
+Shape(b'') ** ValueError
+Shape(b'\x00') ** ValueError
+Shape(b'\x00\x01\x02') ** ValueError
+
+# This works.
+sh = Shape(b'\x00\x00')
