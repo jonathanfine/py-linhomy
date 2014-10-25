@@ -126,8 +126,9 @@ class Shape(MixIn, bytes):
 
         # Process the body_str.
         int_data = []
-        for seg in body_str.split(','):
-            int_data.extend(doit(seg))
+        if body_str:            # Shape(';00').
+            for seg in body_str.split(','):
+                int_data.extend(doit(seg))
 
         # Process the tail_str.
         int_data.extend(doit(tail_str))

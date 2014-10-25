@@ -45,6 +45,7 @@ Shape(b'\x00') ** ValueError
 Shape(b'\x00\x01\x02') ** ValueError
 
 # This works.
+Shape(';00')
 sh = Shape(b'\x00\x00')
 
 # TODO: Don't mention tail if 'empty'.
@@ -61,10 +62,8 @@ sh1.worm == Worm('2|11222|111122222')
 sh1.word == Word('2211122221111122222')
 
 
-Shape('00;41').mass == Shape('00;22').mass == 9
+Shape(';41').mass == Shape(';22').mass == 6
 
 
 sh1.contains(sh1) == True
-Shape('00;41').contains(Shape('00;22')) == False
-
-Shape(';00') ** ValueError      # TODO: Fix.
+Shape(';41').contains(Shape(';22')) == False
