@@ -51,4 +51,7 @@ sh = Shape(b'\x00\x00')
 sh.arg == ';00'
 str(sh) == "Shape(';00')"
 
-str(Shape(b'\x00\x01\x02\x03\x04\x05')) == "Shape('01,23;45')"
+sh1 = Shape(b'\x00\x01\x02\x03\x04\x05')
+str(sh1) == "Shape('01,23;45')"
+
+sh1 == Shape('01,23;45')

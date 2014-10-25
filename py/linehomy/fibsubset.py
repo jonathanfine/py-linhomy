@@ -116,7 +116,24 @@ class Shape(MixIn, bytes):
 
     @staticmethod
     def data_from_str(s):
-        ddt
+
+        # TODO: Replace by base36.
+        def doit(chars):
+            c, d = chars
+            return int(c), int(d)
+
+        body_str, tail_str = s.split(';')
+
+        # Process the body_str.
+        int_data = []
+        for seg in body_str.split(','):
+            int_data.extend(doit(seg))
+
+        # Process the tail_str.
+        int_data.extend(doit(tail_str))
+
+        return bytes(int_data)
+
 
     @staticmethod
     def check_data(data):
@@ -134,7 +151,7 @@ class Shape(MixIn, bytes):
         # Split into body and tail.  Assume length is even.
         body, tail = self[:-2], self[-2:]
 
-        # Create body_str
+        # Create body_str.
         iter_body = iter(body)
         body_str = ','.join(
             segment_format(*seg)
@@ -142,7 +159,7 @@ class Shape(MixIn, bytes):
             in zip(iter_body, iter_body)
         )
 
-        # Create tail_str
+        # Create tail_str.
         tail_str = segment_format(*tail)
 
         return shape_format(body_str, tail_str)
