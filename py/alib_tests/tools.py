@@ -1,6 +1,7 @@
 ## 1. Use of Self-extending list
 from linehomy.tools import self_extending_list
 
+# This is a copy of code in linehomy/constants.py.
 @self_extending_list([0, 1])
 def FIB(self, key):
     '''The Fibonacci numbers 0, 1, 1, 2, 3, 5, 13, ...
@@ -35,3 +36,4 @@ operator.setitem(FIB, 1, 2) == None # Should be TypeError
 # Tests for slice assignment and deletion.
 # TODO: User MappingProxyType?  New in Python 3.3.
 # TODO: truncation, to reclaim memory.
+# TODO: Provide a reset property.
