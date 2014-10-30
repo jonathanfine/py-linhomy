@@ -30,3 +30,18 @@ def FIBWORDS(self, key):
             map(b'\x01'.__add__, self[-1]),
             map(b'\x02'.__add__, self[-2]),
         ))]
+
+
+@self_extending_list([])
+def CD_G_ONES(self, key):
+
+    # GOTCHA: Done to avoid nasty circular import.
+    from .compute import cd_g_ones
+
+    # TODO: This is just until we have properly cached values.
+    if key > 10:
+        raise ValueError
+
+    length = len(self)
+    value = list(cd_g_ones(length))
+    return [value]
