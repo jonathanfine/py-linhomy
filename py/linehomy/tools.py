@@ -1,4 +1,9 @@
-class MyList(list):
+from functools import partial
+
+class SelfExtendingList(list):
+    # TODO: Docstring.
+
+    __slots__ = ['__doc__', 'next_items']
 
     def __getitem__(self, key):
 
@@ -9,6 +14,16 @@ class MyList(list):
 
         return super().__getitem__(key)
 
-    def next_items(self, key):
 
-        return [self[-1] + self[-2]]
+def self_extending_list(seed):
+    # TODO: Docstring.
+
+    def make_self_extending_list(fn):
+
+        self = SelfExtendingList(seed)
+        self.next_items = partial(fn, self)
+        self.__doc__ = fn.__doc__
+
+        return self
+
+    return make_self_extending_list
