@@ -3,6 +3,8 @@ import linhomy.vlq as vlq
 # http://en.wikipedia.org/wiki/Variable-length_quantity
 
 
+# 1. Lexing a stream of bytes
+
 def doit(src):
     expected = src.split(b' ')
     arg = b''.join(expected)
@@ -19,3 +21,16 @@ for src in [
 
 # GOTCHA:  Need parentheses on RHS.
 doit(b'') == ([], [b''])        # TODO: This should fail.
+
+
+# 2. Convert an int into bytes
+
+bfi = vlq.bytes_from_int
+cont, term = vlq.cont, vlq.term
+
+bfi(0) == term(0)
+bfi(127) == term(127)
+bfi(128) == cont(1) + term(0)
+bfi(255) == cont(1) + term(127)
+bfi(2 ** 14 - 1) == cont(127) + term(127)
+bfi(2 ** 21- 1) == cont(127) * 2 + term(127)

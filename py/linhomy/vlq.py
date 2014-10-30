@@ -17,6 +17,24 @@ if 0:
     )
 
 
+# Very useful in testing.
+def cont(n):
+    if not 0 <= n < 128:
+        raise ValueError
+    return bytes([n])
+
+def term(n):
+    if not 0 <= n < 128:
+        raise ValueError
+    return bytes([n + 128])
+
+
+# TODO: Perhaps useful.
+if 0:
+    CONT_ZERO = cont(0)
+    TERM_ZERO = term(0)
+
+
 # Non-greedy search for a delimiting character.
 lex_re = re.compile(b'.*?[\x80-\xff]')
 
@@ -30,3 +48,28 @@ def lex(data, pos=0, endpos=sys.maxsize):
 
     for mo in lex_re.finditer(data, pos, endpos):
         yield mo.group()
+
+
+def bytes_from_int(n):
+
+    # TODO: Docstring.
+
+    if n < 0:
+        raise ValueError
+
+    # This is worth special casing.
+    if n < 128:
+        # GOTCHA: list of ints.
+        return bytes([n + 128])
+
+    pending = []
+    while n > 0:
+
+        n, remainder = divmod(n, 128)
+        pending.append(remainder)
+
+    # VLQ is bigendian so least significant byte terminates.
+    pending[0] += 128
+
+    # VLQ is bigendian so need reverse iteration on pending.
+    return bytes(reversed(pending))
