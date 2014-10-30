@@ -19,5 +19,3 @@ def cd_g_ones(n):
         for j, b in enumerate(shapes):
             if a.contains2(b):
                 yield i, j
-
-    words = FIBWORDS[n]
