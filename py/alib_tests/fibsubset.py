@@ -1,5 +1,5 @@
 ## Step 1. Basic words
-from linehomy.fibsubset import Word
+from linhomy.fibsubset import Word
 
 Word('?') ** ValueError
 Word('3') ** ValueError
@@ -11,7 +11,7 @@ str(Word('12')) == repr(Word('12')) == "Word('12')"
 
 
 ## Step 2. Basic worms
-from linehomy.fibsubset import Worm
+from linhomy.fibsubset import Worm
 
 Worm('')
 str(Worm('12|')) == repr(Worm('12|')) == "Worm('12|')"
@@ -37,7 +37,7 @@ Worm('|').word == Word('21')
 
 
 # Step 4. Shapes
-from linehomy.fibsubset import Shape
+from linhomy.fibsubset import Shape
 
 # Length must be even number, at least two.
 Shape(b'') ** ValueError

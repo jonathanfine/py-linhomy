@@ -1,5 +1,5 @@
 ## 1.  Fibonacci numbers
-from linehomy.constants import FIB
+from linhomy.constants import FIB
 
 # FIB is the Fibonacci numbers.
 a = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
@@ -14,7 +14,7 @@ len(FIB) == 11
 
 
 ## 2. Fibonacci words
-from linehomy.constants import FIBWORDS
+from linhomy.constants import FIBWORDS
 
 # Each item is a tuple of bytes using only 1 and 2.
 FIBWORDS[0] == (b'',)
@@ -43,7 +43,7 @@ FIBWORDS[4][3:] == (b'\x02\x01\x01', b'\x02\x02')
 
 
 ## 3. CD_G_ONES, the CD to g matrix
-from linehomy.constants import CD_G_ONES
+from linhomy.constants import CD_G_ONES
 
 # TODO: Same test code on constant.py and compute.py.
 CD_G_ONES[1] == [

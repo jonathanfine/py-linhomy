@@ -1,5 +1,5 @@
 # 1. Compute the CD to g matrix
-from linehomy.compute import cd_g_ones
+from linhomy.compute import cd_g_ones
 
 # TODO: Same test code on constant.py and compute.py.
 list(cd_g_ones(1)) == [

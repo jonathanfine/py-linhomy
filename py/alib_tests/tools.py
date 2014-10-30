@@ -1,7 +1,7 @@
 ## 1. Use of Self-extending list
-from linehomy.tools import self_extending_list
+from linhomy.tools import self_extending_list
 
-# This is a copy of code in linehomy/constants.py.
+# This is a copy of code in linhomy/constants.py.
 @self_extending_list([0, 1])
 def FIB(self, key):
     '''The Fibonacci numbers 0, 1, 1, 2, 3, 5, 13, ...
@@ -19,7 +19,7 @@ FIB[10] == 55
 
 
 ## 2. Internal properties
-from linehomy.tools import SelfExtendingList
+from linhomy.tools import SelfExtendingList
 type(FIB) == SelfExtendingList
 type(FIB + [1, 2, 3]) == list
 

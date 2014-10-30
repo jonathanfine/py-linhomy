@@ -1,5 +1,5 @@
 import itertools
-from linehomy.tools import self_extending_list
+from linhomy.tools import self_extending_list
 
 
 @self_extending_list([0, 1])
