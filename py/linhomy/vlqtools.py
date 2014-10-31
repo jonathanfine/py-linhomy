@@ -122,3 +122,24 @@ def u_from_s(sint):
         # -1 --> 2 --> 1.
         # -2 --> 4 --> 3.
         return -2 * sint  - 1
+
+
+def v_from_a(ascii):
+
+    if ascii == '':
+        raise ValueError
+
+    # Create list of uints, lying between 0 and 127.
+    uints = list(map(ord, ascii))
+    if not max(uints) < 128:
+        raise ValueError
+
+    uints[-1] += 128            # Set the terminal indicator.
+    return bytes(uints)
+
+
+def a_from_v(vlq):
+
+    uints = list(vlq)
+    uints[-1] -= 128            # Clear the terminal indicator.
+    return ''.join(map(chr, uints))

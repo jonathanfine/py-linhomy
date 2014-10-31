@@ -77,3 +77,23 @@ for i in range(10):
 
 for i in range(-10, 10):
     s_from_u(u_from_s(i)) == i
+
+
+# 4. Strings
+
+from linhomy.vlqtools import a_from_v
+from linhomy.vlqtools import v_from_a
+
+v_from_a('') ** ValueError
+
+v_from_a('A') == term(ord('A'))
+v_from_a('Hi') == cont(ord('H')) + term(ord('i'))
+
+
+for a in [
+    'a',
+    'ab',
+    '\x00',
+    '\x7f',
+]:
+    a_from_v(v_from_a(a)) == a
