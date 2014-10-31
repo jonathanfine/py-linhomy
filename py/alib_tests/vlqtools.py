@@ -1,4 +1,4 @@
-import linhomy.vlqtools as vlq
+import linhomy.vlqtools as tools
 
 # http://en.wikipedia.org/wiki/Variable-length_quantity
 
@@ -8,7 +8,7 @@ import linhomy.vlqtools as vlq
 def doit(src):
     expected = src.split(b' ')
     arg = b''.join(expected)
-    actual = list(vlq.lex(arg))
+    actual = list(tools.lex(arg))
     return actual, expected
 
 for src in [
@@ -25,38 +25,43 @@ doit(b'') == ([], [b''])        # TODO: This should fail.
 
 # 2. Convert an int into bytes
 
-bfi = vlq.bytes_from_int
-cont, term = vlq.cont, vlq.term
+from linhomy.vlqtools import cont
+from linhomy.vlqtools import term
+from linhomy.vlqtools import vlq_from_uint
+from linhomy.vlqtools import uint_from_vlq
 
-bfi(0) == term(0)
-bfi(127) == term(127)
-bfi(128) == cont(1) + term(0)
-bfi(255) == cont(1) + term(127)
-bfi(2 ** 14 - 1) == cont(127) + term(127)
-bfi(2 ** 21- 1) == cont(127) * 2 + term(127)
+
+vlq_from_uint(0) == term(0)
+vlq_from_uint(127) == term(127)
+vlq_from_uint(128) == cont(1) + term(0)
+vlq_from_uint(255) == cont(1) + term(127)
+vlq_from_uint(2 ** 14 - 1) == cont(127) + term(127)
+vlq_from_uint(2 ** 21- 1) == cont(127) * 2 + term(127)
 
 # TODO: In alib find way to make this a single test?
 for i in range(256):
-    vlq.uint_from_vlq(bfi(i)) == i
+    uint_from_vlq(vlq_from_uint(i)) == i
 
 
 # 3. Signed integers
-s_from_lsb = vlq.sint_from_lsbint
-lsb_from_s = vlq.lsbint_from_sint
+
+from linhomy.vlqtools import sint_from_uint as s_from_u
+from linhomy.vlqtools import uint_from_sint as u_from_s
 
 # TODO: Create a reference test data and reference implementation?
-lsb_from_s(0) == 0
-lsb_from_s(-1) == 1
-lsb_from_s(1) == 2
-lsb_from_s(-2) == 3
-lsb_from_s(2) == 4
 
-s_from_lsb(0) == 0
-s_from_lsb(1) == -1
-s_from_lsb(2) == 1
+u_from_s(0) == 0
+u_from_s(-1) == 1
+u_from_s(1) == 2
+u_from_s(-2) == 3
+u_from_s(2) == 4
+
+s_from_u(0) == 0
+s_from_u(1) == -1
+s_from_u(2) == 1
 
 for i in range(10):
-    lsb_from_s(s_from_lsb(i)) == i
+    u_from_s(s_from_u(i)) == i
 
 for i in range(-10, 10):
-    s_from_lsb(lsb_from_s(i)) == i
+    s_from_u(u_from_s(i)) == i

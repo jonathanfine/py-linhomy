@@ -50,22 +50,22 @@ def lex(data, pos=0, endpos=sys.maxsize):
         yield mo.group()
 
 
-def bytes_from_int(n):
+def vlq_from_uint(uint):
 
     # TODO: Docstring.
 
-    if n < 0:
+    if uint < 0:
         raise ValueError
 
     # This is worth special casing.
-    if n < 128:
+    if uint < 128:
         # GOTCHA: list of ints.
-        return bytes([n + 128])
+        return term(uint)
 
     pending = []
-    while n > 0:
+    while uint > 0:
 
-        n, remainder = divmod(n, 128)
+        uint, remainder = divmod(uint, 128)
         pending.append(remainder)
 
     # VLQ is bigendian so least significant byte terminates.
@@ -77,19 +77,19 @@ def bytes_from_int(n):
 
 def uint_from_vlq(vlq):
 
-    value = 0
+    uint = 0
     for b in vlq:
-        value = value * 128 + (b & 127)
+        uint = uint * 128 + (b & 127)
 
-    return value
+    return uint
 
 
-def sint_from_lsbint(n):
+def sint_from_uint(uint):
 
-    if n < 0:
+    if uint < 0:
         raise ValueError
 
-    value, neg = divmod(n, 2)
+    value, neg = divmod(uint, 2)
 
     if neg:
         # 1 --> (0, 1) --> -1.
@@ -101,13 +101,14 @@ def sint_from_lsbint(n):
         return value
 
 
-def lsbint_from_sint(n):
+def uint_from_sint(sint):
 
-    if n >= 0:
+    if sint >= 0:
         # 0 --> 0.
         # 2 --> 1.
-        return 2 * n
+        return 2 * sint
     else:
+        # Here, sint is negative, -sint positive.
         # -1 --> 2 --> 1.
         # -2 --> 4 --> 3.
-        return -2 * n  - 1
+        return -2 * sint  - 1
