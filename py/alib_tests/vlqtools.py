@@ -1,4 +1,4 @@
-import linhomy.vlq as vlq
+import linhomy.vlqtools as vlq
 
 # http://en.wikipedia.org/wiki/Variable-length_quantity
 
