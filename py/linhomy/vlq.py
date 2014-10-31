@@ -73,3 +73,12 @@ def bytes_from_int(n):
 
     # VLQ is bigendian so need reverse iteration on pending.
     return bytes(reversed(pending))
+
+
+def uint_from_vlq(vlq):
+
+    value = 0
+    for b in vlq:
+        value = value * 128 + (b & 127)
+
+    return value

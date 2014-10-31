@@ -34,3 +34,7 @@ bfi(128) == cont(1) + term(0)
 bfi(255) == cont(1) + term(127)
 bfi(2 ** 14 - 1) == cont(127) + term(127)
 bfi(2 ** 21- 1) == cont(127) * 2 + term(127)
+
+# TODO: In alib find way to make this a single test?
+for i in range(256):
+    vlq.uint_from_vlq(bfi(i)) == i
