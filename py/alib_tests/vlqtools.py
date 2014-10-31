@@ -97,3 +97,32 @@ for a in [
     '\x7f',
 ]:
     a_from_v(v_from_a(a)) == a
+
+
+#5. Pack and unpack
+
+from linhomy.vlqtools import pack
+from linhomy.vlqtools import unpack
+from linhomy.vlqtools import lex
+
+# TODO: Tests for lex.
+# TODO: Tests pass but interface is confusing.
+
+pack('ASU', []) == b''
+pack('ASU', [['hi', -4, 3]]) == b'h\xe9\x87\x83'
+
+list(unpack(
+    'ASU',
+    lex(b'h\xe9\x87\x83'),
+)) == [('hi', -4, 3)]
+
+list(unpack(
+    'ASU',
+    lex(
+        b'h\xe9\x87\x83'
+        + b'H\xef\x8f\x93'
+    ),
+)) == [
+    ('hi', -4, 3),
+    ('Ho', -8, 19),
+]

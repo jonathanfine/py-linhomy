@@ -143,3 +143,37 @@ def a_from_v(vlq):
     uints = list(vlq)
     uints[-1] -= 128            # Clear the terminal indicator.
     return ''.join(map(chr, uints))
+
+
+TYPES = dict(
+    A = (a_from_v, v_from_a),
+    S = (s_from_v, v_from_s),
+    U = (u_from_v, v_from_u),
+)
+
+def pack(format, data):
+
+    data = iter(data)           # Ensure we have iterator.
+    fns = tuple(TYPES[c][1] for c in format)
+
+    return b''.join(_pack(fns, data))
+
+
+def _pack(fns, data):
+
+    length = len(fns)
+    for item in data:
+        if len(item) != length:
+            raise ValueError
+        for fn, i in zip(fns, item):
+            yield fn(i)
+
+
+def unpack(format, vlqs):
+
+    vlqs = iter(vlqs)           # Ensure we have an iterator.
+    fns = tuple(TYPES[c][0] for c in format)
+
+    zip_vlqs = zip(*list(map(fn, vlqs) for fn in fns))
+    for item in zip_vlqs:
+        yield item
