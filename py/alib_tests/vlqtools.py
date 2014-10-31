@@ -27,26 +27,26 @@ doit(b'') == ([], [b''])        # TODO: This should fail.
 
 from linhomy.vlqtools import cont
 from linhomy.vlqtools import term
-from linhomy.vlqtools import vlq_from_uint
-from linhomy.vlqtools import uint_from_vlq
+from linhomy.vlqtools import v_from_u
+from linhomy.vlqtools import u_from_v
 
 
-vlq_from_uint(0) == term(0)
-vlq_from_uint(127) == term(127)
-vlq_from_uint(128) == cont(1) + term(0)
-vlq_from_uint(255) == cont(1) + term(127)
-vlq_from_uint(2 ** 14 - 1) == cont(127) + term(127)
-vlq_from_uint(2 ** 21- 1) == cont(127) * 2 + term(127)
+v_from_u(0) == term(0)
+v_from_u(127) == term(127)
+v_from_u(128) == cont(1) + term(0)
+v_from_u(255) == cont(1) + term(127)
+v_from_u(2 ** 14 - 1) == cont(127) + term(127)
+v_from_u(2 ** 21- 1) == cont(127) * 2 + term(127)
 
 # TODO: In alib find way to make this a single test?
 for i in range(256):
-    uint_from_vlq(vlq_from_uint(i)) == i
+    u_from_v(v_from_u(i)) == i
 
 
 # 3. Signed integers
 
-from linhomy.vlqtools import sint_from_uint as s_from_u
-from linhomy.vlqtools import uint_from_sint as u_from_s
+from linhomy.vlqtools import s_from_u
+from linhomy.vlqtools import u_from_s
 
 # TODO: Create a reference test data and reference implementation?
 

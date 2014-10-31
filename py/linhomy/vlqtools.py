@@ -50,7 +50,7 @@ def lex(data, pos=0, endpos=sys.maxsize):
         yield mo.group()
 
 
-def vlq_from_uint(uint):
+def v_from_u(uint):
 
     # TODO: Docstring.
 
@@ -75,7 +75,7 @@ def vlq_from_uint(uint):
     return bytes(reversed(pending))
 
 
-def uint_from_vlq(vlq):
+def u_from_v(vlq):
 
     uint = 0
     for b in vlq:
@@ -84,7 +84,7 @@ def uint_from_vlq(vlq):
     return uint
 
 
-def sint_from_uint(uint):
+def s_from_u(uint):
 
     if uint < 0:
         raise ValueError
@@ -101,7 +101,7 @@ def sint_from_uint(uint):
         return value
 
 
-def uint_from_sint(sint):
+def u_from_s(sint):
 
     if sint >= 0:
         # 0 --> 0.
