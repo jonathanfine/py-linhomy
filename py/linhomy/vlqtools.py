@@ -75,6 +75,11 @@ def v_from_u(uint):
     return bytes(reversed(pending))
 
 
+def v_from_s(sint):
+
+    return v_from_u(u_from_s(sint))
+
+
 def u_from_v(vlq):
 
     uint = 0
@@ -82,6 +87,11 @@ def u_from_v(vlq):
         uint = uint * 128 + (b & 127)
 
     return uint
+
+
+def s_from_v(vlq):
+
+    return s_from_u(u_from_v(vlq))
 
 
 def s_from_u(uint):

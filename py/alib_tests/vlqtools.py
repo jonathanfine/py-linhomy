@@ -29,6 +29,8 @@ from linhomy.vlqtools import cont
 from linhomy.vlqtools import term
 from linhomy.vlqtools import v_from_u
 from linhomy.vlqtools import u_from_v
+from linhomy.vlqtools import v_from_s
+from linhomy.vlqtools import s_from_v
 
 
 v_from_u(0) == term(0)
@@ -37,6 +39,16 @@ v_from_u(128) == cont(1) + term(0)
 v_from_u(255) == cont(1) + term(127)
 v_from_u(2 ** 14 - 1) == cont(127) + term(127)
 v_from_u(2 ** 21- 1) == cont(127) * 2 + term(127)
+
+
+v_from_s(0) == term(0)
+v_from_s(1) == term(2)
+v_from_s(2) == term(4)
+
+v_from_s(-1) == term(1)
+v_from_s(-2) == term(3)
+v_from_s(-3) == term(5)
+
 
 # TODO: In alib find way to make this a single test?
 for i in range(256):
