@@ -38,3 +38,25 @@ bfi(2 ** 21- 1) == cont(127) * 2 + term(127)
 # TODO: In alib find way to make this a single test?
 for i in range(256):
     vlq.uint_from_vlq(bfi(i)) == i
+
+
+# 3. Signed integers
+s_from_lsb = vlq.sint_from_lsbint
+lsb_from_s = vlq.lsbint_from_sint
+
+# TODO: Create a reference test data and reference implementation?
+lsb_from_s(0) == 0
+lsb_from_s(-1) == 1
+lsb_from_s(1) == 2
+lsb_from_s(-2) == 3
+lsb_from_s(2) == 4
+
+s_from_lsb(0) == 0
+s_from_lsb(1) == -1
+s_from_lsb(2) == 1
+
+for i in range(10):
+    lsb_from_s(s_from_lsb(i)) == i
+
+for i in range(-10, 10):
+    s_from_lsb(lsb_from_s(i)) == i

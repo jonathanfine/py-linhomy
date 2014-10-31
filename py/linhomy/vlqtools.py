@@ -82,3 +82,32 @@ def uint_from_vlq(vlq):
         value = value * 128 + (b & 127)
 
     return value
+
+
+def sint_from_lsbint(n):
+
+    if n < 0:
+        raise ValueError
+
+    value, neg = divmod(n, 2)
+
+    if neg:
+        # 1 --> (0, 1) --> -1.
+        # 3 --> (1, 1) --> -2.
+        return -value -1
+    else:
+        # 0 --> (0, 0) --> 0.
+        # 2 --> (1, 0) --> 1.
+        return value
+
+
+def lsbint_from_sint(n):
+
+    if n >= 0:
+        # 0 --> 0.
+        # 2 --> 1.
+        return 2 * n
+    else:
+        # -1 --> 2 --> 1.
+        # -2 --> 4 --> 3.
+        return -2 * n  - 1
