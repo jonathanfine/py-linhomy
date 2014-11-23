@@ -294,7 +294,7 @@ class Shape(MixIn, bytes):
         extra_c, extra_d = c_2 - c_1, d_2 - d_1
 
         # Consistency check - and to help explain the logic.
-        if not mass_2 - mass_1 == extra_c + 2 * extra_d:
+        if not mass_1 - mass_2 == extra_c + 2 * extra_d:
             raise ThisCannotHappen
 
         if not extra_d <= extra_c:

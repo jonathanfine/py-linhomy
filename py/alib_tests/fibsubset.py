@@ -140,4 +140,7 @@ gets('20;00', '00;20') == False # Should be True.
 gets('20;00', '01;00') == False # Should be True.
 
 
-doit('20;00', '10;10') ** ThisCannotHappen # Should not happen.
+doit('20;00', '10;10') == True
+
+# TODO: Puzzle - explain
+gets('20;00', '10;10') == False # Should be True.
