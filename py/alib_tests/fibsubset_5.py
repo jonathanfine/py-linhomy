@@ -28,5 +28,5 @@ for getter, giver in CD_G_ONES[5]:
     actual.add((getter, giver))
 
 
-sorted(expect.difference(actual)) == [('1211', '212')] # Missing 1's.
+sorted(expect.difference(actual)) == [] # Missing 1's.
 sorted(actual.difference(expect)) == [] # Extra 1's.

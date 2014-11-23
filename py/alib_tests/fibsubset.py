@@ -139,8 +139,9 @@ gets('20;00', '10;10') == True
 gets('20;00', '00;20') == True
 gets('20;00', '01;00') == True
 
-gets('10;10', '00;01') == False    # Should be True.
-doit('10;10', '00;01') == ('Too much tail d', 1, -1)
+# The troublesome tail item in n = 5.
+gets('10;10', '00;01') == True
+doit('10;10', '00;01') == True
 
 doit('20;00', '10;10') == True
 

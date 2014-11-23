@@ -297,7 +297,9 @@ class Shape(MixIn, bytes):
         if not mass_1 - mass_2 == extra_c + 2 * extra_d:
             raise ThisCannotHappen
 
-        if not extra_d <= extra_c:
+        # TODO: Unpack into two stages.
+        # Too much tail d, Tail too short.
+        if not (d_2 <= d_1 + c_1 <= c_2 + d_2):
             return 'Too much tail d', extra_d, extra_c
 
         # Still here?  Then true.
