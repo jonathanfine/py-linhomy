@@ -144,3 +144,13 @@ doit('20;00', '10;10') == True
 
 # TODO: Puzzle - explain
 gets('20;00', '10;10') == False # Should be True.
+
+
+# TODO: Here's a pattern - define functions that exercise methods.
+def helper(this, other):
+    this = Shape(this)
+    other = Shape(other)
+    return this._helper(other)
+
+
+helper('20;00', '10;10') ** StopIteration # Should be []?
