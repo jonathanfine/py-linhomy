@@ -94,3 +94,29 @@ Shape('12;57').contains2(Shape('12,34;12')) == True
 
 # TODO: Fix? # : need more than 1 value to unpack
 Shape('12:57') ** ValueError
+
+
+def gets(getter, giver):
+    ''' Return getter gets a contribution from giver.
+
+    Arguments are construction strings for Shape.
+    '''
+    getter = Shape(getter)
+    giver = Shape(giver)
+    return getter.contains2(giver)
+
+
+# Smoke test.
+gets(';00', ';00') == True
+
+# Intersection homology - n = 4, g_1.
+gets(';31', ';31') == True
+gets(';31', '00;20') == True
+gets(';31', '10;10') == True
+gets(';31', '20;00') == True
+
+# Linear homology - n = 5 - CDCC / g_{1121}.
+gets('20;00', '20;00') == True
+gets('20;00', '10;10') == False # Should be True.
+gets('20;00', '00;20') == False # Should be True.
+gets('20;00', '01;00') == False # Should be True.
