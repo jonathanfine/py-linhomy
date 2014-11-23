@@ -86,12 +86,6 @@ Shape('12,34;12')._helper(Shape('12;57')) ** StopIteration
 Shape('12;57')._helper(Shape('12,34;12')) == [1]
 
 
-# TODO: Rename?
-Shape(';00').contains2(Shape(';00')) == True
-Shape('12,34;12').contains2(Shape('12;57')) == False
-Shape('12;57').contains2(Shape('12,34;12')) == True
-
-
 # TODO: Fix? # : need more than 1 value to unpack
 Shape('12:57') ** ValueError
 
@@ -108,6 +102,8 @@ def gets(getter, giver):
 
 # Smoke test.
 gets(';00', ';00') == True
+gets('12,34;12', '12;57') == False
+gets('12;57', '12,34;12') == True
 
 # Intersection homology - n = 4, g_1.
 gets(';31', ';31') == True
