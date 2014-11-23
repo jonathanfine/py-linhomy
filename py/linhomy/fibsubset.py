@@ -10,6 +10,9 @@ Betti numbers.
 import itertools
 from .bytestools import MixIn
 
+class ThisCannotHappen(Exception):
+    pass
+
 class Word(MixIn, bytes):
 
     @staticmethod
