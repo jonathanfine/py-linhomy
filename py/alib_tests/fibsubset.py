@@ -135,15 +135,12 @@ gets(';31', '20;00') == True
 
 # Linear homology - n = 5 - CDCC / g_{1121}.
 gets('20;00', '20;00') == True
-gets('20;00', '10;10') == False # Should be True.
-gets('20;00', '00;20') == False # Should be True.
-gets('20;00', '01;00') == False # Should be True.
+gets('20;00', '10;10') == True
+gets('20;00', '00;20') == True
+gets('20;00', '01;00') == True
 
 
 doit('20;00', '10;10') == True
-
-# TODO: Puzzle - explain
-gets('20;00', '10;10') == False # Should be True.
 
 
 # TODO: Here's a pattern - define functions that exercise methods.
@@ -152,5 +149,4 @@ def helper(this, other):
     other = Shape(other)
     return this._helper(other)
 
-
-helper('20;00', '10;10') ** StopIteration # Should be []?
+helper('20;00', '10;10') == []

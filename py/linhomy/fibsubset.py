@@ -353,7 +353,8 @@ class Shape(MixIn, bytes):
     # TODO: Rename.
     # TODO: Return value more helpful for testing?
     def _helper(self, other):
-
+        '''Compute where to contract.
+        '''
         # Deal with the simple cases first.
         if type(self) != type(other):
             raise TypeError
@@ -362,13 +363,17 @@ class Shape(MixIn, bytes):
         if self.mass != other.mass:
             return False
 
-        other_ds = iter(other[::2])
+        # Iterate over the d counts.
+        other_ds = iter(other[1::2])
         skips = []
-        for i, d_self in enumerate(self[::2]):
+
+        # Iterate over the d counts.
+        for i, d_self in enumerate(self[1::2]):
 
             # TODO: For testing return the new d's?
             d_other = next(other_ds)
             while d_other < d_self:
+                # TODO: It's rude to raise StopIteration.
                 d_other += next(other_ds)
                 d_other += 1
                 skips.append(i)
