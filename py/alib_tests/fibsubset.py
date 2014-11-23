@@ -90,6 +90,27 @@ Shape('12;57')._helper(Shape('12,34;12')) == [1]
 Shape('12:57') ** ValueError
 
 
+# Tests for _contains.
+def doit(getter, giver):
+    getter = Shape(getter)
+    giver = Shape(giver)
+    return getter._contains(giver)
+
+# Smoke test.
+doit(';00', ';00') == True
+
+# Tail tests.
+doit(';00', '00;00') == ('Unequal length', 2, 4)
+doit(';10', ';00') == ('Unequal mass', 1, 0)
+doit(';01', ';20') == ('Too little tail d', 1, 0)
+doit(';20', ';01') == ('Too much tail d', 1, -2)
+
+# Body tests.
+doit('01;00', '20;00') == ('Too little d', 0, 1, 0)
+doit('00,10;00', '10,00;00') == ('Too much mass', 0, 3, 4)
+
+
+# Tests for gives and gets.
 def gets(getter, giver):
     ''' Return getter gets a contribution from giver.
 

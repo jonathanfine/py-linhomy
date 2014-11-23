@@ -231,8 +231,16 @@ class Shape(MixIn, bytes):
         return Worm(data)
 
 
-    # TODO: Is this transitive?  I think so.
     def contains(self, other):
+
+        value = self._contains(other)
+        return value == True
+
+
+    # TODO: Is this transitive?  I think so.
+    def _contains(self, other):
+        '''As contains, except returns explanation for False.
+        '''
 
         # Deal with the simple cases first.
         if type(self) != type(other):
@@ -240,11 +248,12 @@ class Shape(MixIn, bytes):
 
         # TODO: ValueError?
         if len(self) != len(other):
-            return False
+            return 'Unequal length', len(self), len(other)
 
         # TODO: ValueError?
         if self.mass != other.mass:
-            return False
+            return 'Unequal mass', self.mass, other.mass
+
 
         # Produce list of (c_1, d_1, c_2, d_2) quads.
         iter_1, iter_2  = iter(self), iter(other)
@@ -256,11 +265,11 @@ class Shape(MixIn, bytes):
 
         # The body loop.
         mass_1 = mass_2 = 0
-        for c_1, d_1, c_2, d_2 in body_quads:
+        for i,  (c_1, d_1, c_2, d_2) in enumerate(body_quads):
 
             # Each other segment to have at least as many d's.
             if not d_1 <= d_2:
-                return False
+                return 'Too little d', i, d_1, d_2
 
             # Keep a running total of the mass.
             mass_1 += c_1 + 2 * d_1 + 3
@@ -268,14 +277,14 @@ class Shape(MixIn, bytes):
 
             # The other total mass to be no larger than self.
             if not mass_2 <= mass_1:
-                return False
+                return 'Too much mass', i, mass_1, mass_2
 
         # Now check the tail.
         c_1, d_1, c_2, d_2 = tail_quad
 
         # The other tail to have at least as many d's.
         if not d_1 <= d_2:
-            return False
+            return 'Too little tail d', d_1, d_2
 
         # TODO: Clarify this code and logic.
         # Any extra d must come from extra c (and not existing c).
@@ -286,7 +295,7 @@ class Shape(MixIn, bytes):
             raise ThisCannotHappen
 
         if not extra_d <= extra_c:
-            return False
+            return 'Too much tail d', extra_d, extra_c
 
         # Still here?  Then true.
         return True
