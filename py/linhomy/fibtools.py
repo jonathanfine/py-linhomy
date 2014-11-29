@@ -58,3 +58,58 @@ def slide_1(shape_data):
             value[j] += 1
             yield tuple(value)
             value = template.copy()
+
+if 1:
+    # TODO: Remove or refactor?
+    # This explains the algorithm, produces binomial coefficients.
+    class AAA(dict):
+
+        def __missing__(self, key):
+            i, j = key
+            if i == 0 or j == 0:
+                return 1
+
+            return sum(
+                self[i - 1, k]
+                for k in range(j + 1)
+            )
+
+
+class Shuffle(dict):
+
+    def __init__(self, i_1, j_1):
+
+        self.i_1 = i_1
+        self.j_1 = j_1
+
+
+    def __missing__(self, key):
+
+        i, j = key
+        i_1 = self.i_1
+        j_1 = self.j_1
+        if i == 0:
+            return (j_1 * j,)
+
+        if j == 0:
+            return (i_1 * i,)
+
+
+        value = []
+
+        for k in range(j + 1):
+            prefix = j_1 * k + i_1
+            value.extend(
+                prefix + suffix
+                for suffix in self[i - 1, j - k]
+            )
+
+        return tuple(value)
+
+
+_shuffle = Shuffle(b'\x01', b'\x02')
+
+def shuffle(i, j):
+    # TODO: Provide docstring.
+    # TODO: Provide argument checks.
+    return _shuffle[i, j]

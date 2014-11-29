@@ -87,3 +87,57 @@ do_slide_1('200000') == ['101000', '100010']
 
 do_slide_1('001000') == ['000010']
 do_slide_1('002000') == ['001010']
+
+
+if 1:
+    # TODO: Remove or refactor?
+    # This explains the algorithm, produces binomial coefficients.
+    from linhomy.fibtools import AAA
+    aaa = AAA()
+    aaa[0, 0] = 1
+    aaa[3, 4] == 35
+    # Produces binomial coefficients.
+    list(aaa[i, 5-i] for i in range(0, 6)) == [1, 5, 10, 10, 5, 1]
+
+
+from linhomy.fibtools import shuffle
+
+def do_shuffle(i, j):
+
+    return tuple(
+        ''.join(str(i) for i in value)
+        for value in shuffle(i, j)
+    )
+
+
+do_shuffle(0, 0) == ('',)
+
+do_shuffle(0, 1) == ('2',)
+do_shuffle(1, 0) == ('1',)
+
+do_shuffle(0, 2) == ('22',)
+do_shuffle(1, 1) == ('12', '21')
+do_shuffle(2, 0) == ('11',)
+
+do_shuffle(3, 4) == (
+    # Prefix '1112'.
+    '1112222',
+    # Prefix '112'.
+    '1121222', '1122122', '1122212', '1122221',
+    # Prefix '121'.
+    '1211222', '1212122', '1212212', '1212221',
+    # Prefix '1221'.
+    '1221122', '1221212', '1221221', '1222112', '1222121', '1222211',
+    # Prefix '2112'.
+    '2111222', '2112122', '2112212', '2112221',
+    # Prefix '212'.
+    '2121122', '2121212', '2121221', '2122112', '2122121', '2122211',
+    # Prefix '221'.
+    '2211122', '2211212', '2211221', '2212112', '2212121', '2212211',
+    # Prefix '222'.
+    '2221112', '2221121', '2221211',
+    # Prefix '22221'.
+    '2222111',
+)
+
+sorted(do_shuffle(3, 4)) == list(do_shuffle(3, 4))
