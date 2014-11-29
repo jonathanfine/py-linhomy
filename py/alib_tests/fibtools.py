@@ -53,6 +53,25 @@ do_shift_1('202020') == [
 ]
 
 
+from linhomy.fibtools import shift
+
+def do_shift(shape_str):
+
+    shape_data = list(map(int, shape_str))
+
+    return list(
+        ''.join(str(i) for i in value)
+        for value in shift(shape_data)
+    )
+
+
+do_shift('23') == ['23']
+do_shift('2100') == ['2100', '0200']
+do_shift('4000') == ['4000', '2100', '0200']
+do_shift('4010') == ['4010', '3001', '2110', '1101', '0210']
+do_shift('4020') == ['4020', '3011', '2120', '2002', '1111', '0220', '0102']
+
+
 def do_slide_1_pairs(length):
 
     return list(slide_1_pairs(length))
@@ -87,6 +106,30 @@ do_slide_1('200000') == ['101000', '100010']
 
 do_slide_1('001000') == ['000010']
 do_slide_1('002000') == ['001010']
+
+
+from linhomy.fibtools import slide
+
+def do_slide(shape_str):
+
+    shape_data = list(map(int, shape_str))
+
+    return list(
+        ''.join(str(i) for i in value)
+        for value in slide(shape_data)
+    )
+
+do_slide('00') == ['00']
+do_slide('1000') == ['1000', '0010']
+do_slide('2000') == ['2000', '1010', '0020']
+do_slide('3000') == ['3000', '2010', '1020', '0030']
+do_slide('202000') == [
+    '202000', '201010', '200020',
+    '103000', '102010', '101020', '100030',
+    '004000',
+    '003010', '002020', '001030',
+    '000040',
+]
 
 
 if 1:
