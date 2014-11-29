@@ -184,3 +184,38 @@ do_shuffle(3, 4) == (
 )
 
 sorted(do_shuffle(3, 4)) == list(do_shuffle(3, 4))
+
+
+from linhomy.fibtools import compute
+
+# compute([2,2,3,1]) == None
+
+def do_compute(shape_data):
+
+    return list(
+        ''.join(str(i) for i in value)
+        for value in compute(shape_data)
+    )
+
+do_shift('2000') == ['2000', '0100']
+do_slide('2000') == ['2000', '1010', '0020']
+do_slide('0100') == ['0100']
+
+do_compute([2, 0, 0, 0]) == ['221', '2111', '1211', '1121']
+
+
+
+# TODO: Check these expected values.
+do_compute([2, 2]) == [
+    '2211', '2121', '2112',
+    '1221', '1212', '1122'
+]
+
+do_compute([3, 0, 0, 0]) == [
+    '2211', '2121', '21111',
+    '1221', '12111', '11211', '11121'
+]
+
+do_compute([1, 0, 0, 1]) == ['2121', '2112', '1212']
+
+do_compute([1, 0, 2, 0]) == ['2121', '2112', '21111', '12111']

@@ -5,6 +5,8 @@ Contains
 
 '''
 
+import itertools
+
 def shift_1_pairs(length):
     for i in range(0, length - 2, 2):
         for j in range(i, length, 2):
@@ -139,3 +141,34 @@ def shuffle(i, j):
     # TODO: Provide docstring.
     # TODO: Provide argument checks.
     return _shuffle[i, j]
+
+
+def shape_shuffle(shape_data):
+
+    factors = []
+    iter_shape_data = iter(shape_data)
+    for i, j in zip(iter_shape_data, iter_shape_data):
+        factors.append(shuffle(i, j))
+
+    return itertools.product(*factors)
+
+
+def compute(shape_data):
+
+    shape_data = bytes(shape_data)
+    root = [shape_data]
+
+    s1 = shifted = set()
+    for s in root:
+        shifted.update(shift(s))
+
+    s2 = shifted_and_slided = set()
+    for s in shifted:
+        s2.update(slide(s))
+
+    s3 = shifted_slided_shuffled = set()
+
+    for s in s2:
+        s3.update(map(b'\x02\x01'.join, shape_shuffle(s)))
+
+    return tuple(reversed(sorted(s3)))
