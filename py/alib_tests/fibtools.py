@@ -53,6 +53,25 @@ do_shift_1('202020') == [
 ]
 
 
+from linhomy.fibtools import shift
+
+def do_shift(shape_str):
+
+    shape_data = list(map(int, shape_str))
+
+    return list(
+        ''.join(str(i) for i in value)
+        for value in shift(shape_data)
+    )
+
+
+do_shift('23') == ['23']
+do_shift('2100') == ['2100', '0200']
+do_shift('4000') == ['4000', '2100', '0200']
+do_shift('4010') == ['4010', '3001', '2110', '1101', '0210']
+do_shift('4020') == ['4020', '3011', '2120', '2002', '1111', '0220', '0102']
+
+
 def do_slide_1_pairs(length):
 
     return list(slide_1_pairs(length))

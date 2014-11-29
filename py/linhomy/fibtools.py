@@ -45,6 +45,28 @@ def slide_1_pairs(length):
             yield i, j
 
 
+def as_transitive_dict(fn):
+    # TOOD: Make it easier to creat singleton missing dicts.
+    class transitive_dict(dict):
+
+        def __missing__(self, shape_data):
+
+            shape_data = bytes(shape_data)
+            value = set([shape_data])
+            for s in map(bytes, fn(shape_data)):
+                value.update(self[s])
+            return tuple(reversed(sorted(value)))
+
+    transitive_dict.__name__ = fn.__name__
+    transitive_dict.__doc__ = fn.__doc__
+    return transitive_dict()
+
+_shift = as_transitive_dict(shift_1)
+
+def shift(shape_data):
+    return _shift[bytes(shape_data)]
+
+
 def slide_1(shape_data):
 
     # TODO: Uniform policy on checking argument.
