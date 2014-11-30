@@ -90,3 +90,27 @@ def _D_CD(cache, n):
     return value
 
 D_CD = _D_CD._cache
+
+
+@cache_function
+def _C_G(cache, n):
+
+    curr = G_CD[n]                 # Convert to CD basis.
+    curr = np.dot(C_CD[n], curr)   # Bump dimension.
+    curr = np.dot(CD_G[n+1], curr) # Return to G basis.
+
+    return curr
+
+C_G = _C_G._cache
+
+
+@cache_function
+def _D_G(cache, n):
+
+    curr = G_CD[n]                 # Convert to CD basis.
+    curr = np.dot(D_CD[n], curr)   # Bump dimension.
+    curr = np.dot(CD_G[n+2], curr) # Return to G basis.
+
+    return curr
+
+D_G = _D_G._cache
