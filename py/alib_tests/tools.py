@@ -37,3 +37,53 @@ operator.setitem(FIB, 1, 2) == None # Should be TypeError
 # TODO: User MappingProxyType?  New in Python 3.3.
 # TODO: truncation, to reclaim memory.
 # TODO: Provide a reset property.
+
+
+##
+
+# TODO: I'm not using this - discard?
+if 1:
+    from linhomy.tools import missingdict
+
+    @missingdict
+    def missdict(self, key):
+
+        value = key ** 2
+        self[key] = value           # Needed to store value.
+        return value
+
+    list(missdict.items()) == []
+    missdict[2] == 4
+    list(missdict.items()) == [(2, 4)]
+    missdict[3:6] ** TypeError      # "unhashable type: 'slice'"
+
+
+##
+from linhomy.tools import cache_function
+
+@cache_function
+def do_fib(cache, i):
+    '''Return i-th Fibonacci number.'''
+
+    if i >= 2:
+        return cache[i-1] + cache[i-2]
+    else:
+        cache[0] = 0
+        cache[1] = 1
+        return cache[i]
+
+# Note: do_fib called only when there is a cache miss.
+
+do_fib.__name__ == 'do_fib'
+do_fib.__doc__ == '''Return i-th Fibonacci number.'''
+
+len(do_fib._cache) == 0
+
+if 0:
+    # TODO: Move these to alib.test.
+    do_fib._cache == []         # TODO: Gives later value of _cache.
+    2 in do_fib._cache          # TODO: Fails, with strange message.
+
+do_fib(5) == 5
+do_fib(6) == 8
+len(do_fib._cache) == 7

@@ -49,3 +49,45 @@ if 0:
             value = fn(*map(get_value, point))
             if value:
                 yield tuple(map(get_index, point))
+
+# TODO: I'm not using this - discard?
+if 1:
+    def missingdict(fn):
+
+        class Nameless(dict):
+
+            __missing__ = fn
+
+        Nameless.__name__ = fn.__name__
+        value = Nameless()
+        return value
+
+
+def cache_function(value_from_key):
+
+    class cls(dict):
+
+        def __missing__(self, key):
+
+            value = value_from_key(self, key)
+            self[key] = value
+            return value
+
+    cache = cls()
+
+    def fn(*argv):
+
+        # Adapt between function call and dictionary conventions.
+        if len(argv) == 1:
+            key = argv[0]
+        else:
+            key = arg
+
+        return cache[key]
+
+    # TODO: Add wrapped function? Consistent with functools?
+    fn.__doc__ = value_from_key.__doc__
+    fn.__name__ = value_from_key.__name__
+    fn._cache = cache
+
+    return fn
