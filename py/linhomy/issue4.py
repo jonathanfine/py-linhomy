@@ -34,6 +34,17 @@ def non_zero_entries(matrix):
                 yield j_word, i_word, coeff
 
 
+def print_entries(entries):
+
+    for j_word, i_word, coeff in entries:
+
+        i_str = wibble(i_word)
+        j_str = wibble(j_word)
+
+        coeff = '{0:+}'.format(coeff)
+        print(coeff, j_str, i_str)
+
+
 def doit_C(n):
 
     for j_word, i_word, coeff in non_zero_entries(C_G[n]):
@@ -51,9 +62,9 @@ def doit_D(n):
 
     m = n + 2
     print('''D in the g basis - n = ''' + str(n))
-
     for j in range(FIB[n+1]):
         for i in range(FIB[m+1]):
+            # BLUNDER: Should be D_G[n], of course.  But gives same answer!
             coeff = D_G[m][i, j]
             if coeff:
 
@@ -67,9 +78,15 @@ def doit_D(n):
 
 if __name__ == '__main__':
 
-    for i in range(2, N-1):
+    for n in range(2, N-1):
         print('C in the g basis.')
-        doit_C(i)
+        print_entries(non_zero_entries(C_G[n]))
+        print()
 
     for n in range(2, N-2):
+
         doit_D(n)
+
+        print('''D in the g basis - n = ''' + str(n))
+        print_entries(non_zero_entries(D_G[n]))
+        print()
