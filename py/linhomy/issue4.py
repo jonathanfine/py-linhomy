@@ -106,7 +106,7 @@ for n in range(N-2):
 
 
 
-if 1:
+if __name__ == '__main__':
     print('CD to g - n = 5')
     data = CD_G_ONES[5]
     m = np.zeros((8, 8), int)
@@ -124,7 +124,7 @@ if 0:
         t[i, j] = 1
 
 
-def doit(n):
+def doit_C(n):
     print('C in the g basis.')
     m = n + 1
     # Start with something in the G basis.
@@ -151,8 +151,6 @@ def doit(n):
 
     print()
 
-for i in range(N-1):
-    doit(i)
 
 if 0:
     curr = G_CD[5]                  # Now in CD basis.
@@ -202,7 +200,7 @@ if 0:
     print(curr)
 
 
-def doit(n):
+def doit_D(n):
 
     m = n + 2
     print('''D in the g basis - n = ''' + str(n))
@@ -232,5 +230,9 @@ def doit(n):
     print()
 
 
-for n in range(0, N-2):
-    doit(n)
+if __name__ == '__main__':
+    for i in range(N-1):
+        doit_C(i)
+
+    for n in range(0, N-2):
+        doit_D(n)
