@@ -56,3 +56,37 @@ def _G_CD(cache, n):
     return linalg_int_inv(CD_G[n])
 
 G_CD = _G_CD._cache
+
+
+@cache_function
+def _C_CD(cache, n):
+
+    value = fib_zeros_array(n+1, n)
+
+    for j, w in enumerate(FIBWORDS[n]):
+
+        # Compute index i for 'Cw' and set value[i, j].
+        v = w + b'\x01'
+        i = FIBWORDS[n+1].index(v)
+        value[i, j] = 1
+
+    return value
+
+C_CD = _C_CD._cache
+
+
+@cache_function
+def _D_CD(cache, n):
+
+    value = fib_zeros_array(n+2, n)
+
+    for j, w in enumerate(FIBWORDS[n]):
+
+        # Compute index i for 'Dw' and set value[i, j].
+        v = w + b'\x02'
+        i = FIBWORDS[n+2].index(v)
+        value[i, j] = 1
+
+    return value
+
+D_CD = _D_CD._cache
