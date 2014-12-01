@@ -157,6 +157,17 @@ def print_entries(entries):
         print(coeff, j_str, i_str)
 
 
+def enumerate_fib_suffix(n, suffix):
+    '''Yield (i, j), (v, v + suffix) for v in FIBWORDS[n].
+    '''
+
+    m = n + sum(suffix)
+    for i, v in enumerate(FIBWORDS[n]):
+        w = v + suffix
+        j = FIBWORDS[m].index(w)
+        yield (i, j), (v, w)
+
+
 def g_from_cd_rules_factory(c_rule, d_rule):
     '''From rules for C and D construct g_from_cd.
     '''
@@ -171,14 +182,10 @@ def g_from_cd_rules_factory(c_rule, d_rule):
             c_value = np.dot(c_rule[n-1], cache[n-1])
             d_value = np.dot(d_rule[n-2], cache[n-2])
 
-            for i, v in enumerate(FIBWORDS[n-1]):
-                cv = v + b'\x01'
-                j = FIBWORDS[n].index(cv)
+            for (i, j), (v, w) in enumerate_fib_suffix(n-1, b'\x01'):
                 value[:,j] = c_value[:,i]
 
-            for i, v in enumerate(FIBWORDS[n-2]):
-                dv = v + b'\x02'
-                j = FIBWORDS[n].index(dv)
+            for (i, j), (v, w) in enumerate_fib_suffix(n-2, b'\x02'):
                 value[:,j] = d_value[:,i]
 
         else:
