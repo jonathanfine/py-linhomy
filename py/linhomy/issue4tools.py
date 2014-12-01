@@ -155,3 +155,35 @@ def print_entries(entries):
 
         coeff = '{0:+}'.format(coeff)
         print(coeff, j_str, i_str)
+
+
+def g_from_cd_rules_factory(c_rule, d_rule):
+    '''From rules for C and D construct g_from_cd.
+    '''
+
+    @cache_function
+    def g_from_cd(cache, n):
+
+        value = fib_zeros_array(n, n)
+
+        if n >= 2:
+
+            c_value = np.dot(c_rule[n-1], cache[n-1])
+            d_value = np.dot(d_rule[n-2], cache[n-2])
+
+            for i, v in enumerate(FIBWORDS[n-1]):
+                cv = v + b'\x01'
+                j = FIBWORDS[n].index(cv)
+                value[:,j] = c_value[:,i]
+
+            for i, v in enumerate(FIBWORDS[n-2]):
+                dv = v + b'\x02'
+                j = FIBWORDS[n].index(dv)
+                value[:,j] = d_value[:,i]
+
+        else:
+            value[0, 0] = 1
+
+        return value
+
+    return g_from_cd

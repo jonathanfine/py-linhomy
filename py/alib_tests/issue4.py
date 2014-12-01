@@ -80,3 +80,14 @@ aaa(D_G[4]) == [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 1],
 ]
+
+## From rules for C and D construct g_from_cd function.
+
+from linhomy.issue4tools import g_from_cd_rules_factory
+from linhomy.issue4tools import C_G, D_G, CD_G
+import numpy as np
+
+
+AAA = g_from_cd_rules_factory(C_G, D_G)._cache
+for n in range(6):
+    np.array_equal(AAA[5], CD_G[5]) == True
