@@ -1,10 +1,17 @@
 import numpy as np
 from linhomy.issue6 import c_rule
 from linhomy.issue6 import d_rule
+from linhomy.issue6 import d_rule_2 # TODO: Ugly names here.
 from linhomy.issue4tools import g_from_cd_rules_factory
 from linhomy.issue4tools import C_G
 from linhomy.issue4tools import D_G
 
+
+# TODO: This test should fail.
+list(d_rule_2(b'\x02\x01\x02\x01')) == [
+    b'\x01\x02\x01\x02\x01\x01',
+    b'\x01\x02\x01\x01',
+]
 
 def do_d_rule(n):
 
