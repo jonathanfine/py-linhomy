@@ -13,6 +13,24 @@ def fib_index(w):
     return FIBWORDS[n].index(w)
 
 
+def rule_factory(offset, rules):
+
+    # Considate rules so easier to watch for particular values.
+    @cache_function
+    def rule_fn(cache, n):
+
+        value = fib_zeros_array(n + offset, n)
+
+        for v in FIBWORDS[n]:
+            for rule in rules:
+                for w in rule(v):
+                    value[fib_index(w), fib_index(v)] += 1
+
+        return value
+
+    return rule_fn
+
+
 def d_rule_1(v):
     # Suffix with a D.
     yield v + b'\x02'
@@ -30,22 +48,7 @@ def d_rule_2(v):
             yield left + b'\x01' + right + b'\x01'
 
 
-@cache_function
-def _d_rule(cache, n):
-
-    value = fib_zeros_array(n+2, n)
-
-    for v in FIBWORDS[n]:
-
-        for w in d_rule_1(v):
-            value[fib_index(w), fib_index(v)] += 1
-
-        for w in d_rule_2(v):
-            value[fib_index(w), fib_index(v)] += 1
-
-    return value
-
-
+_d_rule = rule_factory(2, [d_rule_1, d_rule_2])
 d_rule = _d_rule._cache
 
 
@@ -82,20 +85,5 @@ def c_rule_2(v):
         yield base + c_suffix + d_suffix + b'\x01'
 
 
-@cache_function
-def _c_rule(cache, n):
-
-    value = fib_zeros_array(n+1, n)
-
-    for v in FIBWORDS[n]:
-
-        for w in c_rule_1(v):
-            value[fib_index(w), fib_index(v)] += 1
-
-        for w in c_rule_2(v):
-            value[fib_index(w), fib_index(v)] += 1
-
-    return value
-
-
+_c_rule = rule_factory(1, [c_rule_1, c_rule_2])
 c_rule = _c_rule._cache
