@@ -7,12 +7,6 @@ from linhomy.issue4tools import C_G
 from linhomy.issue4tools import D_G
 
 
-# TODO: This test should fail.
-list(d_rule_2(b'\x02\x01\x02\x01')) == [
-    b'\x01\x02\x01\x02\x01\x01',
-    b'\x01\x02\x01\x01',
-]
-
 def do_d_rule(n):
 
     aaa = d_rule[n]
