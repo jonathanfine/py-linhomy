@@ -24,11 +24,8 @@ do_d_rule(2) == []
 do_d_rule(3) == []
 do_d_rule(4) == []
 do_d_rule(5) == []
-do_d_rule(6) == [(3, 10), (24, 10)]
-do_d_rule(7) == [
-    (3, 10), (3, 15), (5, 16), (24, 10),
-    (24, 15), (37, 15), (39, 16)
-]
+do_d_rule(6) == []
+do_d_rule(7) == [(24, 15)]
 
 
 def do_c_rule(n):
@@ -90,18 +87,12 @@ do_g_from_cd(4) == (8, 0)
 do_g_from_cd(5) == (18, 0)
 do_g_from_cd(6) == (40, 0)
 do_g_from_cd(7) == (91, 0)
+do_g_from_cd(8) == (208, 0)
 
-# One failure, here it is.
-do_g_from_cd(8) == (206, 1)
-g_from_cd(8)[3, 27] == 2
-
-
-# Six failures, here they are.
-do_g_from_cd(9) == (464, 6)
-
-g_from_cd(9)[3, 27] == 2
-g_from_cd(9)[3, 40] == 3
-g_from_cd(9)[3, 43] == 2
-g_from_cd(9)[5, 43] == 2
-g_from_cd(9)[5, 44] == 2
+# Two failures, here they are.
+do_g_from_cd(9) == (473, 2)
 g_from_cd(9)[23, 41] == 2
+g_from_cd(9)[24, 40] == 2
+
+# 14 failures.
+do_g_from_cd(10) == (1073, 14)

@@ -39,9 +39,4 @@ do_d_rule_2('00;11') == []
 do_d_rule_2('11;00') == ['21;10']
 do_d_rule_2('01;10') == ['11;20']
 
-
-# TODO: This test should fail.
-do_d_rule_2('00,00;00') == ['10,00;10', '10;10'] # Should fail.
-
-# TODO: This test should pass.
-do_d_rule_2('00,00;00') == ['10,00;10', '00,10;10'] # Should pass.
+do_d_rule_2('00,00;00') == ['10,00;10', '00,10;10']

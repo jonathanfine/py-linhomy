@@ -2,6 +2,10 @@ from .issue4tools import cache_function
 from .issue4tools import fib_zeros_array
 from .issue4tools import enumerate_fib_suffix
 from .constants import FIBWORDS
+import re
+
+ds_regex = re.compile(b'\x02+')
+
 
 def fib_index(w):
 
@@ -18,15 +22,12 @@ def d_rule_2(v):
 
     if v.endswith(b'\x01'):
 
-        v_split = v.split(b'\x02\x01')
-        for i in range(len(v_split) - 1):
+        for mo in ds_regex.finditer(v):
 
-            left = b'\x02\x01'.join(v_split[:i])
-            right = b'\x02\x01'.join(v_split[i:-1])
-            tail = v_split[-1]
+            start = mo.start()
+            left, right = v[:start], v[start:]
 
-            # GOTCHA: Why is it obvious that this is correct?XS
-            yield left + b'\x01' + right + b'\x02\x01' + b'\x01' + tail
+            yield left + b'\x01' + right + b'\x01'
 
 
 @cache_function
