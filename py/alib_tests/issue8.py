@@ -104,18 +104,19 @@ do_d_rule('30') == ['40']
 # As before, but order increased by one.
 do_d_rule(':') == ['10:', '01:01']
 
-do_d_rule('01:') == ['11:']
-do_d_rule('02:') == ['12:']
+do_d_rule('01:') == ['11:', '02:01']
+do_d_rule('02:') == ['12:', '03:01']
+
 
 # The d_rule on Ds.
-do_d_rule('10:') == ['20:', '11:01']
-do_d_rule('20:') == ['30:', '21:01']
-do_d_rule('30:') == ['40:', '31:01']
+do_d_rule('10:') == ['20:']
+do_d_rule('20:') == ['30:']
+do_d_rule('30:') == ['40:']
 
 # The d_rule on Ds.
-do_d_rule('10::') == ['20::', '11:01:', '11::01']
-do_d_rule('20::') == ['30::', '21:01:', '21::01']
-do_d_rule('30::') == ['40::', '31:01:', '31::01']
+do_d_rule('10::') == ['20::']
+do_d_rule('20::') == ['30::']
+do_d_rule('30::') == ['40::']
 
 
 def tmp(i):
@@ -143,17 +144,19 @@ def do_cd_trace(n):
 
     return [line_count, len(pairs)]
 
-
+# These all agree with issue6.py.
 do_cd_trace(0) == [1, 1]
 do_cd_trace(1) == [1, 1]
 do_cd_trace(2) == [2, 2]
 do_cd_trace(3) == [4, 4]
 do_cd_trace(4) == [8, 8]
 do_cd_trace(5) == [18, 18]
+do_cd_trace(6) == [40, 40]
+do_cd_trace(7) == [91, 91]
+do_cd_trace(8) == [208, 208]
 
-# These don't agree with tests/issue6.py.
-do_cd_trace(6) == [39, 39]       # 1 less, no failures.
-do_cd_trace(7) == [87, 86]       # 4 less, 1 failure.
+# TODO: Investigate.  Could be consistent with test/issue6.py.
+do_cd_trace(9) == [477, 475]    # 2 more lines, same number of errors.
 
 
 
@@ -212,7 +215,8 @@ show_cd_trace(6) == [
     ['03:', ['01:02', '02:01', '03:', '14', ':03']],
     ['06', ['06']],
     ['10:01', ['01:02', '10:01', '22']],
-    ['11:', ['01:02', '10:01', '11:', '22']],
+    ['11:', ['01:02', '02:01', '10:01', '11:', '22']],
+#    ['11:', ['01:02', '10:01', '11:', '22']],
     #                 ^ missing '02:01'.
     ['14', ['14']],
     ['22', ['22']],
@@ -229,10 +233,11 @@ cd_trace(6)[Index('11:')] == [
     [Index(''), Index('10'), Index('11'), Index(':01'), Index('10:01')],
     [Index(''), Index('10'), Index('11'), Index(':01'), Index('01:02')],
     [Index(''), Index('10'), Index(':'), Index('01:'), Index('11:')],
+    [Index(''), Index('10'), Index(':'), Index('01:'), Index('02:01')],
 ]
 
 # Here's why something is missing.
-d_rule(Index('01:')) == (Index('11:'),)
+d_rule(Index('01:')) == (Index('11:'), Index('02:01'))
 
 show_cd_trace_var(6) == [
     ['01:02', ['01:02', '14', ':03']],

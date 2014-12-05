@@ -131,7 +131,10 @@ def d_rule(index):
     tmp[0] += 1
     value.append(Index(tmp))
 
-    if index[1] == 0:
+    # GOTCHA: I write index[1] here, took ages to find.
+    # TODO: Copy-and-paste tests are dangerous - freeze wrong
+    # behaviour, give false reassurance.
+    if index[0] == 0:           # No leading D's.
 
         # Skipped if order is zero.
         for i in range(1, index.order + 1):
