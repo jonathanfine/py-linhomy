@@ -94,3 +94,25 @@ def c_rule(index):
         Index(bytes(item) + body)
         for item in value
     )
+
+
+def d_rule(index):
+
+    value = []
+    d_count, c_count = index[0], index[1]
+    template = list(index.pairs)
+
+    tmp = list(index)
+    tmp[0] += 1
+    value.append(Index(tmp))
+
+    if index[1] == 0:
+
+        # Skipped if order is zero.
+        for i in range(1, index.order + 1):
+            tmp = list(index)
+            tmp[1] += 1
+            tmp[1 + 2*i] += 1
+            value.append(Index(tmp))
+
+    return tuple(map(Index, value))
