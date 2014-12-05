@@ -73,3 +73,24 @@ class Index(MixIn, bytes):
 
         iter_data = iter(b'' + self)
         return tuple(zip(iter_data, iter_data))
+
+
+def c_rule(index):
+
+    value = []
+    d_count, c_count = index[0], index[1]
+    body = index[2:]
+
+    value.append((d_count, c_count +1))
+
+    # Skipped if d_count is zero.
+    for shift in range(d_count):
+        # Order increased by one, which absorbs a D.
+        d = d_count - 1 - shift
+        c = 2 * shift
+        value.append((0, 0, d, c))
+
+    return tuple(
+        Index(bytes(item) + body)
+        for item in value
+    )
