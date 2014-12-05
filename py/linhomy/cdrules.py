@@ -160,26 +160,32 @@ def trace(fn, lines):
     return value
 
 
-@cache_function
-def cd_trace(cache, n):
+def cd_trace_factory(c_rule, d_rule):
 
-    value = {}
-    if n >= 1:
+    @cache_function
+    def cd_trace(cache, n):
 
-        # GOTCHA: It's a dict, cache[-1] means something else.
-        for key, lines in cache[n-1].items():
-            value[key.c] = trace(c_rule, lines)
+        value = {}
+        if n >= 1:
 
-        if n >= 2:
-            for key, lines in cache[n-2].items():
-                value[key.d] = trace(d_rule, lines)
+            # GOTCHA: It's a dict, cache[-1] means something else.
+            for key, lines in cache[n-1].items():
+                value[key.c] = trace(c_rule, lines)
 
-        return value
+            if n >= 2:
+                for key, lines in cache[n-2].items():
+                    value[key.d] = trace(d_rule, lines)
 
-    if n == 0:
-        return {
-            Index(''): [[Index('')]]
-        }
+            return value
+
+        if n == 0:
+            return {
+                Index(''): [[Index('')]]
+            }
+
+    return cd_trace
+
+cd_trace = cd_trace_factory(c_rule, d_rule)
 
 
 def index_from_fibword(fibword):
