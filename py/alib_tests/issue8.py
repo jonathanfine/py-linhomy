@@ -95,3 +95,30 @@ trace(tmp, [[4], [8]]) == [
     [8, 7],
     [8, 9],
 ]
+
+
+from linhomy.cdrules import cd_trace
+
+def do_cd_trace(n):
+
+    data = cd_trace(n)
+    line_count = 0
+    pairs = set()
+    for key, val in cd_trace(n).items():
+        line_count += len(val)
+
+        pairs.update((key, line[-1].arg) for line in val)
+
+    return [line_count, len(pairs)]
+
+
+do_cd_trace(0) == [1, 1]
+do_cd_trace(1) == [1, 1]
+do_cd_trace(2) == [2, 2]
+do_cd_trace(3) == [4, 4]
+do_cd_trace(4) == [8, 8]
+do_cd_trace(5) == [18, 18]
+
+# These don't agree with tests/issue6.py.
+do_cd_trace(6) == [39, 39]       # 1 less, no failures.
+do_cd_trace(7) == [87, 85]       # 4 less, 2 failures.

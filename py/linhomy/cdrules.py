@@ -1,5 +1,6 @@
 import string
 from .bytestools import MixIn
+from .tools import cache_function
 
 c_from_i_62 = (
     string.digits
@@ -129,3 +130,25 @@ def trace(fn, lines):
             value.append(line + [item])
 
     return value
+
+
+@cache_function
+def cd_trace(cache, n):
+
+    value = {}
+    if n >= 1:
+
+        # GOTCHA: It's a dict, cache[-1] means something else.
+        for key, lines in cache[n-1].items():
+            value['C' + key] = trace(c_rule, lines)
+
+        if n >= 2:
+            for key, lines in cache[n-2].items():
+                value['D' + key] = trace(d_rule, lines)
+
+        return value
+
+    if n == 0:
+        return {
+            '': [[Index('')]]
+        }
