@@ -35,6 +35,10 @@ do_c_rule('10') == ['11', ':']
 do_c_rule('20') == ['21', ':10', ':02']
 do_c_rule('30') == ['31', ':20', ':12', ':04']
 
+# TODO: Fix failing test.
+do_c_rule('11') == ['12', ':']  # Should fail.
+
+
 # As before, but order increased by one.
 do_c_rule(':') == ['01:']
 do_c_rule('01:') == ['02:']
