@@ -1,3 +1,4 @@
+import collections
 import string
 from .bytestools import MixIn
 from .tools import cache_function
@@ -191,3 +192,36 @@ def index_from_fibword(fibword):
 
     shape = Word(fibword).worm.shape
     return Index(bytes(reversed(shape)))
+
+
+def detect_collisions(trace):
+
+    collisions = dict()
+
+    for key, val in trace.items():
+
+        store = collections.defaultdict(list)
+        for line in val:
+            sub_key = line[-1]
+            store[sub_key].append(line)
+
+        for sub_key, lines in store.items():
+
+            if len(lines) >= 2:
+                collisions[key, sub_key] = lines
+
+    return collisions
+
+
+def args_from_collisions(collisions):
+
+    return dict(
+        [
+            tuple(k.arg for k in key_pair),
+            [
+                [ind.arg for ind in line]
+                for line in lines
+            ]
+        ]
+        for key_pair, lines in collisions.items()
+    )

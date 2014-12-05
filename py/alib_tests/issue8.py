@@ -255,3 +255,32 @@ show_cd_trace_var(6) == [
     [':11', ['22', ':03', ':11']],
     ['::', ['02:01', '11:', '22', ':03', ':11', '::']],
 ]
+
+
+from linhomy.cdrules import detect_collisions
+from linhomy.cdrules import args_from_collisions
+
+def show_collisions(n):
+    trace = cd_trace(n)
+    collisions = detect_collisions(trace)
+    return sorted(map(list, args_from_collisions(collisions).items()))
+
+show_collisions(6) == []
+show_collisions(7) == []
+show_collisions(8) == []
+show_collisions(9) == [
+    [
+        ('10:01:', '01:01:01'),
+        [
+            ['', '10', '11', ':01', '10:01', '::01', '01:01:01'],
+            ['', '10', ':', '01:', '11:', ':01:', '01:01:01'],
+        ]
+    ],
+    [
+        (':11:', ':02:01'),
+        [
+            ['', '10', '11', ':01', '10:01', '20:01', ':02:01'],
+            ['', '10', ':', '01:', '02:01', '12:01', ':02:01'],
+        ]
+    ]
+]
