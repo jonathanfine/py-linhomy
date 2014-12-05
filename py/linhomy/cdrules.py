@@ -116,3 +116,16 @@ def d_rule(index):
             value.append(Index(tmp))
 
     return tuple(map(Index, value))
+
+
+def trace(fn, lines):
+    '''For tracking history of applying CD rules.
+    '''
+
+    value = []
+
+    for line in lines:
+        for item in fn(line[-1]):
+            value.append(line + [item])
+
+    return value

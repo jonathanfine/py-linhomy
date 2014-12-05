@@ -1,6 +1,7 @@
 from linhomy.cdrules import Index
 from linhomy.cdrules import c_rule
 from linhomy.cdrules import d_rule
+from linhomy.cdrules import trace
 
 
 def do_index(s):
@@ -83,3 +84,14 @@ do_d_rule('30:') == ['40:', '31:01']
 do_d_rule('10::') == ['20::', '11:01:', '11::01']
 do_d_rule('20::') == ['30::', '21:01:', '21::01']
 do_d_rule('30::') == ['40::', '31:01:', '31::01']
+
+
+def tmp(i):
+    return [i-1, i + 1]
+
+trace(tmp, [[4], [8]]) == [
+    [4, 3],
+    [4, 5],
+    [8, 7],
+    [8, 9],
+]
