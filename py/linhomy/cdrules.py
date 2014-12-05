@@ -147,6 +147,38 @@ def d_rule(index):
     return tuple(map(Index, value))
 
 
+def d_rule_2(index):
+
+    value = []
+    d_count, c_count = index[0], index[1]
+    template = list(index.pairs)
+
+    tmp = list(index)
+    tmp[0] += 1
+    value.append(Index(tmp))
+
+    # GOTCHA: I write index[1] here, took ages to find.
+    # TODO: Copy-and-paste tests are dangerous - freeze wrong
+    # behaviour, give false reassurance.
+    if index[0] == 0:           # No leading D's.
+
+        # Skipped if order is zero.
+        for i in range(1, index.order + 1):
+            tmp = list(index)
+
+            if 1:
+                # Have both indices move together.
+                tmp[-1 + 2 * i] += 1
+            else:
+                # Old behaviour has fixed index here.
+                tmp[1] += 1
+
+            tmp[1 + 2*i] += 1
+            value.append(Index(tmp))
+
+    return tuple(map(Index, value))
+
+
 def trace(fn, lines):
     '''For tracking history of applying CD rules.
     '''
