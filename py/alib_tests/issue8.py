@@ -154,3 +154,87 @@ do_cd_trace(5) == [18, 18]
 # These don't agree with tests/issue6.py.
 do_cd_trace(6) == [39, 39]       # 1 less, no failures.
 do_cd_trace(7) == [87, 86]       # 4 less, 1 failure.
+
+
+
+def show_cd_trace(n):
+
+    data = sorted(
+        (key.arg, val)
+        for key, val
+        in cd_trace(n).items()
+    )
+
+    return [
+        [key, sorted(line[-1].arg for line in val)]
+        for key, val in data
+    ]
+
+
+## To document variation between the two values.
+
+from linhomy.issue6 import c_rule as c_rule_aaa
+from linhomy.issue6 import d_rule as d_rule_aaa
+from linhomy.issue4tools import g_from_cd_rules_factory
+from linhomy.constants import FIBWORDS
+from linhomy.constants import FIB
+from linhomy.cdrules import index_from_fibword
+
+g_from_cd = g_from_cd_rules_factory(c_rule_aaa, d_rule_aaa)
+
+
+def show_cd_trace_var(n):
+    matrix = g_from_cd(n)
+    lines = sorted(
+        [
+            index_from_fibword(FIBWORDS[n][i]).arg,
+            sorted(
+                index_from_fibword(FIBWORDS[n][j]).arg
+                for j in range(FIB[n+1])
+                if matrix[j, i] == 1
+            )
+        ]
+        for i in range(FIB[n+1])
+    )
+    return lines
+
+
+show_cd_trace(1) == show_cd_trace_var(1)
+show_cd_trace(2) == show_cd_trace_var(2)
+show_cd_trace(3) == show_cd_trace_var(3)
+show_cd_trace(4) == show_cd_trace_var(4)
+show_cd_trace(5) == show_cd_trace_var(5)
+
+show_cd_trace(6) == [
+    ['01:02', ['01:02', '14', ':03']],
+    ['01:10', ['01:02', '01:10', '22', ':03', ':11']],
+    ['02:01', ['01:02', '02:01', '14', ':03']],
+    ['03:', ['01:02', '02:01', '03:', '14', ':03']],
+    ['06', ['06']],
+    ['10:01', ['01:02', '10:01', '22']],
+    ['11:', ['01:02', '10:01', '11:', '22']],
+    ['14', ['14']],
+    ['22', ['22']],
+    ['30', ['30']],
+    [':03', ['14', ':03']],
+    [':11', ['22', ':03', ':11']],
+    ['::', ['02:01', '11:', '22', ':03', ':11', '::']],
+]
+
+
+show_cd_trace_var(6) == [
+    ['01:02', ['01:02', '14', ':03']],
+    ['01:10', ['01:02', '01:10', '22', ':03', ':11']],
+    ['02:01', ['01:02', '02:01', '14', ':03']],
+    ['03:', ['01:02', '02:01', '03:', '14', ':03']],
+    ['06', ['06']],
+    ['10:01', ['01:02', '10:01', '22']],
+    ['11:', ['01:02', '02:01', '10:01', '11:', '22']],
+    #                  ^^^^^
+    ['14', ['14']],
+    ['22', ['22']],
+    ['30', ['30']],
+    [':03', ['14', ':03']],
+    [':11', ['22', ':03', ':11']],
+    ['::', ['02:01', '11:', '22', ':03', ':11', '::']],
+]

@@ -176,3 +176,15 @@ def cd_trace(cache, n):
         return {
             Index(''): [[Index('')]]
         }
+
+
+def index_from_fibword(fibword):
+    '''Convert fibword into index.
+
+    To bridge the two conventions.
+    '''
+    # Don't want whole module to depend on .fibsubset
+    from .fibsubset import Word
+
+    shape = Word(fibword).worm.shape
+    return Index(bytes(reversed(shape)))
