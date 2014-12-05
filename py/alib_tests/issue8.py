@@ -16,13 +16,19 @@ do_index('10') == ['10', 2, 0]
 do_index('01') == ['01', 1, 0]
 do_index(':') == [':', 3, 1]
 do_index('00:00') == [':', 3, 1]
-do_index('12:34') == ['12:34', 20, 1]
+do_index('12:34') == ['12:34', 17, 1]
 
 
 def do_c_rule(s):
 
     i = Index(s)
     value = c_rule(i)
+
+    for j in value:
+        if j.mass != i.mass + 1:
+            # TODO: ValueError not right here.
+            raise ValueError
+
     return [j.arg for j in value]
 
 # The c_rule on cones.
@@ -35,8 +41,7 @@ do_c_rule('10') == ['11', ':']
 do_c_rule('20') == ['21', ':10', ':02']
 do_c_rule('30') == ['31', ':20', ':12', ':04']
 
-# TODO: Fix failing test.
-do_c_rule('11') == ['12', ':']  # Should fail.
+do_c_rule('11') == ['12', ':01']
 
 
 # As before, but order increased by one.
@@ -125,4 +130,4 @@ do_cd_trace(5) == [18, 18]
 
 # These don't agree with tests/issue6.py.
 do_cd_trace(6) == [39, 39]       # 1 less, no failures.
-do_cd_trace(7) == [87, 85]       # 4 less, 2 failures.
+do_cd_trace(7) == [87, 86]       # 4 less, 1 failure.

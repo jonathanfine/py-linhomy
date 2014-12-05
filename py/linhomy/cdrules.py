@@ -65,7 +65,7 @@ class Index(MixIn, bytes):
     def mass(self):
 
         d_count = sum(self[0::2])
-        c_count = sum(self[1::1])
+        c_count = sum(self[1::2])
         return c_count + 2 * d_count + 3 * self.order
 
 
@@ -88,7 +88,7 @@ def c_rule(index):
     for shift in range(d_count):
         # Order increased by one, which absorbs a D.
         d = d_count - 1 - shift
-        c = 2 * shift
+        c = c_count + 2 * shift
         value.append((0, 0, d, c))
 
     return tuple(
