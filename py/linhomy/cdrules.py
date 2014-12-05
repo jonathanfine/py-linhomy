@@ -20,6 +20,9 @@ i_from_c_62 = dict(
 # GOTCHA: I find myself wanting to type Mixin.
 class Index(MixIn, bytes):
 
+    # TODO: Why is this not automatically inherited?
+    __hash__ = bytes.__hash__
+
     def data_from_str(s):
 
         bits = s.split(':')
@@ -161,15 +164,15 @@ def cd_trace(cache, n):
 
         # GOTCHA: It's a dict, cache[-1] means something else.
         for key, lines in cache[n-1].items():
-            value['C' + key] = trace(c_rule, lines)
+            value[key.c] = trace(c_rule, lines)
 
         if n >= 2:
             for key, lines in cache[n-2].items():
-                value['D' + key] = trace(d_rule, lines)
+                value[key.d] = trace(d_rule, lines)
 
         return value
 
     if n == 0:
         return {
-            '': [[Index('')]]
+            Index(''): [[Index('')]]
         }
