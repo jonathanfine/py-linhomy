@@ -167,6 +167,15 @@ def d_rule_2(index):
             tmp = list(index)
 
             if 1:
+                # Here's a collision.
+                #        D     C     C       D        D         C
+                #   n =  2     3     4       6        8         9
+                # ['', '10', '11', ':01', '10:01', '20:01', ':02:01']
+                # ['', '10', ':', '01:', '02:01', '12:01', ':02:01']
+                # Break it here -------^^ (not needed for n=5)
+                if tmp[-1 + 2 * i] > 0:
+                    break
+
                 # Have both indices move together.
                 tmp[-1 + 2 * i] += 1
             else:

@@ -18,9 +18,9 @@ doit(5) == {}
 doit(6) == {}
 doit(7) == {}
 doit(8) == {}
-len(doit(9)) == 1
-len(doit(10)) == 8
-len(doit(11)) == 43
+len(doit(9)) == 0
+len(doit(10)) == 0
+len(doit(11)) == 0
 
 
 cd_trace(5) == {
@@ -68,11 +68,14 @@ def show_collisions(n):
     return sorted(map(list, args_from_collisions(collisions).items()))
 
 
-show_collisions(9) == [
+show_collisions(9) == []
+# Prior to fix was this:
+[
     [
         (':11:', ':02:01'),
         [
-            #     D     C     C       D        D         C
+            #      D     C     C       D        D         C
+            # n =  2     3     4       6        8         9
             ['', '10', '11', ':01', '10:01', '20:01', ':02:01'],
             ['', '10', ':', '01:', '02:01', '12:01', ':02:01']
         ]
