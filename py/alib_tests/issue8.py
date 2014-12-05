@@ -213,6 +213,7 @@ show_cd_trace(6) == [
     ['06', ['06']],
     ['10:01', ['01:02', '10:01', '22']],
     ['11:', ['01:02', '10:01', '11:', '22']],
+    #                 ^ missing '02:01'.
     ['14', ['14']],
     ['22', ['22']],
     ['30', ['30']],
@@ -221,6 +222,17 @@ show_cd_trace(6) == [
     ['::', ['02:01', '11:', '22', ':03', ':11', '::']],
 ]
 
+# Here's how the line in question is calculated.
+cd_trace(6)[Index('11:')] == [
+    #           apply D      apply C      apply C       apply D
+    [Index(''), Index('10'), Index('11'), Index('12'), Index('22')],
+    [Index(''), Index('10'), Index('11'), Index(':01'), Index('10:01')],
+    [Index(''), Index('10'), Index('11'), Index(':01'), Index('01:02')],
+    [Index(''), Index('10'), Index(':'), Index('01:'), Index('11:')],
+]
+
+# Here's why something is missing.
+d_rule(Index('01:')) == (Index('11:'),)
 
 show_cd_trace_var(6) == [
     ['01:02', ['01:02', '14', ':03']],
