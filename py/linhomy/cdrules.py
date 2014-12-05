@@ -75,6 +75,27 @@ class Index(MixIn, bytes):
         iter_data = iter(b'' + self)
         return tuple(zip(iter_data, iter_data))
 
+    @property
+    def c(self):
+
+        d_count, c_count = self[0], self[1]
+        body = self[2:]
+        if d_count == 0:
+            prefix = bytes([0, c_count + 1])
+        else:
+            prefix = bytes([0, 0, d_count - 1, c_count])
+
+        return Index(prefix + body)
+
+    @property
+    def d(self):
+
+        d_count, c_count = self[0], self[1]
+        body = self[2:]
+        prefix = bytes([d_count + 1, c_count])
+        return Index(prefix + body)
+
+
 
 def c_rule(index):
 

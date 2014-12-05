@@ -19,6 +19,29 @@ do_index('00:00') == [':', 3, 1]
 do_index('12:34') == ['12:34', 17, 1]
 
 
+def do_index_c_d(s):
+
+    i = Index(s)
+    c_i, d_i  = i.c, i.d
+    if c_i.mass != i.mass + 1:
+        raise ValueError
+    if d_i.mass != i.mass + 2:
+        raise ValueError
+
+    return [c_i.arg, d_i.arg]
+
+
+do_index_c_d('') == ['01', '10']
+do_index_c_d('01') == ['02', '11']
+do_index_c_d('10') == [':', '20']
+do_index_c_d('11') == [':01', '21']
+
+do_index_c_d(':') == ['01:', '10:']
+do_index_c_d('01:') == ['02:', '11:']
+do_index_c_d('10:') == ['::', '20:']
+do_index_c_d('11:') == [':01:', '21:']
+
+
 def do_c_rule(s):
 
     i = Index(s)
