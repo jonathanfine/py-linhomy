@@ -1,4 +1,5 @@
 import os
+from .constants import FIBWORDS
 
 _DATAPATH = os.path.abspath(
     os.path.join(
@@ -30,6 +31,26 @@ def j_twiddle(key):
 
     return pre + j + b',' + i + post
 
+def aaa(word):
+
+    return word.replace(b'\x01', b'C').replace(b'\x02', b'IC')
+
+
+def bbb(ic_word):
+
+    # Removing leading 'C', if possible, for the 'J'.
+    if not ic_word.startswith(b'C'):
+        return
+    ic_tail = ic_word[1:]
+
+    # For as long as possible write as multi-cone.
+    for i, c in enumerate(ic_tail):
+
+        yield ic_tail[:i], ic_tail[i:]
+        # GOTCHA: c in ic_tail is int.
+        if c != ord('C'):
+            return
+
 
 class _Cache(dict):
     __slots__ = ()
@@ -51,9 +72,23 @@ class _Cache(dict):
 
             n = len(key) - 3
 
+            for word in FIBWORDS[n]:
+                ic_word = aaa(word)
+                for i, j in bbb(ic_word):
+
+                    item_key = b'J(' + i + b',' + j + b')'
+
+                    self[item_key] = self[ic_word]
+                    self[j_twiddle(item_key)] = self[ic_word]
+
+
             data = read_data(J_template, n)
 
             for line in data.rstrip().split(b'\n'):
+
+                # Needed for when the data is empty.
+                if not line:
+                    continue
 
                 line_key, *rest = line.split()
                 self[line_key] = tuple(map(int, rest))

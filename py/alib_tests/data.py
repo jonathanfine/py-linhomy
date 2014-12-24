@@ -57,3 +57,6 @@ j_twiddle(b'J(IC,ICC)') == b'J(ICC,IC)'
 _cache[b'J(IC,IC)'] == (1, 8, 24, 34, 104, 24, 104, 160)
 _cache[b'J(IC,ICC)'] == (1, 10, 37, 66, 202, 63, 272, 417, 33, 194, 413, 409, 1260)
 _cache[b'J(ICC,IC)'] == _cache[b'J(IC,ICC)']
+
+_cache[b'J(C,IC)'] == _cache[b'J(IC,C)'] == _cache[b'CCIC']
+_cache[b'J(CCC,IC)'] == _cache[b'J(IC,CCC)'] == _cache[b'CCCCIC']
