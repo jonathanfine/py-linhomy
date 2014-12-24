@@ -8,6 +8,7 @@ _DATAPATH = os.path.abspath(
 )
 
 IC_template = 'IC-{0}-flag.txt'
+J_template = 'J-{0}-flag.txt'
 
 
 def read_data(template, *argv):
@@ -29,6 +30,16 @@ class _Cache(dict):
 
         elif set(key).issubset(set(b'CI')):
             data = read_data(IC_template, len(key))
+
+            for line in data.rstrip().split(b'\n'):
+                line_key, *rest = line.split()
+                self[line_key] = tuple(map(int, rest))
+
+        elif set(key).issubset(set(b'CIJ(),')):
+
+            n = len(key) - 3
+
+            data = read_data(J_template, n)
 
             for line in data.rstrip().split(b'\n'):
                 line_key, *rest = line.split()
