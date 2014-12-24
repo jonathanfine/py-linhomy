@@ -6,3 +6,11 @@ _DATAPATH = os.path.abspath(
         '_data'
     )
 )
+
+
+def read_data(template, *argv):
+
+    key = template.format(*argv)
+    filename = os.path.join(_DATAPATH, key)
+    with open(filename, 'rb') as f:
+        return f.read()
