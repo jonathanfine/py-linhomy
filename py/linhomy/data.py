@@ -19,6 +19,18 @@ def read_data(template, *argv):
         return f.read()
 
 
+def j_twiddle(key):
+
+    if not (key.startswith(b'J(') and key.endswith(b')')):
+        raise ValueError
+
+    pre, middle, post = key[:2], key[2:-1], key[-1:]
+
+    i, j = middle.split(b',')
+
+    return pre + j + b',' + i + post
+
+
 class _Cache(dict):
     __slots__ = ()
 
@@ -42,8 +54,10 @@ class _Cache(dict):
             data = read_data(J_template, n)
 
             for line in data.rstrip().split(b'\n'):
+
                 line_key, *rest = line.split()
                 self[line_key] = tuple(map(int, rest))
+                self[j_twiddle(line_key)] = self[line_key]
 
         else:
             raise ValueError

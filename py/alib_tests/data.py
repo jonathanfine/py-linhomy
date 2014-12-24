@@ -47,7 +47,13 @@ _cache[b'CCCC'] == (1, 5, 10, 10, 30)
 len(_cache) == 1 + 1 + 2 + 3 + 5
 
 
+
 # Join.
+from linhomy.data import j_twiddle
+
+j_twiddle(b'J(ICC,IC)') == b'J(IC,ICC)'
+j_twiddle(b'J(IC,ICC)') == b'J(ICC,IC)'
+
 _cache[b'J(IC,IC)'] == (1, 8, 24, 34, 104, 24, 104, 160)
 _cache[b'J(IC,ICC)'] == (1, 10, 37, 66, 202, 63, 272, 417, 33, 194, 413, 409, 1260)
-_cache[b'J(ICC,IC)'] ** ValueError # Should be == _cache[b'J(IC,ICC)']
+_cache[b'J(ICC,IC)'] == _cache[b'J(IC,ICC)']
