@@ -3,6 +3,7 @@ from .constants import FIBWORDS
 from .data import _cache
 from .data import replace_12_CIC
 from .issue4tools import fib_zeros_array
+from .issue4tools import linalg_int_inv
 
 
 def _F_from_IC(n):
@@ -21,6 +22,8 @@ F_from_IC = [
     _F_from_IC(n)
     for n in range(11)
 ]
+
+IC_from_F = list(map(linalg_int_inv, F_from_IC))
 
 
 def IC_from_CD_helper(cd_word):
@@ -55,3 +58,5 @@ IC_from_CD =  [
     _IC_from_CD(n)
     for n in range(11)
 ]
+
+CD_from_IC = list(map(linalg_int_inv, IC_from_CD))
