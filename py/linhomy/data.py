@@ -51,6 +51,9 @@ def j_factors_from_ic(ic_word):
         if c != ord('C'):
             return
 
+    # Still here?  Nothing but 'C' in tail, so extra item.
+    yield ic_tail, b''
+
 
 class _Cache(dict):
     __slots__ = ()

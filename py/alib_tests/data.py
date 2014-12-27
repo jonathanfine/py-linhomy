@@ -68,8 +68,8 @@ def do_j_factors(ic_word):
     return list(j_factors_from_ic(ic_word))
 
 do_j_factors(b'') == []
-do_j_factors(b'C') == [] # Should be [(b'', b'')].
-do_j_factors(b'CC') == [(b'', b'C')]
-do_j_factors(b'CCC') == [(b'', b'CC'), (b'C', b'C')]
+do_j_factors(b'C') == [(b'', b'')]
+do_j_factors(b'CC') == [(b'', b'C'), (b'C', b'')]
+do_j_factors(b'CCC') == [(b'', b'CC'), (b'C', b'C'), (b'CC', b'')]
 do_j_factors(b'CCI') == [(b'', b'CI'), (b'C', b'I')]
 do_j_factors(b'CIC') == [(b'', b'IC')]
