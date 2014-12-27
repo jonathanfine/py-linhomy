@@ -18,7 +18,6 @@ lists_from_matrix(F_from_IC[4]) == [
 
 from linhomy.matrices import IC_from_CD_helper
 
-
 list(IC_from_CD_helper(b'')) == [
     b'',
 ]
@@ -41,4 +40,15 @@ list(IC_from_CD_helper(b'\x02\x01\x02\x02')) == [
     b'\x02\x01\x01\x01\x02',
     b'\x02\x01\x02\x01\x01',
     b'\x02\x01\x02\x02',
+]
+
+
+from linhomy.matrices import IC_from_CD
+
+lists_from_matrix(IC_from_CD[4]) == [
+    [1, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0],
+    [1, 0, 1, 0, 0],
+    [1, 0, 0, 1, 0],
+    [1, 1, 0, 1, 1],
 ]

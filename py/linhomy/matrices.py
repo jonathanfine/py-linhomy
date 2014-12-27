@@ -36,3 +36,22 @@ def IC_from_CD_helper(cd_word):
 
     for items in itertools.product(*pending):
         yield b''.join(items)
+
+
+def _IC_from_CD(n):
+
+    value = fib_zeros_array(n, n)
+    words = FIBWORDS[n]
+
+    for i, w in enumerate(words):
+        for v in IC_from_CD_helper(w):
+            j = words.index(v)
+            value[i, j] += 1
+
+    return value
+
+
+IC_from_CD =  [
+    _IC_from_CD(n)
+    for n in range(11)
+]
