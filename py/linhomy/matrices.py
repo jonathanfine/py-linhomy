@@ -60,3 +60,22 @@ IC_from_CD =  [
 ]
 
 CD_from_IC = list(map(linalg_int_inv, IC_from_CD))
+
+
+def _J_from_IC(n, m):
+
+    value = fib_zeros_array(n, m, n + m + 1)
+    for i, v in enumerate(FIBWORDS[n]):
+        for j, w in enumerate(FIBWORDS[m]):
+            v_IC = replace_12_CIC(v)
+            w_IC = replace_12_CIC(w)
+            join_word = b'J(' + v_IC + b',' + w_IC + b')'
+            value[i, j, :] = _cache[join_word]
+    return value
+
+
+J_from_IC = dict(
+    ((n, m),  _J_from_IC(n, m))
+    for n in range(11)
+    for m in range(11 - n - 1)
+)
