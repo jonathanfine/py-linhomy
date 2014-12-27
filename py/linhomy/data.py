@@ -31,12 +31,12 @@ def j_twiddle(key):
 
     return pre + j + b',' + i + post
 
-def aaa(word):
+def replace_12_CIC(word):
 
     return word.replace(b'\x01', b'C').replace(b'\x02', b'IC')
 
 
-def bbb(ic_word):
+def j_factors_from_ic(ic_word):
 
     # Removing leading 'C', if possible, for the 'J'.
     if not ic_word.startswith(b'C'):
@@ -73,8 +73,8 @@ class _Cache(dict):
             n = len(key) - 3
 
             for word in FIBWORDS[n]:
-                ic_word = aaa(word)
-                for i, j in bbb(ic_word):
+                ic_word = replace_12_CIC(word)
+                for i, j in j_factors_from_ic(ic_word):
 
                     item_key = b'J(' + i + b',' + j + b')'
 

@@ -60,3 +60,17 @@ _cache[b'J(ICC,IC)'] == _cache[b'J(IC,ICC)']
 
 _cache[b'J(C,IC)'] == _cache[b'J(IC,C)'] == _cache[b'CCIC']
 _cache[b'J(CCC,IC)'] == _cache[b'J(IC,CCC)'] == _cache[b'CCCCIC']
+
+
+from linhomy.data import j_factors_from_ic
+
+def do_j_factors(ic_word):
+    # TODO: Refactor to produce more easily checked output.
+    return list(j_factors_from_ic(ic_word))
+
+do_j_factors(b'') == []
+do_j_factors(b'C') == [] # Should be [(b'', b'')].
+do_j_factors(b'CC') == [(b'', b'C')]
+do_j_factors(b'CCC') == [(b'', b'CC'), (b'C', b'C')]
+do_j_factors(b'CCI') == [(b'', b'CI'), (b'C', b'I')]
+do_j_factors(b'CIC') == [(b'', b'IC')]
