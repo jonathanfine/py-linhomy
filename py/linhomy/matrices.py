@@ -1,4 +1,5 @@
 import itertools
+import numpy
 from .constants import FIBWORDS
 from .data import _cache
 from .data import replace_12_CIC
@@ -67,10 +68,17 @@ def _J_from_IC(n, m):
     value = fib_zeros_array(n, m, n + m + 1)
     for i, v in enumerate(FIBWORDS[n]):
         for j, w in enumerate(FIBWORDS[m]):
+
+            # Prepare to look up flag vector of join.
             v_IC = replace_12_CIC(v)
             w_IC = replace_12_CIC(w)
             join_word = b'J(' + v_IC + b',' + w_IC + b')'
-            value[i, j, :] = _cache[join_word]
+
+            # Look up join flag vector, convert to IC vector.
+            join_flag = _cache[join_word]
+            join_cd = numpy.dot(IC_from_F[n+m+1], join_flag)
+            value[i, j, :] = join_cd
+
     return value
 
 
