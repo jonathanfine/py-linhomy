@@ -1,5 +1,6 @@
 import itertools
 import numpy
+from .constants import FIB
 from .constants import FIBWORDS
 from .data import _cache
 from .data import replace_12_CIC
@@ -76,8 +77,8 @@ def _J_from_IC(n, m):
 
             # Look up join flag vector, convert to IC vector.
             join_flag = _cache[join_word]
-            join_cd = numpy.dot(IC_from_F[n+m+1], join_flag)
-            value[i, j, :] = join_cd
+            join_ic = numpy.dot(IC_from_F[n+m+1], join_flag)
+            value[i, j, :] = join_ic
 
     return value
 
