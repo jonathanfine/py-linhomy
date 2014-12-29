@@ -272,3 +272,23 @@ def args_from_collisions(collisions):
         ]
         for key_pair, lines in collisions.items()
     )
+
+
+def g_from_CD_helper(fibword):
+
+    prev = (Index(''),)
+    for i in reversed(fibword):
+        curr = []
+        if i == 1:
+            rule = c_rule
+        elif i == 2:
+            rule = d_rule_2
+        else:
+            ddt
+
+        for item in prev:
+                curr.extend(rule(item))
+
+        prev = curr
+
+    return [b'' + w for w in prev]
