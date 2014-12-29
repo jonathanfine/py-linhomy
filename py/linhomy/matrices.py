@@ -1,5 +1,7 @@
 import itertools
 import numpy
+from .cdrules import g_from_CD_helper
+from .cdrules import fibword_from_index
 from .constants import FIB
 from .constants import FIBWORDS
 from .data import _cache
@@ -62,6 +64,28 @@ IC_from_CD =  [
 ]
 
 CD_from_IC = list(map(linalg_int_inv, IC_from_CD))
+
+
+def _g_from_CD(n):
+
+    words = FIBWORDS[n]
+    value = fib_zeros_array(n, n)
+
+    for i, v in enumerate(words):
+        for w_index in g_from_CD_helper(v):
+            w_fibword = fibword_from_index(w_index)
+            j = words.index(w_fibword)
+            value[i,j] += 1
+
+    return value
+
+
+g_from_CD = [
+    _g_from_CD(n)
+    for n in range(11)
+]
+
+CD_from_g = list(map(linalg_int_inv, g_from_CD))
 
 
 def _J_from_IC(n, m):

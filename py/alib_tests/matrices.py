@@ -81,6 +81,26 @@ lists_from_matrix(CD_from_IC[4]) == [
 ]
 
 
+from linhomy.matrices import g_from_CD
+from linhomy.matrices import CD_from_g
+
+lists_from_matrix(g_from_CD[4]) == [
+    [1, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 1, 1, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1],
+]
+
+lists_from_matrix(CD_from_g[4]) == [
+    [1, 0, 0, 0, 0],
+    [0, 1, -1, 0, 0],
+    [0, 0, 1, -1, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1],
+]
+
+
 from linhomy.matrices import J_from_IC
 
 sorted(J_from_IC) == [
