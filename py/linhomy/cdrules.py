@@ -292,3 +292,18 @@ def g_from_CD_helper(fibword):
         prev = curr
 
     return [b'' + w for w in prev]
+
+
+def fibword_from_index(data):
+
+    # Present data as iterable of pairs.
+    # TODO: This could be refactored.
+    if len(data) % 2:
+        raise ValueError
+    iter_data = iter(data)
+    pairs = zip(iter_data, iter_data)
+
+    return b'\x01\x02'.join(
+        b'\x02' * i + b'\x01' * j
+        for i, j in pairs
+    )
