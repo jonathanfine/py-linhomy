@@ -17,7 +17,12 @@ def _F_from_IC(n):
 
     for i, w in enumerate(words):
         ic_word = replace_12_CIC(w)
-        value[i,:] = _cache[ic_word]
+        if 1:
+            # The flag vectors of the IC words are the columns.
+            value[:,i] = _cache[ic_word]
+        else:
+            # Previous value.  They are not the rows.
+            value[i,:] = _cache[ic_word]
 
     return value
 
