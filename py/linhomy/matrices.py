@@ -145,3 +145,37 @@ J_from_CD = dict(
     for n in range(11)
     for m in range(11 - n - 1)
 )
+
+
+# TODO: This is copy and paste from J_from_CD
+def _J_from_g(n, m):
+
+    value = fib_zeros_array(n, m, n + m + 1)
+    matrix = J_from_IC[n, m]
+    rows = numpy.reshape(matrix, (FIB[n+1] * FIB[m+1], -1))
+
+    for i, v in enumerate(FIBWORDS[n]):
+        for j, w in enumerate(FIBWORDS[m]):
+
+            coefficients = [
+                r * s
+                for r in CD_from_g[n][i]
+                for s in CD_from_g[m][j]
+            ]
+
+            join_cd = sum(
+                c * r
+                for (c, r) in zip(coefficients, rows)
+            )
+
+            join_g = numpy.dot(g_from_CD[n+m+1], join_cd)
+            value[i, j, :] = join_g
+
+    return value
+
+
+J_from_g = dict(
+    ((n, m),  _J_from_g(n, m))
+    for n in range(11)
+    for m in range(11 - n - 1)
+)
