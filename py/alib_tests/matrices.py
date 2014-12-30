@@ -1,4 +1,5 @@
 import numpy
+from linhomy.constants import FIBWORDS
 from linhomy.matrices import _cache
 from linhomy.matrices import F_from_IC
 from linhomy.matrices import IC_from_F
@@ -67,6 +68,23 @@ from linhomy.matrices import IC_from_CD
 from linhomy.matrices import CD_from_IC
 
 # IC = D + CC.
+# This is wrong.
+lists_from_matrix(CD_from_IC[2]) == [
+    [1, 0],
+    [1, 1],
+]
+
+# Here's how things are labelled.
+FIBWORDS[2] == (b'\x01\x01', b'\x02')
+list(numpy.dot(CD_from_IC[2], [1, 0])) == [1, 1] # Wrong.
+list(numpy.dot(CD_from_IC[2], [0, 1])) == [0, 1] # Wrong.
+
+lists_from_matrix(CD_from_IC[3]) == [
+    [1, 0, 0],
+    [1, 1, 0],
+    [1, 0, 1],
+]
+
 lists_from_matrix(CD_from_IC[4]) == [
     [1, 0, 0, 0, 0],
     [1, 1, 0, 0, 0],
