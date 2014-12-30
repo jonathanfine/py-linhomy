@@ -1,3 +1,5 @@
+import numpy
+from linhomy.matrices import _cache
 from linhomy.matrices import F_from_IC
 from linhomy.matrices import IC_from_F
 
@@ -124,6 +126,11 @@ lists_from_cube(J_from_IC[2, 2]) == [
     [0, 0, 1, 0, 0, -1, 2, -1],
 ]
 
+list(numpy.dot(IC_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]
+list(numpy.dot(IC_from_F[5], _cache[b'CCCIC'])) == [0, 1, 0, 0, 0, 0, 0, 0]
+list(numpy.dot(IC_from_F[5], _cache[b'J(IC,IC)'])) == [0, 0, 1, 0, 0, -1, 2, -1]
+
+
 lists_from_cube(J_from_IC[2, 3]) == [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -185,6 +192,27 @@ lists_from_cube(J_from_g[2, 2]) == [
     [0, 1, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, -1, -1, -1, 2, -1],
 ]
+
+
+# Check the above calculation.
+from linhomy.matrices import g_from_F
+
+# Disagrees with above.
+list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 4, 3, 2, 3, 1, 3, 1]
+
+# Disagrees with above.
+list(
+    + numpy.dot(g_from_F[5], _cache[b'ICCCC'])
+    - numpy.dot(g_from_F[5], _cache[b'CCCCC'])
+) == [-1, -3, -2, -1, -2, 0, -1, 0]
+
+# Disagrees with above.
+list(
+    + numpy.dot(g_from_F[5], _cache[b'J(IC,IC)'])
+    - numpy.dot(g_from_F[5], _cache[b'J(CC,IC)'])
+    - numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
+    * numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
+) == [0, -5, 0, -1, -5, -1, -3, -1]
 
 
 # Not obviously a wrong calculation.
