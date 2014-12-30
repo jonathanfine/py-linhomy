@@ -34,8 +34,8 @@ F_from_IC = [
 
 IC_from_F = list(map(linalg_int_inv, F_from_IC))
 
-
-def IC_from_CD_helper(cd_word):
+# IC = D + CC.
+def CD_from_IC_helper(cd_word):
 
     pending = []
     for piece in cd_word.split(b'\x02'):
@@ -50,25 +50,25 @@ def IC_from_CD_helper(cd_word):
         yield b''.join(items)
 
 
-def _IC_from_CD(n):
+def _CD_from_IC(n):
 
     value = fib_zeros_array(n, n)
     words = FIBWORDS[n]
 
     for i, w in enumerate(words):
-        for v in IC_from_CD_helper(w):
+        for v in CD_from_IC_helper(w):
             j = words.index(v)
             value[i, j] += 1
 
     return value
 
 
-IC_from_CD =  [
-    _IC_from_CD(n)
+CD_from_IC =  [
+    _CD_from_IC(n)
     for n in range(11)
 ]
 
-CD_from_IC = list(map(linalg_int_inv, IC_from_CD))
+IC_from_CD = list(map(linalg_int_inv, CD_from_IC))
 
 
 def _g_from_CD(n):

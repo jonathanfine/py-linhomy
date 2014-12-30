@@ -34,22 +34,22 @@ lists_from_matrix(IC_from_F[4]) == [
 ]
 
 
-from linhomy.matrices import IC_from_CD_helper
+from linhomy.matrices import CD_from_IC_helper
 
-list(IC_from_CD_helper(b'')) == [
+list(CD_from_IC_helper(b'')) == [
     b'',
 ]
 
-list(IC_from_CD_helper(b'\x01')) == [
+list(CD_from_IC_helper(b'\x01')) == [
     b'\x01',
 ]
 
-list(IC_from_CD_helper(b'\x02')) == [
+list(CD_from_IC_helper(b'\x02')) == [
     b'\x01\x01',
     b'\x02',
 ]
 
-list(IC_from_CD_helper(b'\x02\x01\x02\x02')) == [
+list(CD_from_IC_helper(b'\x02\x01\x02\x02')) == [
     b'\x01\x01\x01\x01\x01\x01\x01',
     b'\x01\x01\x01\x01\x01\x02',
     b'\x01\x01\x01\x02\x01\x01',
@@ -64,7 +64,8 @@ list(IC_from_CD_helper(b'\x02\x01\x02\x02')) == [
 from linhomy.matrices import IC_from_CD
 from linhomy.matrices import CD_from_IC
 
-lists_from_matrix(IC_from_CD[4]) == [
+# IC = D + CC.
+lists_from_matrix(CD_from_IC[4]) == [
     [1, 0, 0, 0, 0],
     [1, 1, 0, 0, 0],
     [1, 0, 1, 0, 0],
@@ -72,7 +73,7 @@ lists_from_matrix(IC_from_CD[4]) == [
     [1, 1, 0, 1, 1],
 ]
 
-lists_from_matrix(CD_from_IC[4]) == [
+lists_from_matrix(IC_from_CD[4]) == [
     [1, 0, 0, 0, 0],
     [-1, 1, 0, 0, 0],
     [-1, 0, 1, 0, 0],
@@ -140,19 +141,19 @@ from linhomy.matrices import J_from_CD
 sorted(J_from_CD) == sorted(J_from_IC)
 
 lists_from_cube(J_from_CD[2, 2]) == [
-    [1, -1, -1, -1, 1, -1, 1, 1],
-    [1, 0, -1, -1, 0, -1, 0, 1],
-    [1, 0, -1, -1, 0, -1, 0, 1],
-    [1, 1, 0, -1, -1, -2, 2, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [-1, 0, -1, -1, 0, -1, 0, -1],
+    [-1, 0, -1, -1, 0, -1, 0, -1],
+    [1, -1, 2, 1, -1, 0, 0, 0],
 ]
 
 lists_from_cube(J_from_CD[2, 3]) == [
-    [1, -1, -1, -1, 1, -1, 1, 1, -1, 1, 1, 1, -1],
-    [1, 0, -1, -1, 0, -1, 0, 1, -1, 0, 1, 1, 0],
-    [1, -1, 0, -1, 1, -1, 1, 0, -1, 1, 0, 1, -1],
-    [1, 0, -1, -1, 0, -1, 0, 1, -1, 0, 1, 1, 0],
-    [1, 1, 0, -1, -1, -2, 2, 0, -1, -1, 0, 1, 1],
-    [1, 0, 0, 0, -1, -1, 0, 0, -2, 2, 2, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [-1, 0, -1, -1, 0, -1, 0, -1, -1, 0, -1, -1, 0],
+    [-1, -1, 0, -1, -1, -1, -1, 0, -1, -1, 0, -1, -1],
+    [-1, 0, -1, -1, 0, -1, 0, -1, -1, 0, -1, -1, 0],
+    [1, -1, 2, 1, -1, 0, 0, 0, 1, -1, 2, 1, -1],
+    [1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0]
 ]
 
 
