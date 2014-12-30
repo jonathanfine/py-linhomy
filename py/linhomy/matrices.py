@@ -93,6 +93,30 @@ g_from_CD = [
 CD_from_g = list(map(linalg_int_inv, g_from_CD))
 
 
+CD_from_F = [
+    numpy.dot(CD_from_IC[n], IC_from_F[n])
+    for n in range(11)
+]
+
+F_from_CD = [
+    numpy.dot(F_from_IC[n], IC_from_CD[n])
+    for n in range(11)
+]
+# TODO: linalag_int_inv ValueError: list(map(linalg_int_inv, CD_from_F))
+
+
+g_from_F = [
+    numpy.dot(g_from_CD[n], CD_from_F[n])
+    for n in range(11)
+]
+
+F_from_g = [
+    numpy.dot(F_from_CD[n], CD_from_g[n])
+    for n in range(11)
+]
+
+
+
 def _J_from_IC(n, m):
 
     value = fib_zeros_array(n, m, n + m + 1)
