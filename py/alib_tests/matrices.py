@@ -143,6 +143,8 @@ lists_from_cube(J_from_IC[2, 2]) == [
     [0, 0, 1, 0, 0, -1, 2, -1],
 ]
 
+
+# Shows previous calculation is correct.
 list(numpy.dot(IC_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]
 list(numpy.dot(IC_from_F[5], _cache[b'CCCIC'])) == [0, 1, 0, 0, 0, 0, 0, 0]
 list(numpy.dot(IC_from_F[5], _cache[b'J(IC,IC)'])) == [0, 0, 1, 0, 0, -1, 2, -1]
@@ -161,6 +163,7 @@ len(lists_from_cube(J_from_IC[4, 5])) == 5 * 8
 
 
 from linhomy.matrices import J_from_CD
+from linhomy.matrices import CD_from_F
 
 sorted(J_from_CD) == sorted(J_from_IC)
 
@@ -170,6 +173,24 @@ lists_from_cube(J_from_CD[2, 2]) == [
     [0, -1, 0, 0, 0, 0, -2, 1],
     [1, 2, 0, 0, 0, 0, 2, -1],
 ]
+
+# Shows previous calculation is wrong.
+list(numpy.dot(CD_from_F[5], _cache[b'J(CC,CC)'])) == [1, 0, 0, 0, 0, 0, 0, 0]
+
+# Shows previous calculation is wrong.
+list(
+    + numpy.dot(CD_from_F[5], _cache[b'J(IC,CC)'])
+    - numpy.dot(CD_from_F[5], _cache[b'J(CC,CC)'])
+) == [0, 1, 0, 0, 0, 0, 0, 0]
+
+# Shows previous calculation is wrong.
+list(
+    + numpy.dot(CD_from_F[5], _cache[b'J(IC,IC)'])
+    - numpy.dot(CD_from_F[5], _cache[b'J(IC,CC)'])
+    - numpy.dot(CD_from_F[5], _cache[b'J(CC,IC)'])
+    + numpy.dot(CD_from_F[5], _cache[b'J(CC,CC)'])
+) == [0, 0, 0, 0, 0, 0, 2, -1]
+
 
 lists_from_cube(J_from_CD[2, 3]) == [
     [0, 1, 0, 0, 0, 0, 2, -1, 0, 1, 1, -1, 0],
