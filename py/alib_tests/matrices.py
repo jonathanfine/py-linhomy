@@ -68,37 +68,36 @@ from linhomy.matrices import IC_from_CD
 from linhomy.matrices import CD_from_IC
 
 # IC = D + CC.
-# This is wrong.
 lists_from_matrix(CD_from_IC[2]) == [
-    [1, 0],
     [1, 1],
+    [0, 1],
 ]
 
 # Here's how things are labelled.
 FIBWORDS[2] == (b'\x01\x01', b'\x02')
-list(numpy.dot(CD_from_IC[2], [1, 0])) == [1, 1] # Wrong.
-list(numpy.dot(CD_from_IC[2], [0, 1])) == [0, 1] # Wrong.
+list(numpy.dot(CD_from_IC[2], [1, 0])) == [1, 0]
+list(numpy.dot(CD_from_IC[2], [0, 1])) == [1, 1]
 
 lists_from_matrix(CD_from_IC[3]) == [
-    [1, 0, 0],
-    [1, 1, 0],
-    [1, 0, 1],
+    [1, 1, 1],
+    [0, 1, 0],
+    [0, 0, 1],
 ]
 
 lists_from_matrix(CD_from_IC[4]) == [
-    [1, 0, 0, 0, 0],
-    [1, 1, 0, 0, 0],
-    [1, 0, 1, 0, 0],
-    [1, 0, 0, 1, 0],
-    [1, 1, 0, 1, 1],
+    [1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 1],
 ]
 
 lists_from_matrix(IC_from_CD[4]) == [
-    [1, 0, 0, 0, 0],
-    [-1, 1, 0, 0, 0],
-    [-1, 0, 1, 0, 0],
-    [-1, 0, 0, 1, 0],
-    [1, -1, 0, -1, 1],
+    [1, -1, -1, -1, 1],
+    [0, 1, 0, 0, -1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, -1],
+    [0, 0, 0, 0, 1],
 ]
 
 
@@ -166,19 +165,19 @@ from linhomy.matrices import J_from_CD
 sorted(J_from_CD) == sorted(J_from_IC)
 
 lists_from_cube(J_from_CD[2, 2]) == [
-    [1, 1, 1, 1, 1, 1, 1, 1],
-    [-1, 0, -1, -1, 0, -1, 0, -1],
-    [-1, 0, -1, -1, 0, -1, 0, -1],
-    [1, -1, 2, 1, -1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, -1],
+    [0, -1, 0, 0, 0, 0, -2, 1],
+    [0, -1, 0, 0, 0, 0, -2, 1],
+    [1, 2, 0, 0, 0, 0, 2, -1],
 ]
 
 lists_from_cube(J_from_CD[2, 3]) == [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [-1, 0, -1, -1, 0, -1, 0, -1, -1, 0, -1, -1, 0],
-    [-1, -1, 0, -1, -1, -1, -1, 0, -1, -1, 0, -1, -1],
-    [-1, 0, -1, -1, 0, -1, 0, -1, -1, 0, -1, -1, 0],
-    [1, -1, 2, 1, -1, 0, 0, 0, 1, -1, 2, 1, -1],
-    [1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+    [0, 1, 0, 0, 0, 0, 2, -1, 0, 1, 1, -1, 0],
+    [0, -1, 0, 0, 0, 0, -2, 1, 0, 0, 0, 0, 0],
+    [0, -1, 0, 0, 0, 0, 0, 0, 0, -1, -1, 1, 0],
+    [-1, -2, -1, 0, 0, 0, -2, 1, 0, -1, -1, 1, 0],
+    [1, 2, 0, 0, 0, 0, 2, -1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, -1, 0],
 ]
 
 
@@ -215,14 +214,14 @@ lists_from_cube(J_from_g[2, 2]) == [
 # Check the above calculation.
 from linhomy.matrices import g_from_F
 
-# Disagrees with above.
-list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 4, 3, 2, 3, 1, 3, 1]
+# Agrees with above.
+list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]
 
 # Disagrees with above.
 list(
     + numpy.dot(g_from_F[5], _cache[b'ICCCC'])
     - numpy.dot(g_from_F[5], _cache[b'CCCCC'])
-) == [-1, -3, -2, -1, -2, 0, -1, 0]
+) == [0, 1, 1, 1, 0, 1, 0, 0]
 
 # Disagrees with above.
 list(
@@ -230,7 +229,7 @@ list(
     - numpy.dot(g_from_F[5], _cache[b'J(CC,IC)'])
     - numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
     * numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
-) == [0, -5, 0, -1, -5, -1, -3, -1]
+) == [-1, 1, 0, 0, -1, 0, 1, -1]
 
 
 # Not obviously a wrong calculation.

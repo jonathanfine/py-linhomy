@@ -58,7 +58,8 @@ def _CD_from_IC(n):
     for i, w in enumerate(words):
         for v in CD_from_IC_helper(w):
             j = words.index(v)
-            value[i, j] += 1
+            # Transpose - the v give columns, not rows.
+            value[j, i] += 1
 
     return value
 
