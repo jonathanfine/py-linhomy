@@ -239,19 +239,24 @@ from linhomy.matrices import g_from_F
 # Agrees with above.
 list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]
 
-# Disagrees with above.  Why?
+# Agrees with above.
 list(
-    + numpy.dot(g_from_F[5], _cache[b'ICCCC'])
-    - numpy.dot(g_from_F[5], _cache[b'CCCCC'])
-) == [0, 1, 1, 1, 0, 1, 0, 0]
+    + numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
+    - numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
+) == [0, 1, 0, 0, 0, 0, 0, 0]
 
-# Disagrees with above.  Why?
+_cache[b'J(IC,CC)'] != _cache[b'CICCC']
+_cache[b'J(IC,CC)'] == _cache[b'CCCIC']
+
+# Agrees with above.
 list(
     + numpy.dot(g_from_F[5], _cache[b'J(IC,IC)'])
     - numpy.dot(g_from_F[5], _cache[b'J(CC,IC)'])
     - numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
-    * numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
-) == [-1, 1, 0, 0, -1, 0, 1, -1]
+    # TODO: Note that previously '*' for '+' did not raise exception.
+    + numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
+) == [0, 0, 0, 0, -1, 0, 1, -1]
+
 
 
 # Not obviously a wrong calculation.
