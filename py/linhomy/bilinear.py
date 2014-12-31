@@ -29,8 +29,8 @@ def join_factory_1(cube, a, b, c):
     return value
 
 
-# Starts as copy of join_factory_1.
-def join_factory_2(cube, a, b, c):
+# Started as copy of join_factory_1.
+def join_factory(cube, a, b, c):
 
     n_a, n_b, n_c = cube.shape
     value = numpy.zeros(cube.shape, int)
@@ -44,8 +44,12 @@ def join_factory_2(cube, a, b, c):
             coefficients = [
                 r * s
                 # Convolve the columns - as it should be.
-                for r in a[:,i]
-                for s in b[:,j]
+                # TODO: Note that a[i] is dangerous.
+                # TODO. Provide a.row(i) etc.
+                # TODO: Maybe we should wrap numpy.
+                # TODO: Put white space around ':' to slow reader.
+                for r in a[ :, i]
+                for s in b[ :, j]
             ]
 
             join_ic = sum(
@@ -54,6 +58,7 @@ def join_factory_2(cube, a, b, c):
             )
 
             join_cd = numpy.dot(c, join_ic)
+            # TODO: Note that this have nice white space.
             value[i, j, :] = join_cd
 
     return value
