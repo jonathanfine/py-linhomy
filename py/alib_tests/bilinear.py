@@ -1,5 +1,5 @@
 import numpy
-from linhomy.bilinear import join_factory
+from linhomy.bilinear import join_factory_1 as join_factory
 from linhomy.matrices import _cache
 from linhomy.matrices import CD_from_F
 from linhomy.matrices import CD_from_IC
