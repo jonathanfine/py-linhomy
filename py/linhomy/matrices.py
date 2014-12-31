@@ -78,10 +78,11 @@ def _g_from_CD(n):
     words = FIBWORDS[n]
     value = fib_zeros_array(n, n)
 
-    for i, v in enumerate(words):
+    # Each word gives a column.
+    for j, v in enumerate(words):
         for w_index in g_from_CD_helper(v):
             w_fibword = fibword_from_index(w_index)
-            j = words.index(w_fibword)
+            i = words.index(w_fibword)
             value[i,j] += 1
 
     return value

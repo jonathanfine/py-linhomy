@@ -44,9 +44,9 @@ lists_from_matrix(g_from_CD[2]) == [
 ]
 
 lists_from_matrix(g_from_CD[3]) == [
-    [1, 0, 0],                  # Wrong.
-    [0, 1, 1],                  # Wrong.
-    [0, 0, 1],
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 1, 1],
 ]
 
 from linhomy.matrices import CD_from_IC_helper
@@ -117,19 +117,11 @@ from linhomy.matrices import g_from_CD
 from linhomy.matrices import CD_from_g
 
 lists_from_matrix(g_from_CD[4]) == [
-    [1, 0, 0, 0, 0],
-    [0, 1, 1, 1, 0],
-    [0, 0, 1, 1, 0],
-    [0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 1, 0, 0], [0, 1, 1, 1, 0], [0, 0, 0, 0, 1],
 ]
 
 lists_from_matrix(CD_from_g[4]) == [
-    [1, 0, 0, 0, 0],
-    [0, 1, -1, 0, 0],
-    [0, 0, 1, -1, 0],
-    [0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, -1, 1, 0, 0], [0, 0, -1, 1, 0], [0, 0, 0, 0, 1],
 ]
 
 
@@ -229,19 +221,19 @@ lists_from_cube(J_from_g[0, 1]) == [
     [1, 0],
 ]
 
-# This is not correct.  Should be the cone rule.
+# This is correct.  It is the cone rule.
 lists_from_cube(J_from_g[0, 2]) == [
     [1, 0, 0],
-    [0, 1, 0]
+    [0, 1, 1]
 ]
 
 
 # Not obviously a wrong calcuation.
 lists_from_cube(J_from_g[2, 2]) == [
     [1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, -1, 0, 1, -1],
+    [0, 1, 1, 1, 0, 1, 0, 0],
+    [0, 1, 1, 1, 0, 1, 0, 0],
+    [0, 0, 2, 0, 0, 0, 2, 1],
 ]
 
 
@@ -255,7 +247,7 @@ list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]
 list(
     + numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
     - numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
-) == [0, 1, 0, 0, 0, 0, 0, 0]
+) == [0, 1, 1, 1, 0, 1, 0, 0]
 
 _cache[b'J(IC,CC)'] != _cache[b'CICCC']
 _cache[b'J(IC,CC)'] == _cache[b'CCCIC']
@@ -267,16 +259,15 @@ list(
     - numpy.dot(g_from_F[5], _cache[b'J(IC,CC)'])
     # TODO: Note that previously '*' for '+' did not raise exception.
     + numpy.dot(g_from_F[5], _cache[b'J(CC,CC)'])
-) == [0, 0, 0, 0, -1, 0, 1, -1]
-
+) == [0, 0, 2, 0, 0, 0, 2, 1]
 
 
 # Not obviously a wrong calculation.
 lists_from_cube(J_from_g[2, 3]) == [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, -1, 0, 1, -1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, -1, 0],
+    [0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 2, -2, 0, 1, 2, 1, 0, 1, -2, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 2, 1, 0],
 ]
