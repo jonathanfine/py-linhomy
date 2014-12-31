@@ -1,6 +1,6 @@
 import itertools
 import numpy
-from .bilinear import join_factory_1
+from .bilinear import join_factory
 from .cdrules import g_from_CD_helper
 from .cdrules import fibword_from_index
 from .constants import FIB
@@ -146,7 +146,7 @@ J_from_IC = dict(
 
 
 J_from_CD = dict(
-    ((n, m),  join_factory_1(
+    ((n, m),  join_factory(
         J_from_IC[n, m],
         IC_from_CD[n],
         IC_from_CD[m],
@@ -158,7 +158,7 @@ J_from_CD = dict(
 
 
 J_from_g = dict(
-    ((n, m),  join_factory_1(
+    ((n, m),  join_factory(
         # TODO: Note that earlier version have J_from_IC here - BLUNDER.
         J_from_CD[n, m],
         CD_from_g[n],
