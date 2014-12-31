@@ -2,6 +2,7 @@ import numpy
 from linhomy.constants import FIBWORDS
 from linhomy.matrices import _cache
 from linhomy.matrices import F_from_IC
+from linhomy.matrices import g_from_CD
 from linhomy.matrices import IC_from_F
 
 def lists_from_matrix(matrix):
@@ -36,6 +37,17 @@ lists_from_matrix(IC_from_F[4]) == [
     [10, -4, 1, -3, 1],
 ]
 
+
+lists_from_matrix(g_from_CD[2]) == [
+    [1, 0],
+    [0, 1],
+]
+
+lists_from_matrix(g_from_CD[3]) == [
+    [1, 0, 0],                  # Wrong.
+    [0, 1, 1],                  # Wrong.
+    [0, 0, 1],
+]
 
 from linhomy.matrices import CD_from_IC_helper
 
