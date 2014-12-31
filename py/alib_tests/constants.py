@@ -6,9 +6,9 @@ a = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
 FIB[5] == a[5]
 
 # It is a self extending sequence.
-len(FIB) == 6
+# len(FIB) == 6                   # Can fail due to side effects.
 FIB[10] == a[10]
-len(FIB) == 11
+# len(FIB) == 11                  # Can fail due to side effects.
 
 # TODO: Demonstrate the reset propery (not yet implemented).
 
