@@ -13,8 +13,9 @@ def join_factory_1(cube, a, b, c):
 
             coefficients = [
                 r * s
-                for r in a[i]
-                for s in b[j]
+                # Convolve the rows - should be columns.
+                for r in a[i,:]
+                for s in b[j,:]
             ]
 
             join_ic = sum(
@@ -42,8 +43,9 @@ def join_factory_2(cube, a, b, c):
 
             coefficients = [
                 r * s
-                for r in a[i]
-                for s in b[j]
+                # Convolve the columns - as it should be.
+                for r in a[:,i]
+                for s in b[:,j]
             ]
 
             join_ic = sum(
