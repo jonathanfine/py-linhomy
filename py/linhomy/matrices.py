@@ -159,7 +159,8 @@ J_from_CD = dict(
 
 J_from_g = dict(
     ((n, m),  join_factory_1(
-        J_from_IC[n, m],        # TODO: This is badly wrong!
+        # TODO: Note that earlier version have J_from_IC here - BLUNDER.
+        J_from_CD[n, m],
         CD_from_g[n],
         CD_from_g[m],
         g_from_CD[m + n + 1]
