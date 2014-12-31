@@ -7,19 +7,21 @@ from .matrices import IC_from_CD
 from .matrices import J_from_IC
 
 
-def _J_from_CD(n, m):
+def join_factory(cube, a, b, c):
 
-    value = fib_zeros_array(n, m, n + m + 1)
-    matrix = J_from_IC[n, m]
-    rows = numpy.reshape(matrix, (FIB[n+1] * FIB[m+1], -1))
+    n_a, n_b, n_c = cube.shape
+    value = numpy.zeros(cube.shape, int)
 
-    for i, v in enumerate(FIBWORDS[n]):
-        for j, w in enumerate(FIBWORDS[m]):
+    matrix = cube
+    rows = numpy.reshape(matrix, (n_a * n_b, n_c))
+
+    for i in range(n_a):
+        for j in range(n_b):
 
             coefficients = [
                 r * s
-                for r in IC_from_CD[n][i]
-                for s in IC_from_CD[m][j]
+                for r in a[i]
+                for s in b[j]
             ]
 
             join_ic = sum(
@@ -27,10 +29,20 @@ def _J_from_CD(n, m):
                 for (c, r) in zip(coefficients, rows)
             )
 
-            join_cd = numpy.dot(CD_from_IC[n+m+1], join_ic)
+            join_cd = numpy.dot(c, join_ic)
             value[i, j, :] = join_cd
 
     return value
+
+
+def _J_from_CD(n, m):
+
+    return join_factory(
+        J_from_IC[n, m],
+        IC_from_CD[n],
+        IC_from_CD[m],
+        CD_from_IC[n + m + 1]
+    )
 
 
 J_from_CD = dict(
