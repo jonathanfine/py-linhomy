@@ -1,5 +1,6 @@
 import itertools
 import numpy
+from .bilinear import join_factory_1
 from .cdrules import g_from_CD_helper
 from .cdrules import fibword_from_index
 from .constants import FIB
@@ -144,68 +145,25 @@ J_from_IC = dict(
 )
 
 
-def _J_from_CD(n, m):
-
-    value = fib_zeros_array(n, m, n + m + 1)
-    matrix = J_from_IC[n, m]
-    rows = numpy.reshape(matrix, (FIB[n+1] * FIB[m+1], -1))
-
-    for i, v in enumerate(FIBWORDS[n]):
-        for j, w in enumerate(FIBWORDS[m]):
-
-            coefficients = [
-                r * s
-                for r in IC_from_CD[n][i]
-                for s in IC_from_CD[m][j]
-            ]
-
-            join_ic = sum(
-                c * r
-                for (c, r) in zip(coefficients, rows)
-            )
-
-            join_cd = numpy.dot(CD_from_IC[n+m+1], join_ic)
-            value[i, j, :] = join_cd
-
-    return value
-
-
 J_from_CD = dict(
-    ((n, m),  _J_from_CD(n, m))
+    ((n, m),  join_factory_1(
+        J_from_IC[n, m],
+        IC_from_CD[n],
+        IC_from_CD[m],
+        CD_from_IC[m + n + 1]
+    ))
     for n in range(11)
     for m in range(11 - n - 1)
 )
 
 
-# TODO: This is copy and paste from J_from_CD
-def _J_from_g(n, m):
-
-    value = fib_zeros_array(n, m, n + m + 1)
-    matrix = J_from_IC[n, m]
-    rows = numpy.reshape(matrix, (FIB[n+1] * FIB[m+1], -1))
-
-    for i, v in enumerate(FIBWORDS[n]):
-        for j, w in enumerate(FIBWORDS[m]):
-
-            coefficients = [
-                r * s
-                for r in CD_from_g[n][i]
-                for s in CD_from_g[m][j]
-            ]
-
-            join_cd = sum(
-                c * r
-                for (c, r) in zip(coefficients, rows)
-            )
-
-            join_g = numpy.dot(g_from_CD[n+m+1], join_cd)
-            value[i, j, :] = join_g
-
-    return value
-
-
 J_from_g = dict(
-    ((n, m),  _J_from_g(n, m))
+    ((n, m),  join_factory_1(
+        J_from_IC[n, m],        # TODO: This is badly wrong!
+        CD_from_g[n],
+        CD_from_g[m],
+        g_from_CD[m + n + 1]
+    ))
     for n in range(11)
     for m in range(11 - n - 1)
 )
