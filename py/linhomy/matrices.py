@@ -1,7 +1,6 @@
 import itertools
 import numpy
 from .bilinear import join_factory
-from .cdrules import g_from_CD_helper
 from .cdrules import fibword_from_index
 from .constants import FIB
 from .constants import FIBWORDS
@@ -123,14 +122,18 @@ J_from_CD = dict(
 )
 
 
-## Refactoring starts here.
 class G_matrices:
+    '''Given g_from_CD_rules compute and store matrices.
 
+    See .cdrules.g_from_CD_helper for format of the rules function.
+
+    '''
 
     def __init__(self, g_from_CD_rules):
 
         self.g_from_CD_rules = g_from_CD_rules
 
+        # Compute g_from_CD and CD_from_g.
         self.g_from_CD =  [
             self._g_from_CD(n)
             for n in range(11)
@@ -138,7 +141,7 @@ class G_matrices:
 
         self.CD_from_g = list(map(linalg_int_inv, self.g_from_CD))
 
-
+        # Compute g_from_F and F_from_g.
         self.g_from_F = [
             numpy.dot(self.g_from_CD[n], CD_from_F[n])
             for n in range(11)
@@ -149,7 +152,7 @@ class G_matrices:
             for n in range(11)
         ]
 
-
+        # Can now compute J_from_g.
         self.J_from_g = dict(
             ((n, m),  join_factory(
                 # TODO: Note that earlier version have J_from_IC here - BLUNDER.
@@ -163,6 +166,7 @@ class G_matrices:
         )
 
 
+    # This helper computes g_from_CD using the supplied rules.
     def _g_from_CD(self, n):
 
         words = FIBWORDS[n]
@@ -176,5 +180,3 @@ class G_matrices:
                 value[i,j] += 1
 
         return value
-
-g_matrices = G_matrices(g_from_CD_helper)

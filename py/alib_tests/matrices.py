@@ -1,11 +1,15 @@
 import numpy
 
+from linhomy.cdrules import g_from_CD_helper
+
 from linhomy.constants import FIBWORDS
 from linhomy.matrices import _cache
 from linhomy.matrices import F_from_IC
 from linhomy.matrices import IC_from_F
 
-from linhomy.matrices import g_matrices
+from linhomy.matrices import G_matrices
+
+g_matrices = G_matrices(g_from_CD_helper)
 
 g_from_F = g_matrices.g_from_F
 
