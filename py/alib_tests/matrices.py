@@ -244,7 +244,7 @@ lists_from_cube(J_from_g[2, 2]) == [
 
 
 # Check the above calculation.
-from linhomy.matrices import g_from_F
+g_from_F = g_matrices.g_from_F
 
 # Agrees with above.
 list(numpy.dot(g_from_F[5], _cache[b'CCCCC'])) == [1, 0, 0, 0, 0, 0, 0, 0]

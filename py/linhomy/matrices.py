@@ -85,49 +85,6 @@ F_from_CD = [
 ]
 # TODO: linalag_int_inv ValueError: list(map(linalg_int_inv, CD_from_F))
 
-
-## Refactoring starts here.
-class G_matrices:
-
-    pass
-
-
-def _g_from_CD(n):
-
-    words = FIBWORDS[n]
-    value = fib_zeros_array(n, n)
-
-    # Each word gives a column.
-    for j, v in enumerate(words):
-        for w_index in g_from_CD_helper(v):
-            w_fibword = fibword_from_index(w_index)
-            i = words.index(w_fibword)
-            value[i,j] += 1
-
-    return value
-
-
-g_from_CD = [
-    _g_from_CD(n)
-    for n in range(11)
-]
-
-CD_from_g = list(map(linalg_int_inv, g_from_CD))
-
-
-
-g_from_F = [
-    numpy.dot(g_from_CD[n], CD_from_F[n])
-    for n in range(11)
-]
-
-F_from_g = [
-    numpy.dot(F_from_CD[n], CD_from_g[n])
-    for n in range(11)
-]
-
-
-
 def _J_from_IC(n, m):
 
     value = fib_zeros_array(n, m, n + m + 1)
@@ -166,23 +123,58 @@ J_from_CD = dict(
 )
 
 
-J_from_g = dict(
-    ((n, m),  join_factory(
-        # TODO: Note that earlier version have J_from_IC here - BLUNDER.
-        J_from_CD[n, m],
-        CD_from_g[n],
-        CD_from_g[m],
-        g_from_CD[m + n + 1]
-    ))
-    for n in range(11)
-    for m in range(11 - n - 1)
-)
+## Refactoring starts here.
+class G_matrices:
 
-g_matrices = G_matrices()
 
-g_matrices.g_from_CD = g_from_CD
-g_matrices.g_from_F = g_from_F
-g_matrices.g_from_CD = g_from_CD
-g_matrices.CD_from_g = CD_from_g
-g_matrices.J_from_g = J_from_g
-g_matrices.g_from_F = g_from_F
+    def __init__(self, g_from_CD_rules):
+
+        self.g_from_CD_rules = g_from_CD_rules
+
+        self.g_from_CD =  [
+            self._g_from_CD(n)
+            for n in range(11)
+        ]
+
+        self.CD_from_g = list(map(linalg_int_inv, self.g_from_CD))
+
+
+        self.g_from_F = [
+            numpy.dot(self.g_from_CD[n], CD_from_F[n])
+            for n in range(11)
+        ]
+
+        self.F_from_g = [
+            numpy.dot(F_from_CD[n], self.CD_from_g[n])
+            for n in range(11)
+        ]
+
+
+        self.J_from_g = dict(
+            ((n, m),  join_factory(
+                # TODO: Note that earlier version have J_from_IC here - BLUNDER.
+                J_from_CD[n, m],
+                self.CD_from_g[n],
+                self.CD_from_g[m],
+                self.g_from_CD[m + n + 1]
+            ))
+            for n in range(11)
+            for m in range(11 - n - 1)
+        )
+
+
+    def _g_from_CD(self, n):
+
+        words = FIBWORDS[n]
+        value = fib_zeros_array(n, n)
+
+        # Each word gives a column.
+        for j, v in enumerate(words):
+            for w_index in self.g_from_CD_rules(v):
+                w_fibword = fibword_from_index(w_index)
+                i = words.index(w_fibword)
+                value[i,j] += 1
+
+        return value
+
+g_matrices = G_matrices(g_from_CD_helper)
