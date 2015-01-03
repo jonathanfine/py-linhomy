@@ -96,10 +96,10 @@ if 0:
 # The remaining errors are now more complicated.  Need to think about this.
 if 1:
 
-    len(errors) == 9
-    gvecs = [str_vec(item[1]) for item in errors]
+    g_vecs = [item[1] for item in errors]
+    cd_vecs = [numpy.dot(CD_from_g[n], g_vec) for g_vec in g_vecs]
 
-    gvecs == [
+    list(map(str_vec, g_vecs)) == [
         # Look carefully - there are now three columns that contains
         # negative values.  Previously there was on one such column
         # (for a given n).  This might indicate that something else is
@@ -114,3 +114,68 @@ if 1:
         '1244152252020b5362712b53c400071020b5362000000007100020045672221220108536261264231-30-141010',
         '1244152252020b5362712b53c400071020b5362000000007100020045672221220108536261264231-30-141010',
     ]
+
+
+    # Pointers to how to fix the problem.
+
+    # Negative components in the g vectors.
+    negatives = [
+        [(i, c) for (i, c) in enumerate(g_vec) if c < 0]
+        for g_vec in g_vecs
+    ]
+
+    negatives == [
+        [(81, -1)],
+        [(79, -1), (81, -1)],
+        [(79, -1), (81, -1)],
+        [(81, -1)],
+        [(81, -1)],
+        [(81, -1)],
+        [(81, -1)],
+        [(81, -3), (83, -1)],
+        [(81, -3), (83, -1)],
+     ]
+
+    sum(map(len, negatives)) == 13
+    len(errors) == len(negatives) == 9
+
+    # The index (actually fibword) for the negative indices.
+    FIBWORDS[10][79] == b'\x02\x02\x01\x01\x02\x01\x01'
+    FIBWORDS[10][81] == b'\x02\x02\x01\x02\x01\x01\x01'
+    FIBWORDS[10][83] == b'\x02\x02\x01\x02\x02\x01'
+
+    # Interesting positive components in the cd vectors.
+    [
+        [(i, c) for (i, c) in enumerate(cd_vec) if c > 0 and i > 25]
+        for cd_vec in cd_vecs
+    ] == [
+        [(56, 1), (61, 2), (68, 1), (69, 1)],
+        [(57, 1), (63, 1), (64, 2), (65, 1)], # (79, -1).
+        [(57, 1), (63, 1), (64, 2), (65, 1)], # (79, -1).
+        [(58, 1), (60, 1), (61, 1), (69, 1), (71, 1)],
+        [(56, 1), (64, 1), (65, 1), (68, 1), (70, 1)],
+        [(57, 1), (63, 1), (65, 1), (70, 2)],
+        [(56, 1), (68, 1), (69, 1), (71, 2)],
+        [(56, 1), (61, 2), (68, 1), (69, 2), (71, 2), (72, 2), (74, 1)], # (83, -1).
+        [(56, 1), (61, 2), (68, 1), (69, 2), (71, 2), (72, 2), (74, 1)], # (83, -1).
+     ]
+
+    def rot(w):
+        return w[1:] + w[:1]
+
+    FIBWORDS[10][56] == b'\x02\x01\x01\x01\x01\x01\x01\x02'
+    FIBWORDS[10][57] == b'\x02\x01\x01\x01\x01\x01\x02\x01'
+    FIBWORDS[10][58] == b'\x02\x01\x01\x01\x01\x02\x01\x01'
+    FIBWORDS[10][60] == b'\x02\x01\x01\x01\x02\x01\x01\x01'
+    FIBWORDS[10][63] == b'\x02\x01\x01\x02\x01\x01\x01\x01'
+    FIBWORDS[10][68] == b'\x02\x01\x02\x01\x01\x01\x01\x01'
+
+    FIBWORDS[10][61] == b'\x02\x01\x01\x01\x02\x01\x02'
+    FIBWORDS[10][64] == b'\x02\x01\x01\x02\x01\x01\x02' == rot(FIBWORDS[10][79])
+    FIBWORDS[10][65] == b'\x02\x01\x01\x02\x01\x02\x01'
+    FIBWORDS[10][69] == b'\x02\x01\x02\x01\x01\x01\x02'
+    FIBWORDS[10][70] == b'\x02\x01\x02\x01\x01\x02\x01'
+    FIBWORDS[10][71] == b'\x02\x01\x02\x01\x02\x01\x01'
+
+    FIBWORDS[10][72] == b'\x02\x01\x02\x01\x02\x02'
+    FIBWORDS[10][74] == b'\x02\x01\x02\x02\x01\x02' == rot(FIBWORDS[10][83])
