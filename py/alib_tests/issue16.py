@@ -4,12 +4,12 @@ from linhomy.cdrules import g_from_CD_factory
 from linhomy.constants import FIB
 
 from linhomy.issue16 import c_rule
-from linhomy.issue16 import d_rule_2
+from linhomy.issue16 import d_rule
 
 from linhomy.matrices import _cache
 from linhomy.matrices import G_matrices
 
-g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule_2))
+g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule))
 
 g_from_F = g_matrices.g_from_F
 

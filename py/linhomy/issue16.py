@@ -1,3 +1,43 @@
 from .cdrules import g_from_CD_factory
 from .cdrules import c_rule
-from .cdrules import d_rule_2
+from .cdrules import Index
+
+def d_rule(index):
+
+    value = []
+    d_count, c_count = index[0], index[1]
+    template = list(index.pairs)
+
+    tmp = list(index)
+    tmp[0] += 1
+    value.append(Index(tmp))
+
+    # GOTCHA: I write index[1] here, took ages to find.
+    # TODO: Copy-and-paste tests are dangerous - freeze wrong
+    # behaviour, give false reassurance.
+    if index[0] == 0:           # No leading D's.
+
+        # Skipped if order is zero.
+        for i in range(1, index.order + 1):
+            tmp = list(index)
+
+            if 1:
+                # Here's a collision.
+                #        D     C     C       D        D         C
+                #   n =  2     3     4       6        8         9
+                # ['', '10', '11', ':01', '10:01', '20:01', ':02:01']
+                # ['', '10', ':', '01:', '02:01', '12:01', ':02:01']
+                # Break it here -------^^ (not needed for n=5)
+                if tmp[-1 + 2 * i] > 0:
+                    break
+
+                # Have both indices move together.
+                tmp[-1 + 2 * i] += 1
+            else:
+                # Old behaviour has fixed index here.
+                tmp[1] += 1
+
+            tmp[1 + 2*i] += 1
+            value.append(Index(tmp))
+
+    return tuple(map(Index, value))
