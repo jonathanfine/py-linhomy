@@ -35,6 +35,7 @@ F_from_IC = [
 
 IC_from_F = list(map(linalg_int_inv, F_from_IC))
 
+
 # IC = D + CC.
 def CD_from_IC_helper(cd_word):
 
@@ -73,6 +74,24 @@ CD_from_IC =  [
 IC_from_CD = list(map(linalg_int_inv, CD_from_IC))
 
 
+CD_from_F = [
+    numpy.dot(CD_from_IC[n], IC_from_F[n])
+    for n in range(11)
+]
+
+F_from_CD = [
+    numpy.dot(F_from_IC[n], IC_from_CD[n])
+    for n in range(11)
+]
+# TODO: linalag_int_inv ValueError: list(map(linalg_int_inv, CD_from_F))
+
+
+## Refactoring starts here.
+class G_matrices:
+
+    pass
+
+
 def _g_from_CD(n):
 
     words = FIBWORDS[n]
@@ -95,17 +114,6 @@ g_from_CD = [
 
 CD_from_g = list(map(linalg_int_inv, g_from_CD))
 
-
-CD_from_F = [
-    numpy.dot(CD_from_IC[n], IC_from_F[n])
-    for n in range(11)
-]
-
-F_from_CD = [
-    numpy.dot(F_from_IC[n], IC_from_CD[n])
-    for n in range(11)
-]
-# TODO: linalag_int_inv ValueError: list(map(linalg_int_inv, CD_from_F))
 
 
 g_from_F = [
@@ -169,3 +177,12 @@ J_from_g = dict(
     for n in range(11)
     for m in range(11 - n - 1)
 )
+
+g_matrices = G_matrices()
+
+g_matrices.g_from_CD = g_from_CD
+g_matrices.g_from_F = g_from_F
+g_matrices.g_from_CD = g_from_CD
+g_matrices.CD_from_g = CD_from_g
+g_matrices.J_from_g = J_from_g
+g_matrices.g_from_F = g_from_F

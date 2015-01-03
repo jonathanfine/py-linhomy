@@ -1,9 +1,14 @@
 import numpy
+
 from linhomy.constants import FIBWORDS
 from linhomy.matrices import _cache
 from linhomy.matrices import F_from_IC
-from linhomy.matrices import g_from_CD
 from linhomy.matrices import IC_from_F
+
+from linhomy.matrices import g_matrices
+
+g_from_F = g_matrices.g_from_F
+
 
 def lists_from_matrix(matrix):
 
@@ -37,6 +42,9 @@ lists_from_matrix(IC_from_F[4]) == [
     [10, -4, 1, -3, 1],
 ]
 
+
+g_from_CD = g_matrices.g_from_CD
+CD_from_g = g_matrices.CD_from_g
 
 lists_from_matrix(g_from_CD[2]) == [
     [1, 0],
@@ -113,8 +121,6 @@ lists_from_matrix(IC_from_CD[4]) == [
 ]
 
 
-from linhomy.matrices import g_from_CD
-from linhomy.matrices import CD_from_g
 
 lists_from_matrix(g_from_CD[4]) == [
 [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 1, 0, 0], [0, 1, 1, 1, 0], [0, 0, 0, 0, 1],
@@ -207,7 +213,7 @@ lists_from_cube(J_from_CD[2, 3]) == [
 ]
 
 
-from linhomy.matrices import J_from_g
+J_from_g = g_matrices.J_from_g
 
 sorted(J_from_g) == sorted(J_from_IC)
 
