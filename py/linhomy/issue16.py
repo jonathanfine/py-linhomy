@@ -29,6 +29,18 @@ def d_rule(index):
         prefix = [2, 0, 0, 2]
         value.append(Index(prefix + tmp[6:]))
 
+    # Case four of hard D-rule - [10][74] -> [10][83].
+    tmp = list(index)
+    if tmp[:6] == [0, 0, 1, 0, 0, 0]:
+        prefix = [2, 0, 1, 1]
+        value.append(Index(prefix + tmp[6:]))
+
+    # Case five of hard D-rule - [10][64] -> [10][79].
+    tmp = list(index)
+    if tmp[:6] == [0, 1, 0, 1, 0, 0]:
+        prefix = [2, 1, 0, 2]
+        value.append(Index(prefix + tmp[6:]))
+
     return tuple(map(Index, value))
 
     # Previous code left here for reference.
