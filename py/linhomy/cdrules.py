@@ -274,24 +274,33 @@ def args_from_collisions(collisions):
     )
 
 
-def g_from_CD_helper(fibword):
+def g_from_CD_factory(c_rule, d_rule):
 
-    prev = (Index(''),)
-    for i in reversed(fibword):
-        curr = []
-        if i == 1:
-            rule = c_rule
-        elif i == 2:
-            rule = d_rule_2
-        else:
-            ddt
+    def g_from_CD(fibword):
 
-        for item in prev:
-                curr.extend(rule(item))
+        prev = (Index(''),)
+        for i in reversed(fibword):
+            curr = []
+            if i == 1:
+                rule = c_rule
+            elif i == 2:
+                rule = d_rule
+            else:
+                ddt
 
-        prev = curr
+            for item in prev:
+                    curr.extend(rule(item))
 
-    return [b'' + w for w in prev]
+            prev = curr
+
+        return [b'' + w for w in prev]
+
+
+    return g_from_CD
+
+# TODO: Move, embodies particular rules.
+g_from_CD_helper = g_from_CD_factory(c_rule, d_rule_2)
+
 
 
 def fibword_from_index(data):
