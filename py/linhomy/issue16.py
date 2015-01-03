@@ -5,12 +5,21 @@ from .cdrules import Index
 def d_rule(index):
 
     value = []
-    d_count, c_count = index[0], index[1]
-    template = list(index.pairs)
 
+    # The easy D-rule.
     tmp = list(index)
     tmp[0] += 1
     value.append(Index(tmp))
+
+    # First case of hard D-rule.
+    tmp = list(index)
+    if tmp[:4] == [0, 0, 0, 0]:
+        prefix = [0, 1, 0, 1]
+        value.append(Index(prefix + tmp[4:]))
+
+    return tuple(map(Index, value))
+
+    # Previous code left here for reference.
 
     # GOTCHA: I write index[1] here, took ages to find.
     # TODO: Copy-and-paste tests are dangerous - freeze wrong

@@ -31,7 +31,7 @@ for n in range(11):
                 if g < 0:
                     errors.append((n, g_vec, i, g))
 
-len(errors) == 29
+len(errors) == 30
 
 
 # Report first error.
@@ -41,7 +41,7 @@ cd_vec = numpy.dot(CD_from_g[n], g_vec)
 row_vec = g_from_CD[n][i,:]
 
 # The problem we have to fix.
-str_vec(g_vec) == '1252053296040533002003440043232-110'
+str_vec(g_vec) == '1252053256020530002003441043232-110'
 str_vec(cd_vec) == '1200013-100000000000000100013-1-1-1000'
 str_vec(row_vec) == '0000000000000000000000000000001100'
 
