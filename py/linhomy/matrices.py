@@ -242,6 +242,21 @@ class G_matrices:
             for m in range(11 - n)
         )
 
+        # Can now compute P_from_h.
+        # TODO: Started as copy of P_from_g.
+        # Changes: replace P_from_CD with P_from_g etc.
+        # Three removals, one insertion of 'self'.
+        self.P_from_h = dict(
+            ((n, m),  join_factory(
+                self.P_from_g[n, m],
+                g_from_h[n],
+                g_from_h[m],
+                h_from_g[m + n]
+            ))
+            for n in range(11)
+            for m in range(11 - n)
+        )
+
 
     # This helper computes g_from_CD using the supplied rules.
     def _g_from_CD(self, n):
