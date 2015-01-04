@@ -8,6 +8,7 @@ from .data import _cache
 from .data import replace_12_CIC
 from .issue4tools import fib_zeros_array
 from .issue4tools import linalg_int_inv
+from .issue19 import h_from_g_helper
 
 
 def _F_from_IC(n):
@@ -71,6 +72,30 @@ CD_from_IC =  [
 ]
 
 IC_from_CD = list(map(linalg_int_inv, CD_from_IC))
+
+
+# TODO: Started as copy of CD_from_IC.
+# Changes: replace CD_from_IC by h_from_g etc.
+def _h_from_g(n):
+
+    value = fib_zeros_array(n, n)
+    words = FIBWORDS[n]
+
+    for i, w in enumerate(words):
+        for v in h_from_g_helper(w):
+            j = words.index(v)
+            # Transpose - the v give columns, not rows.
+            value[j, i] += 1
+
+    return value
+
+
+h_from_g =  [
+    _h_from_g(n)
+    for n in range(11)
+]
+
+g_from_h = list(map(linalg_int_inv, h_from_g))
 
 
 CD_from_F = [
