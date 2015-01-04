@@ -11,6 +11,8 @@ from linhomy.data import read_data
 read_data('IC-{0}-flag.txt', 0) == b'p 1\n'
 read_data('IC-{0}-flag.txt', 1) == b'C 1\n'
 read_data('IC-{0}-flag.txt', 2) == b'CC 1 3\nIC 1 4\n'
+
+# Skipping P when one factor is point (empty string).
 read_data('P-{0}-flag.txt', 0) == b''
 read_data('P-{0}-flag.txt', 1) == b''
 read_data('P-{0}-flag.txt', 2) == b'P(C,C) 1 4\n'
@@ -70,6 +72,10 @@ _cache[b'P(C,IC)'] == (1, 8, 12)
 _cache[b'P(C,CC)'] == (1, 6, 9)
 _cache[b'P(ICC,IC)'] == _cache[b'P(IC,ICC)']
 
+
+_cache[b'P(,)'] == _cache[b'']
+_cache[b'P(,CC)'] == _cache[b'P(CC,)'] == _cache[b'CC']
+_cache[b'P(,ICIC)'] == _cache[b'P(ICIC,)'] == _cache[b'ICIC']
 
 
 from linhomy.data import j_factors_from_ic

@@ -87,6 +87,8 @@ class _Cache(dict):
                 b'P': (P_template, len(key) - 4), # Strip P(,).
             }[pre_char]
 
+
+            # Add values where one factor is 'C' * n.
             for word in FIBWORDS[n]:
                 # TODO: This wart is here to reduce size of diff.
                 if pre_char != b'J':
@@ -98,6 +100,18 @@ class _Cache(dict):
 
                     self[item_key] = self[ic_word]
                     self[twiddle(b'J', item_key)] = self[ic_word]
+
+            # Add values where one factor is ''.
+            for word in FIBWORDS[n]:
+                # TODO: Started as copy of code for J.
+                if pre_char != b'P':
+                    break
+                ic_word = replace_12_CIC(word)
+                item_key = b'P(,' + ic_word + b')'
+
+                self[item_key] = self[ic_word]
+                self[twiddle(b'P', item_key)] = self[ic_word]
+
 
             data = read_data(template, n)
 
@@ -112,10 +126,10 @@ class _Cache(dict):
                 self[twiddle(pre_char, line_key)] = self[line_key]
 
         else:
-            raise ValueError
+            raise ValueError(key)
 
         if key not in self:
-            raise ValueError
+            raise ValueError(key)
         else:
             # TODO: Using dict's getitem does not avoid recursion.
             return self[key]
