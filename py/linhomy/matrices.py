@@ -122,6 +122,46 @@ J_from_CD = dict(
 )
 
 
+# TODO: Started as copy of J_from_IC.
+# Changes: J -> P, join -> product (mostly), +1 ->, -1 ->.
+def _P_from_IC(n, m):
+
+    value = fib_zeros_array(n, m, n + m)
+    for i, v in enumerate(FIBWORDS[n]):
+        for j, w in enumerate(FIBWORDS[m]):
+
+            # Prepare to look up flag vector of join.
+            v_IC = replace_12_CIC(v)
+            w_IC = replace_12_CIC(w)
+            product_word = b'P(' + v_IC + b',' + w_IC + b')'
+
+            # Look up join flag vector, convert to IC vector.
+            product_flag = _cache[product_word]
+            product_ic = numpy.dot(IC_from_F[n+m], product_flag)
+            value[i, j, :] = product_ic
+
+    return value
+
+
+P_from_IC = dict(
+    ((n, m),  _P_from_IC(n, m))
+    for n in range(11)
+    for m in range(11 - n)
+)
+
+
+P_from_CD = dict(
+    ((n, m),  join_factory(
+        P_from_IC[n, m],
+        IC_from_CD[n],
+        IC_from_CD[m],
+        CD_from_IC[m + n]
+    ))
+    for n in range(11)
+    for m in range(11 - n)
+)
+
+
 class G_matrices:
     '''Given g_from_CD_rules compute and store matrices.
 

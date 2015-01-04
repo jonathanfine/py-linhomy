@@ -136,6 +136,7 @@ lists_from_matrix(CD_from_g[4]) == [
 
 
 from linhomy.matrices import J_from_IC
+from linhomy.matrices import P_from_IC
 
 sorted(J_from_IC) == [
     (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9),
@@ -149,6 +150,24 @@ sorted(J_from_IC) == [
     (8, 0), (8, 1),
     (9, 0),
 ]
+
+sorted(
+    (i, j)
+    for (i, j) in P_from_IC
+    if i + j == 10
+) == [
+    (0, 10), (1, 9), (2, 8), (3, 7), (4, 6), (5, 5),
+    (6, 4), (7, 3), (8, 2), (9, 1), (10, 0),
+]
+
+
+lists_from_cube(P_from_IC[2, 2]) == [
+    [1, -1, 0, 0, 1],
+    [0, -1, 0, 1, 1],
+    [0, -1, 0, 1, 1],
+    [0, -2, 0, 1, 2],
+]
+
 
 lists_from_cube(J_from_IC[2, 2]) == [
     [1, 0, 0, 0, 0, 0, 0, 0],
