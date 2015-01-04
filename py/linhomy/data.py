@@ -10,6 +10,7 @@ _DATAPATH = os.path.abspath(
 
 IC_template = 'IC-{0}-flag.txt'
 J_template = 'J-{0}-flag.txt'
+P_template = 'P-{0}-flag.txt'
 
 
 def read_data(template, *argv):
@@ -20,9 +21,12 @@ def read_data(template, *argv):
         return f.read()
 
 
-def j_twiddle(key):
+def twiddle(pre_char, key):
 
-    if not (key.startswith(b'J(') and key.endswith(b')')):
+    if len(pre_char) != 1:
+        raise ValueError
+
+    if not (key.startswith(pre_char + b'(') and key.endswith(b')')):
         raise ValueError
 
     pre, middle, post = key[:2], key[2:-1], key[-1:]
@@ -30,6 +34,8 @@ def j_twiddle(key):
     i, j = middle.split(b',')
 
     return pre + j + b',' + i + post
+
+
 
 def replace_12_CIC(word):
 
@@ -71,21 +77,29 @@ class _Cache(dict):
                 line_key, *rest = line.split()
                 self[line_key] = tuple(map(int, rest))
 
-        elif set(key).issubset(set(b'CIJ(),')):
+        elif set(key).issubset(set(b'CIJP(),')):
 
-            n = len(key) - 3
+            pre_char = key[:1]
+
+            # Compute dim of flag vector from length of key.
+            template, n = {
+                b'J': (J_template, len(key) - 3), # Strip J(,), plus one.
+                b'P': (P_template, len(key) - 4), # Strip P(,).
+            }[pre_char]
 
             for word in FIBWORDS[n]:
+                # TODO: This wart is here to reduce size of diff.
+                if pre_char != b'J':
+                    break
                 ic_word = replace_12_CIC(word)
                 for i, j in j_factors_from_ic(ic_word):
 
                     item_key = b'J(' + i + b',' + j + b')'
 
                     self[item_key] = self[ic_word]
-                    self[j_twiddle(item_key)] = self[ic_word]
+                    self[twiddle(b'J', item_key)] = self[ic_word]
 
-
-            data = read_data(J_template, n)
+            data = read_data(template, n)
 
             for line in data.rstrip().split(b'\n'):
 
@@ -95,7 +109,7 @@ class _Cache(dict):
 
                 line_key, *rest = line.split()
                 self[line_key] = tuple(map(int, rest))
-                self[j_twiddle(line_key)] = self[line_key]
+                self[twiddle(pre_char, line_key)] = self[line_key]
 
         else:
             raise ValueError

@@ -11,6 +11,10 @@ from linhomy.data import read_data
 read_data('IC-{0}-flag.txt', 0) == b'p 1\n'
 read_data('IC-{0}-flag.txt', 1) == b'C 1\n'
 read_data('IC-{0}-flag.txt', 2) == b'CC 1 3\nIC 1 4\n'
+read_data('P-{0}-flag.txt', 0) == b''
+read_data('P-{0}-flag.txt', 1) == b''
+read_data('P-{0}-flag.txt', 2) == b'P(C,C) 1 4\n'
+read_data('P-{0}-flag.txt', 3) == b'P(C,CC) 1 6 9\nP(C,IC) 1 8 12\n'
 
 
 # This is odd.  Skipping join where one factor is 'C' * n.
@@ -46,12 +50,13 @@ _cache[b'CCCC'] == (1, 5, 10, 10, 30)
 # len(_cache) == 1 + 1 + 2 + 3 + 5 # Can fail due to side effects.
 
 
-
 # Join.
-from linhomy.data import j_twiddle
+from linhomy.data import twiddle
 
-j_twiddle(b'J(ICC,IC)') == b'J(IC,ICC)'
-j_twiddle(b'J(IC,ICC)') == b'J(ICC,IC)'
+twiddle(b'J', b'J(ICC,IC)') == b'J(IC,ICC)'
+twiddle(b'J', b'J(IC,ICC)') == b'J(ICC,IC)'
+twiddle(b'P', b'P(ICC,IC)') == b'P(IC,ICC)'
+twiddle(b'P', b'P(IC,ICC)') == b'P(ICC,IC)'
 
 _cache[b'J(IC,IC)'] == (1, 8, 24, 34, 104, 24, 104, 160)
 _cache[b'J(IC,ICC)'] == (1, 10, 37, 66, 202, 63, 272, 417, 33, 194, 413, 409, 1260)
@@ -59,6 +64,12 @@ _cache[b'J(ICC,IC)'] == _cache[b'J(IC,ICC)']
 
 _cache[b'J(C,IC)'] == _cache[b'J(IC,C)'] == _cache[b'CCIC']
 _cache[b'J(CCC,IC)'] == _cache[b'J(IC,CCC)'] == _cache[b'CCCCIC']
+
+
+_cache[b'P(C,IC)'] == (1, 8, 12)
+_cache[b'P(C,CC)'] == (1, 6, 9)
+_cache[b'P(ICC,IC)'] == _cache[b'P(IC,ICC)']
+
 
 
 from linhomy.data import j_factors_from_ic
