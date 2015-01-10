@@ -53,6 +53,19 @@ do_word_from_index('0020') == '1222'
 do_word_from_index('0022') == '122211'
 
 
+from linhomy.issue22 import index_from_word
+from linhomy.constants import FIBWORDS
+
+
+for n in range(10):
+    for w in FIBWORDS[n]:
+        i = index_from_word(w)
+        is_index(i) == True
+        w_2 = word_from_index(i)
+        is_fibword(w_2) == True
+        w_2 == w
+
+
 from linhomy.issue22 import _split
 
 def do_split(s):

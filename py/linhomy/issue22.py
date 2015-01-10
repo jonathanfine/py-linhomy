@@ -57,6 +57,26 @@ def word_from_index(i):
     )
 
 
+def index_from_word(w):
+    '''Return index that corresponds to word w.
+
+    Does not check that w is a word.
+    '''
+
+    # First deal with troublesome special case.
+    if w == b'':
+        return b'\x00\x00'
+
+    pending = []
+    for bit in w.split(b'\x01\x02'):
+        c = bit.count(b'\x01')
+        d = bit.count(b'\x02')
+        pending.extend([d, c])
+
+    return bytes(pending)
+
+
+
 def _split(i):
 
     n = len(i)
