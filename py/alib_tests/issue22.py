@@ -20,6 +20,39 @@ is_index(b'\x07\x08' * 5) == True
 is_index(b'\x07\x08\x09' * 5) == False
 
 
+from linhomy.issue22 import iter_pairs
+
+list(iter_pairs('')) == []
+list(iter_pairs('a')) == []
+list(iter_pairs('ab')) == [('a', 'b')]
+list(iter_pairs('abc')) == [('a', 'b')]
+list(iter_pairs('abcd')) == [('a', 'b'), ('c', 'd')]
+
+
+from linhomy.issue22 import word_from_index
+
+def do_word_from_index(s):
+
+    i = bytes(map(int, s))
+    w = word_from_index(i)
+    return ''.join(map(str, w))
+
+do_word_from_index('') == ''
+do_word_from_index('00') == ''
+do_word_from_index('01') == '1'
+do_word_from_index('10') == '2'
+
+do_word_from_index('0000') == '12'
+
+do_word_from_index('0200') == '1112'
+do_word_from_index('2000') == '2212'
+do_word_from_index('2200') == '221112'
+
+do_word_from_index('0002') == '1211'
+do_word_from_index('0020') == '1222'
+do_word_from_index('0022') == '122211'
+
+
 from linhomy.issue22 import _split
 
 def do_split(s):

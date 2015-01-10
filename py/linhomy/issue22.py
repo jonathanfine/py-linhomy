@@ -2,8 +2,10 @@
 # The iterables produces indexes.
 # Each index is bytes, thought of as a sequence of pairs.
 
+# c, d: number of C's and D's.
 # i, j: indices.
 # s, t: loop iteration.
+# v, w: words
 
 
 def is_fibword(b):
@@ -23,6 +25,35 @@ def is_index(b):
         type(b) == bytes
         and not len(b) % 2
         and len(b) >= 2
+    )
+
+
+# TODO: Refactor and add iter_tuples.
+def iter_pairs(items):
+    '''Yield (item[0], item[1]), (item[2], item[3]), etc.
+
+    The items need only be an iterable.  Does not check that number of
+    items is even.
+    '''
+
+    iter_items = iter(items)
+    return zip(iter_items, iter_items)
+
+
+def word_from_index(i):
+    '''Return word that corresponds to index i.
+
+    Does not check that i is an index.
+    '''
+
+    # Present data as iterable of pairs.
+    # TODO: This could be refactored.
+    iter_data = iter(i)
+    pairs = zip(iter_data, iter_data)
+
+    return b'\x01\x02'.join(
+        b'\x02' * d + b'\x01' * c
+        for d, c in iter_pairs(i)
     )
 
 
