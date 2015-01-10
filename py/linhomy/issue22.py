@@ -8,7 +8,7 @@
 # v, w: words
 
 
-def is_fibword(b):
+def is_word(b):
     '''Return True if type(b) is bytes, all in 1 and 2.
     '''
     return (

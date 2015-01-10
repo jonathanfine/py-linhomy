@@ -1,10 +1,10 @@
-from linhomy.issue22 import is_fibword
+from linhomy.issue22 import is_word
 
-is_fibword('') == False
-is_fibword(b'') == True
-is_fibword(b'\x01') == True
-is_fibword(b'\x02') == True
-is_fibword(b'\x03') == False
+is_word('') == False
+is_word(b'') == True
+is_word(b'\x01') == True
+is_word(b'\x02') == True
+is_word(b'\x03') == False
 
 
 from linhomy.issue22 import is_index
@@ -62,7 +62,7 @@ for n in range(10):
         i = index_from_word(w)
         is_index(i) == True
         w_2 = word_from_index(i)
-        is_fibword(w_2) == True
+        is_word(w_2) == True
         w_2 == w
 
 
