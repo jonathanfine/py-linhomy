@@ -7,7 +7,8 @@ from linhomy.issue16 import d_rule
 
 from linhomy.matrices import G_matrices
 
-g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule))
+MAX = 7
+g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule), max=MAX)
 P_from_h = g_matrices.P_from_h
 
 
@@ -156,6 +157,7 @@ doit(7) == [
 ]
 
 # For n = 8, 9, 10 just count how many entries.
-len(doit(8)) == 70
-len(doit(9)) == 169
-len(doit(10)) == 663
+if 0:
+    len(doit(8)) == 70
+    len(doit(9)) == 169
+    len(doit(10)) == 663
