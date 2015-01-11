@@ -10,7 +10,8 @@ from linhomy.issue16 import d_rule
 from linhomy.matrices import _cache
 from linhomy.matrices import G_matrices
 
-g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule))
+MAX = 6                         # Make run quicker.
+g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule), max=MAX)
 
 g_from_F = g_matrices.g_from_F
 CD_from_g = g_matrices.CD_from_g
@@ -23,7 +24,7 @@ def str_vec(vec):
 
 # Find the errors.
 errors = []
-for n in range(11):
+for n in range(MAX + 1):
     for v in sorted(set(_cache.values())):
         if len(v) == FIB[n + 1]:
             g_vec = numpy.dot(g_from_F[n], v)
@@ -184,7 +185,7 @@ if 0:
 
 
 ####################################
-if 1:
+if MAX >= 10:
 
     g_vecs = [item[1] for item in errors]
     cd_vecs = [numpy.dot(CD_from_g[n], g_vec) for g_vec in g_vecs]
