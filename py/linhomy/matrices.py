@@ -230,12 +230,25 @@ class G_matrices:
             for m in range(11 - n - 1)
         )
 
-        # Can now compute P_from_g.
-        self.P_from_g = dict(
+        # Can now compute CD_P_g.
+        self.CD_P_g = dict(
             ((n, m),  join_factory(
                 P_from_CD[n, m],
                 self.CD_from_g[n],
                 self.CD_from_g[m],
+                numpy.eye(FIB[1 + m + n], dtype=int)
+            ))
+            for n in range(11)
+            for m in range(11 - n)
+        )
+
+        # Can now compute P_from_g.
+        # DO this from CD_P_g.
+        self.P_from_g = dict(
+            ((n, m),  join_factory(
+                self.CD_P_g[n, m],
+                numpy.eye(FIB[1 + n], dtype=int),
+                numpy.eye(FIB[1 + m], dtype=int),
                 self.g_from_CD[m + n]
             ))
             for n in range(11)
