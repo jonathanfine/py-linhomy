@@ -9,7 +9,8 @@ from linhomy.matrices import IC_from_F
 
 from linhomy.matrices import G_matrices
 
-g_matrices = G_matrices(g_from_CD_helper)
+MAX = 6
+g_matrices = G_matrices(g_from_CD_helper, max=MAX)
 
 g_from_F = g_matrices.g_from_F
 
@@ -271,7 +272,11 @@ lists_from_cube(J_from_CD[2, 3]) == [
 
 J_from_g = g_matrices.J_from_g
 
-sorted(J_from_g) == sorted(J_from_IC)
+sorted(J_from_g) == sorted(
+    (i, j)
+    for i, j in J_from_IC
+    if i + j < MAX
+)
 
 # This is correct.  It is the cone rule.
 lists_from_cube(J_from_g[0, 0]) == [
