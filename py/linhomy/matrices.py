@@ -194,14 +194,15 @@ class G_matrices:
 
     '''
 
-    def __init__(self, g_from_CD_rules):
+    def __init__(self, g_from_CD_rules, max=10):
 
         self.g_from_CD_rules = g_from_CD_rules
+        self.max = max
 
         # Compute g_from_CD and CD_from_g.
         self.g_from_CD =  [
             self._g_from_CD(n)
-            for n in range(11)
+            for n in range(max + 1)
         ]
 
         self.CD_from_g = list(map(linalg_int_inv, self.g_from_CD))
@@ -209,12 +210,12 @@ class G_matrices:
         # Compute g_from_F and F_from_g.
         self.g_from_F = [
             numpy.dot(self.g_from_CD[n], CD_from_F[n])
-            for n in range(11)
+            for n in range(max + 1)
         ]
 
         self.F_from_g = [
             numpy.dot(F_from_CD[n], self.CD_from_g[n])
-            for n in range(11)
+            for n in range(max + 1)
         ]
 
         # Can now compute J_from_g.
@@ -226,8 +227,8 @@ class G_matrices:
                 self.CD_from_g[m],
                 self.g_from_CD[m + n + 1]
             ))
-            for n in range(11)
-            for m in range(11 - n - 1)
+            for n in range(max + 1)
+            for m in range(max + 1 - n - 1) # Join raises dimension by one.
         )
 
         # Can now compute CD_P_g.
@@ -238,8 +239,8 @@ class G_matrices:
                 self.CD_from_g[m],
                 numpy.eye(FIB[1 + m + n], dtype=int)
             ))
-            for n in range(11)
-            for m in range(11 - n)
+            for n in range(max + 1)
+            for m in range(max + 1 - n)
         )
 
         # Can now compute P_from_g.
@@ -251,8 +252,8 @@ class G_matrices:
                 numpy.eye(FIB[1 + m], dtype=int),
                 self.g_from_CD[m + n]
             ))
-            for n in range(11)
-            for m in range(11 - n)
+            for n in range(max + 1)
+            for m in range(max + 1 - n)
         )
 
         # Can now compute P_from_h.
@@ -266,8 +267,8 @@ class G_matrices:
                 g_from_h[m],
                 h_from_g[m + n]
             ))
-            for n in range(11)
-            for m in range(11 - n)
+            for n in range(max + 1)
+            for m in range(max + 1 - n)
         )
 
 
