@@ -9,7 +9,7 @@ from linhomy.matrices import G_matrices
 
 MAX = 6
 g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule), max=MAX)
-P_from_h = g_matrices.P_from_h
+P_from_g = g_matrices.P_from_g
 
 
 def lists_from_cube(matrix):
@@ -22,8 +22,8 @@ def lists_from_cube(matrix):
 
 ## Dimension 5.
 
-# Always P_from_h[0, n] is identiy matrix.
-lists_from_cube(P_from_h[0, 5]) == [
+# Always P_from_g[0, n] is identiy matrix.
+lists_from_cube(P_from_g[0, 5]) == [
     [1, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 0, 0, 0, 0, 0, 0],
     [0, 0, 1, 0, 0, 0, 0, 0],
@@ -35,19 +35,19 @@ lists_from_cube(P_from_h[0, 5]) == [
 ]
 
 
-# P_from_h[1, 4] is almost a zero-one matrix.
-lists_from_cube(P_from_h[1, 4]) == [
+# P_from_g[1, 4] is zero-one matrix.
+lists_from_cube(P_from_g[1, 4]) == [
     [1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 2, 0],
+    [0, 1, 1, 0, 0, 0, 1, 0],
     [0, 0, 1, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 1, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 1],
 ]
 
-# P_from_h[2, 3] is a zero-one matrix.
-lists_from_cube(P_from_h[2, 3]) == [
-    [1, 0, 0, 0, 0, 0, 0, 1],
-    [0, 1, 0, 1, 0, 0, 0, 0],
+# P_from_g[2, 3] is a zero-one matrix.
+lists_from_cube(P_from_g[2, 3]) == [
+    [1, 0, 0, 0, 0, 1, 0, 1],
+    [0, 1, 1, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 1, 0, 1],
     [0, 0, 0, 0, 0, 1, 0, 0],
     [0, 0, 1, 0, 0, 0, 1, 0],
@@ -65,7 +65,7 @@ def doit(n):
         ell = n - m
         if  m > ell:
             continue
-        matrix = P_from_h[m, ell]
+        matrix = P_from_g[m, ell]
         # TODO: provide an 'enumerate' for numpy matrices.
         i_lim, j_lim, k_lim = matrix.shape
         for i in range(i_lim):
@@ -78,21 +78,12 @@ def doit(n):
     return value
 
 
-doit(5) == [(1, 4, 0, 1, 6, 2)]
+doit(5) == []
 
 
 # The non zero-one entries for n = 6.
 doit(6) == [
-    (1, 5, 0, 2, 10, 2),
-    (1, 5, 0, 7, 12, 2),
-    (2, 4, 0, 3, 12, 2),
-    (3, 3, 0, 0, 12, 2),
-    (3, 3, 0, 1, 10, -1),
-    (3, 3, 1, 0, 10, -1),
     (3, 3, 1, 1, 3, -2),
     (3, 3, 1, 1, 6, 2),
     (3, 3, 1, 1, 10, -2),
-    (3, 3, 1, 2, 10, 2),
-    (3, 3, 2, 1, 10, 2),
-    (3, 3, 2, 2, 12, 2),
 ]

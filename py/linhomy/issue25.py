@@ -37,7 +37,6 @@ def d_rule(index):
         tmp[1] += d_count + 1
         tmp[3] += d_count + 1
 
-        print(index, Index(tmp))
         value.append(Index(tmp))
 
     return tuple(map(Index, value))
