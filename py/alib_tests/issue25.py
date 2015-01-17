@@ -78,6 +78,9 @@ def doit(n):
     return value
 
 
+doit(5) == [(1, 4, 0, 1, 6, 2)]
+
+
 # The non zero-one entries for n = 6.
 doit(6) == [
     (1, 5, 0, 2, 10, 2),

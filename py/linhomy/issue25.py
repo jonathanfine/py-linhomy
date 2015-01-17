@@ -31,16 +31,13 @@ def d_rule(index):
     tmp[0] += 1
     value.append(Index(tmp))
 
-    # GOTCHA: I write index[1] here, took ages to find.
-    # TODO: Copy-and-paste tests are dangerous - freeze wrong
-    # behaviour, give false reassurance.
-    if index[0] == 0:           # No leading D's.
+    if len(index) >= 4:
 
-        # Skipped if order is zero.
-        for i in range(1, index.order + 1):
-            tmp = list(index)
-            tmp[1] += 1
-            tmp[1 + 2*i] += 1
-            value.append(Index(tmp))
+        tmp[0] = 0              # d_count.
+        tmp[1] += d_count + 1
+        tmp[3] += d_count + 1
+
+        print(index, Index(tmp))
+        value.append(Index(tmp))
 
     return tuple(map(Index, value))
