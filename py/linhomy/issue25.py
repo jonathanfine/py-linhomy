@@ -33,6 +33,7 @@ def d_rule(index):
 
     if len(index) >= 4:
 
+        tmp = list(index)
         tmp[0] = 0              # d_count.
         tmp[1] += d_count + 1
         tmp[3] += d_count + 1
