@@ -2,12 +2,12 @@ import numpy
 
 from linhomy.cdrules import g_from_CD_factory
 
-from linhomy.issue16 import c_rule
-from linhomy.issue16 import d_rule
+from linhomy.issue25 import c_rule
+from linhomy.issue25 import d_rule
 
 from linhomy.matrices import G_matrices
 
-MAX = 7
+MAX = 6
 g_matrices = G_matrices(g_from_CD_factory(c_rule, d_rule), max=MAX)
 P_from_h = g_matrices.P_from_h
 
@@ -56,51 +56,6 @@ lists_from_cube(P_from_h[2, 3]) == [
 
 # P_from_g[3, 2] is rearrangement of P_from_g[2, 3] etc.
 
-
-# Dimension 6.
-
-# We skip P_from_g[0, 6] as it's the identity matrix.
-
-# Here almost all zero-one.
-lists_from_cube(P_from_h[1, 5]) == [
-    [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-    [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
-    [0, 0, -1, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2],
-]
-
-# Here all zero-one, but for a single 2.
-lists_from_cube(P_from_h[2, 4]) == [
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-    [0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-]
-
-# Here almost all zero-one.
-lists_from_cube(P_from_h[3, 3]) == [
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
-    [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 2, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2],
-]
-
-
 # Code to pick out the non zero-one entries.
 def doit(n):
 
@@ -123,41 +78,18 @@ def doit(n):
     return value
 
 
-# The non zero-one entries for n = 6 (as from above).
+# The non zero-one entries for n = 6.
 doit(6) == [
     (1, 5, 0, 2, 10, 2),
-    (1, 5, 0, 6, 2, -1),
-    (1, 5, 0, 6, 10, -1),
     (1, 5, 0, 7, 12, 2),
     (2, 4, 0, 3, 12, 2),
     (3, 3, 0, 0, 12, 2),
-    (3, 3, 1, 1, 2, 2),
+    (3, 3, 0, 1, 10, -1),
+    (3, 3, 1, 0, 10, -1),
+    (3, 3, 1, 1, 3, -2),
     (3, 3, 1, 1, 6, 2),
+    (3, 3, 1, 1, 10, -2),
+    (3, 3, 1, 2, 10, 2),
+    (3, 3, 2, 1, 10, 2),
     (3, 3, 2, 2, 12, 2),
 ]
-
-# The non zero-one entries for n = 7.
-doit(7) == [
-    (1, 6, 0, 1, 15, -1),
-    (1, 6, 0, 2, 16, -1),
-    (1, 6, 0, 3, 16, 2),
-    (1, 6, 0, 4, 17, 2),
-    (1, 6, 0, 6, 15, -1),
-    (1, 6, 0, 9, 19, 2),
-    (2, 5, 0, 1, 15, 2),
-    (2, 5, 0, 1, 19, 2),
-    (2, 5, 0, 6, 2, -1),
-    (2, 5, 0, 6, 15, -1),
-    (3, 4, 1, 1, 2, 2),
-    (3, 4, 1, 1, 6, 2),
-    (3, 4, 1, 1, 10, -2),
-    (3, 4, 1, 2, 10, 2),
-    (3, 4, 1, 2, 16, -2),
-    (3, 4, 2, 1, 19, 2),
-]
-
-# For n = 8, 9, 10 just count how many entries.
-if 0:
-    len(doit(8)) == 70
-    len(doit(9)) == 169
-    len(doit(10)) == 663
