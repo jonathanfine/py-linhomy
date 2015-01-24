@@ -40,22 +40,21 @@ def slide_remove(pairs, index, n):
         pairs[index + 1][1] += n    # And other half at next.
 
 
-def iter_removal_argv(pairs):
+def make_removal_argv(available):
     '''Return argv for use with itertools.product.
 
     This is a helper function.
     '''
 
     # Deal with special case: zero or one pairs.
-    if len(pairs) < 2:
+    if len(available) < 2:
         # Will result in only trivial removal (leave the same).
-        return [(0, 0)] * len(pairs)
-
-    # Here, we don't need the values of c.
-    available = tuple(d for d, c in pairs)
+        return [(0, 0)] * len(available)
 
     # First and last pairs are treated differently.
     first, body, last = available[0], available[1:-1], available[-1]
+
+    argv = []                   # Accumulator.
 
     # On first pair, only slide_remove allowed.
     argv.append(tuple(

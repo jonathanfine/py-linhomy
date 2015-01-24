@@ -91,3 +91,46 @@ do_slide_remove('12 34 56 52 67', 3, 4) == [
     (3, [5, 2], [1, 6]),
     (4, [6, 7], [6, 11]),
 ]
+
+
+from linhomy.issue26 import make_removal_argv
+
+# Length 0 and 1 are special cases.
+make_removal_argv([]) == []
+make_removal_argv([3]) == [(0, 0)]
+
+
+# Test first and last pairs.
+make_removal_argv([3, 0]) == [
+    ((0, 0), (0, 1), (0, 2), (0, 3)), # First pair.
+    ((0, 0),),                        # Last pair.
+]
+
+make_removal_argv([0, 3]) == [
+    ((0, 0),),                        # First pair.
+    ((0, 0), (1, 0), (2, 0), (3, 0)), # Last pair.
+]
+
+make_removal_argv([2, 3]) == [
+    ((0, 0), (0, 1), (0, 2)),         # First pair.
+    ((0, 0), (1, 0), (2, 0), (3, 0)), # Last pair.
+]
+
+# Adding to body does not change first or last pairs.
+make_removal_argv([3, 4, 5])[0] == make_removal_argv([3, 5])[0]
+make_removal_argv([3, 4, 5])[-1] == make_removal_argv([3, 5])[-1]
+
+# Here's a body calculation.
+make_removal_argv([2, 4, 2])[1] == (
+    (0, 0), (0, 1), (0, 2), (0, 3), (0, 4),
+    (1, 0), (1, 1), (1, 2), (1, 3),
+    (2, 0), (2, 1), (2, 2),
+    (3, 0), (3, 1),
+    (4, 0),
+)
+
+# Test for all locations in a longer body.
+make_removal_argv([2, 4, 2])[1] \
+    == make_removal_argv([0, 4, 0])[1] \
+    == make_removal_argv([0, 4, 0, 0])[1] \
+    == make_removal_argv([0, 0, 4, 0])[2] \
