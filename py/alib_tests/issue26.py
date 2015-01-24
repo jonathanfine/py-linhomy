@@ -97,7 +97,7 @@ from linhomy.issue26 import make_removal_argv
 
 # Length 0 and 1 are special cases.
 make_removal_argv([]) == []
-make_removal_argv([3]) == [(0, 0)]
+make_removal_argv([3]) == [((0, 0),)]
 
 
 # Test first and last pairs.
@@ -134,3 +134,33 @@ make_removal_argv([2, 4, 2])[1] \
     == make_removal_argv([0, 4, 0])[1] \
     == make_removal_argv([0, 4, 0, 0])[1] \
     == make_removal_argv([0, 0, 4, 0])[2] \
+
+
+from linhomy.issue26 import iter_remove
+
+def do_remove(s):
+
+    # Copied from do_mutate.
+    pairs = []
+    for bit in s.split():
+        a, b = bit
+        pair = [int(a), int(b)]
+        pairs.append(pair)
+
+    value = []
+    for item in iter_remove(pairs):
+
+        tmp = ' '.join(
+            ''.join(map(str, pair))
+            for pair in item
+        )
+
+        value.append(tmp)
+
+    return value
+
+
+# Smoke tests.
+do_remove('00') == ['00']
+do_remove('00 00') == ['00 00']
+do_remove('00 00 00') == ['00 00 00']

@@ -49,7 +49,8 @@ def make_removal_argv(available):
     # Deal with special case: zero or one pairs.
     if len(available) < 2:
         # Will result in only trivial removal (leave the same).
-        return [(0, 0)] * len(available)
+        # The return value is a list of tuples of pairs.
+        return [((0, 0),)] * len(available)
 
     # First and last pairs are treated differently.
     first, body, last = available[0], available[1:-1], available[-1]
@@ -98,4 +99,4 @@ def iter_remove(pairs):
             simple_remove(value, ind, i)
             slide_remove(value, ind, j)
 
-            yield value
+        yield value
