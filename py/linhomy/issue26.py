@@ -100,3 +100,34 @@ def iter_remove(pairs):
             slide_remove(value, ind, j)
 
         yield value
+
+
+def join_at(pairs, flags):
+    '''Return new pairs, joined when the flag is true.
+    '''
+
+    if len(flags) + 1 != len(pairs):
+        raise ValueError
+
+    value = []
+    pending = [0, 0]
+
+    # Special case the last pair - it flushes output.
+    extended_flags = itertools.chain(flags, [0])
+
+    for pair, flag in zip(pairs, extended_flags):
+
+        # Always increment pending (by pair).
+        pending[0] += pair[0]
+        pending[1] += pair[1]
+
+        if flag:
+            # If joining, increment pending again.
+            pending[0] += 1
+            pending[1] += 1
+        else:
+            # If using, add to value and reset pending.
+            value.append(list(pending))
+            pending = [0, 0]
+
+    return value

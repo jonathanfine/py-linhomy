@@ -237,3 +237,35 @@ sorted(do_remove('20 20 20')) == [
 
 # No duplicates (and exactly 54).
 len(do_remove('20 20 20')) == len(set(do_remove('20 20 20'))) == 54
+
+
+from linhomy.issue26 import join_at
+
+def do_join_at(s1, s2):
+
+    # Copied from do_mutate.
+    pairs = []
+    for bit in s1.split():
+        a, b = bit
+        pair = [int(a), int(b)]
+        pairs.append(pair)
+
+    flags = list(map(int, s2))
+    value = join_at(pairs, flags)
+
+    return ' '.join(
+        ''.join(map(str, pair))
+        for pair in value
+    )
+
+
+# Smoke tests.
+do_join_at('00', '') == '00'
+do_join_at('12', '') == '12'
+
+do_join_at('00', '0') ** ValueError
+do_join_at('00 00', '') ** ValueError
+
+# Examples of not joining and joining.
+do_join_at('12 34', '0') == '12 34'
+do_join_at('12 34', '1') == '57'
