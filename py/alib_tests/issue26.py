@@ -29,9 +29,10 @@ from linhomy.issue26 import simple_remove
 from linhomy.issue26 import slide_remove
 from copy import deepcopy
 from itertools import count
+from functools import partial
 
 
-def do_simple_remove(s, index, n):
+def do_mutate(fn, s, index, n):
 
     curr = []
     for bit in s.split():
@@ -40,7 +41,7 @@ def do_simple_remove(s, index, n):
         curr.append(pair)
 
     prev = deepcopy(curr)
-    simple_remove(curr, index, n)
+    fn(curr, index, n)
 
     return [
         (i, prev_pair, curr_pair)
@@ -49,6 +50,44 @@ def do_simple_remove(s, index, n):
         ]
 
 
+do_simple_remove = partial(do_mutate, simple_remove)
+do_slide_remove = partial(do_mutate, slide_remove)
+
+# Out of bounds index but no exception because no removal.
+do_simple_remove('', 10, 0) == []
+do_slide_remove('', 10, 0) == []
+
+# Here removal so do get exception.
+do_simple_remove('', 10, 1) ** IndexError
+do_slide_remove('', 10, 1) ** IndexError
+
+
+# Here is the basic behaviour.  The functions are linear.
 do_simple_remove('10', 0, 1) == [
-    (0, [1, 0], [0, 2])
+    (0, [1, 0], [0, 2]),
+]
+do_slide_remove('10 00', 0, 1) == [
+    (0, [1, 0], [0, 1]),
+    (1, [0, 0], [0, 1]),
+]
+
+# Out of bounds exception from slide_remove.
+do_slide_remove('10', 0, 1) ** IndexError
+
+# Test linearity.
+do_simple_remove('52', 0, 4) == [
+    (0, [5, 2], [1, 10]),
+]
+do_slide_remove('52 67', 0, 4) == [
+    (0, [5, 2], [1, 6]),
+    (1, [6, 7], [6, 11]),
+]
+
+# Test linearity and  change of index.
+do_simple_remove('12 34 56 52', 3, 4) == [
+    (3, [5, 2], [1, 10]),
+]
+do_slide_remove('12 34 56 52 67', 3, 4) == [
+    (3, [5, 2], [1, 6]),
+    (4, [6, 7], [6, 11]),
 ]
