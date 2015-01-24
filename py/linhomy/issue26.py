@@ -74,3 +74,28 @@ def make_removal_argv(available):
     ))
 
     return argv
+
+
+def iter_remove(pairs):
+    '''Yield all allowed removals from pairs.
+    '''
+
+    # Compute the removals that will be applied to pairs.
+    available = tuple(d for d, c in pairs)
+    argv = make_removal_argv(available)
+    removals = itertools.product(*argv)
+
+    # Do the removals and yield the values.
+    for rem in removals:
+
+        # Make deep enough copy of the pairs.
+        value = list(map(list, pairs))
+
+        # Apply the removals in rem.
+        for ind, (i, j) in enumerate(rem):
+
+            # Apply the two removals.
+            simple_remove(value, ind, i)
+            slide_remove(value, ind, j)
+
+            yield value
