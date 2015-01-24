@@ -1,3 +1,5 @@
+import itertools
+
 def compose_3(n):
     '''Yield all non-negative solutions to i + j + k = n.
 
@@ -36,3 +38,40 @@ def slide_remove(pairs, index, n):
         pairs[index][0] -= n        # Remove.
         pairs[index][1] += n        # Add half space here.
         pairs[index + 1][1] += n    # And other half at next.
+
+
+def iter_removal_argv(pairs):
+    '''Return argv for use with itertools.product.
+
+    This is a helper function.
+    '''
+
+    # Deal with special case: zero or one pairs.
+    if len(pairs) < 2:
+        # Will result in only trivial removal (leave the same).
+        return [(0, 0)] * len(pairs)
+
+    # Here, we don't need the values of c.
+    available = tuple(d for d, c in pairs)
+
+    # First and last pairs are treated differently.
+    first, body, last = available[0], available[1:-1], available[-1]
+
+    # On first pair, only slide_remove allowed.
+    argv.append(tuple(
+        (0, i) for i in range(first + 1)
+    ))
+
+    # On body, both slide_remove and simple_remove allowed.
+    for size in body:
+        argv.append(tuple(
+            (i, j)
+            for i, j, k in compose_3(size)
+        ))
+
+    # On last pair, only simple remove allowed.
+    argv.append(tuple(
+        (i, 0) for i in range(last + 1)
+    ))
+
+    return argv
