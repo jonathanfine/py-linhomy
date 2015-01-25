@@ -1,4 +1,28 @@
+import functools
 from linhomy.issue26 import compose_3
+
+def do_generic(fn, pairs_str):
+    '''Wrap fn as a pairs to list of pair function.
+    '''
+    pairs = []
+    for bit in pairs_str.split():
+        a, b = bit
+        pair = [int(a), int(b)]
+        pairs.append(pair)
+
+    # Also copied.
+    value = []
+    for item in fn(pairs):
+
+        tmp = ' '.join(
+            ''.join(map(str, pair))
+            for pair in item
+        )
+
+        value.append(tmp)
+
+    return value
+
 
 list(compose_3(-1)) == []
 
@@ -138,27 +162,7 @@ make_removal_argv([2, 4, 2])[1] \
 
 from linhomy.issue26 import iter_remove
 
-def do_remove(s):
-
-    # Copied from do_mutate.
-    pairs = []
-    for bit in s.split():
-        a, b = bit
-        pair = [int(a), int(b)]
-        pairs.append(pair)
-
-    value = []
-    for item in iter_remove(pairs):
-
-        tmp = ' '.join(
-            ''.join(map(str, pair))
-            for pair in item
-        )
-
-        value.append(tmp)
-
-    return value
-
+do_remove = functools.partial(do_generic, iter_remove)
 
 # Smoke tests.
 # TODO: Use colons in the input string notation.
@@ -348,28 +352,7 @@ len(list(slide_helper([], [0, 1, 2, 3, 4]))) == 37
 
 from linhomy.issue26 import join_and_slide
 
-def do_j_and_s(pairs_str):
-
-    # Copied from do_mutate.
-    pairs = []
-    for bit in pairs_str.split():
-        a, b = bit
-        pair = [int(a), int(b)]
-        pairs.append(pair)
-
-    # Also copied.
-    value = []
-    for item in join_and_slide(pairs):
-
-        tmp = ' '.join(
-            ''.join(map(str, pair))
-            for pair in item
-        )
-
-        value.append(tmp)
-
-    return value
-
+do_j_and_s = functools.partial(do_generic, join_and_slide)
 
 # Smoke tests.
 do_j_and_s('00') == ['00']
