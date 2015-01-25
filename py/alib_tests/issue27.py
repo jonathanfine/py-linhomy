@@ -19,9 +19,9 @@ def P_stats(matrices, n):
 from linhomy.issue27 import g_from_CD_1
 g_matrices_1 = G_matrices(g_from_CD_1)
 
-# There's something wrong here.
+# These are pretty much as expected.  No negatives.
 P_stats(g_matrices_1, 2) == [(0, 2), (1, 4)]
-P_stats(g_matrices_1, 3) == [(0, 7), (1, 8)]
-P_stats(g_matrices_1, 4) == [(0, 35), (1, 25)]
-P_stats(g_matrices_1, 5) == [(-1, 4), (0, 101), (1, 45), (2, 2)]
-P_stats(g_matrices_1, 6) == [(-2, 2), (-1, 20), (0, 372), (1, 115), (2, 11)]
+P_stats(g_matrices_1, 3) == [(0, 9), (1, 6)]
+P_stats(g_matrices_1, 4) == [(0, 43), (1, 17)]
+P_stats(g_matrices_1, 5) == [(0, 122), (1, 30)]
+P_stats(g_matrices_1, 6) == [(0, 439), (1, 80), (2, 1)]
