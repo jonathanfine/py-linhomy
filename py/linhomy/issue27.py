@@ -57,11 +57,12 @@ def g_from_CD_matrix(n):
     '''
     value = fib_zeros_array(n, n)
 
-    for i, v in enumerate(FIBWORDS[n]):
+    # GOTCHA:  We're finding columns.
+    for j, v in enumerate(FIBWORDS[n]):
         pairs = pairs_from_fibword(v)
         for contrib in iter_contribute(pairs):
             w = fibword_from_pairs(contrib)
-            j = FIBWORDS[n].index(w)
+            i = FIBWORDS[n].index(w)
             value[i, j] += 1
 
     return value

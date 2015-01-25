@@ -53,11 +53,11 @@ for w in FIBWORDS[4]:
     (w, fibword_from_pairs(pairs_from_fibword(w))) == (w, w)
 
 
-# This has ones on diagonal, transpose of correct value.
+# This is correct value - see test matrices.py CD_from_g[4].
 lists_from_matrix(g_from_CD_matrix(4)) == [
     [1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 1, 1, 0, 0],
     [0, 1, 1, 1, 0],
-    [0, 0, 1, 1, 0],
-    [0, 0, 0, 1, 0],
     [0, 0, 0, 0, 1],
 ]
