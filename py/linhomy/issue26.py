@@ -131,3 +131,39 @@ def join_at(pairs, flags):
             pending = [0, 0]
 
     return value
+
+
+def slide_helper(fixed, rest):
+    '''Iterate over slides, starting with fixed + rest.
+
+    If fixed is empty, all same length compositions of sum(rest) with
+    partial sums no larger then those of rest.  Iteration is in
+    reverse lexicographic order.  Thus, sliding blocks from left to
+    right in rest.
+
+    The function assumes that fixed and rest are lists, and yields
+    lists.  It neither changes the arguments itself nor assumes that
+    they are not changed by the caller.
+
+    '''
+
+    # If rest too short to split, terminate recursion.
+    if len(rest) < 2:
+        yield fixed + rest
+        return
+
+    # Recursion copy of arguments, with item moved from rest to fixed.
+    r_fixed = fixed + rest[:1]
+    r_rest = rest[1:]
+
+    # Loop downwards, moving from r_fixed to r_rest.
+    while 1:
+
+        yield from slide_helper(r_fixed, r_rest)
+
+        # Either move 1 from r_fixed to r_rest or exit loop.
+        if r_fixed[-1] > 0:
+            r_fixed[-1] -= 1
+            r_rest[0] += 1
+        else:
+            break
