@@ -269,3 +269,78 @@ do_join_at('00 00', '') ** ValueError
 # Examples of not joining and joining.
 do_join_at('12 34', '0') == '12 34'
 do_join_at('12 34', '1') == '57'
+
+
+from linhomy.issue26 import slide_helper
+
+def do_slide_helper(fixed_str, rest_str):
+
+    fixed = list(map(int, fixed_str))
+    rest = list(map(int, rest_str))
+    return list(
+        ''.join(map(str, item))
+        for item in slide_helper(fixed, rest)
+    )
+
+
+# Smoke tests.
+do_slide_helper('', '') == ['']
+do_slide_helper('', '0') == ['0']
+do_slide_helper('', '1') == ['1']
+do_slide_helper('', '2') == ['2']
+
+# Smoke tests, with fixed.
+do_slide_helper('456', '') == ['456']
+do_slide_helper('456', '0') == ['4560']
+do_slide_helper('456', '1') == ['4561']
+do_slide_helper('456', '2') == ['4562']
+
+# Test sliding.
+do_slide_helper('', '30') == ['30', '21', '12', '03']
+do_slide_helper('', '31') == ['31', '22', '13', '04']
+do_slide_helper('', '32') == ['32', '23', '14', '05']
+
+# Test sliding, with fixed.
+do_slide_helper('456', '32') == ['45632', '45623', '45614', '45605']
+
+# Test longer sliding.
+do_slide_helper('', '0000') == ['0000']
+do_slide_helper('', '1000') == ['1000', '0100', '0010', '0001']
+
+do_slide_helper('', '2000') == [
+    '2000',                     # No sliding.
+    '1100', '1010', '1001',     # Slide 1 once.
+    '0200',                     # Slide 2 once ...
+    '0110', '0101',             # ... and then slide.
+    '0020',                     # Slide 2 twice ...
+    '0011',                     # ... and then slide.
+    '0002',                     # Slide 2 thrice.
+]
+
+# There's a pattern here.
+do_slide_helper('', '1100') == [
+    '1100',
+    '1010', '1001',
+    '0200', '0110', '0101',
+    '0020', '0011',
+    '0002',
+]
+
+# A sample value.
+tmp = list(slide_helper([], [4, 3, 2, 1, 0]))
+
+# The items come out in reversed lexicographic order.
+tmp == list(reversed(sorted(tmp)))
+
+# The items are all distinct.
+for i, j in zip(tmp, tmp[1:]):
+    i != j
+
+# This gives all ways of summing to 10 (with 5 parts).
+len(list(slide_helper([], [10, 0, 0, 0, 0]))) == 1001
+
+# There's a lot of ways of summing this way to 10.
+len(list(slide_helper([], [4, 3, 2, 1, 0]))) == 795
+
+# Not so many this way.
+len(list(slide_helper([], [0, 1, 2, 3, 4]))) == 37
