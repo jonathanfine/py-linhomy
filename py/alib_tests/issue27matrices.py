@@ -61,3 +61,43 @@ lists_from_matrix(g_from_CD_matrix(4)) == [
     [0, 1, 1, 1, 0],
     [0, 0, 0, 0, 1],
 ]
+
+
+# We will discover if there are double counts.
+def find_double_counts(n):
+    value = []
+    for i, w in enumerate(FIBWORDS[n]):
+
+        contrib = list(iter_contribute(pairs_from_fibword(w)))
+        contrib = tuple(
+            tuple(
+                tuple(pair)
+                for pair in pairs
+            )
+            for pairs in contrib
+        )
+
+        double_counts = len(contrib) - len(set(contrib))
+
+        if double_counts:
+            value.append((i, double_counts, len(contrib)))
+
+    return value
+
+# These are OK.
+find_double_counts(2) == []
+find_double_counts(3) == []
+find_double_counts(4) == []
+find_double_counts(5) == []
+find_double_counts(6) == []
+
+# Here there are double counts - so perhap results are wrong.
+find_double_counts(7) == [
+    (6, 1, 14),
+]
+
+find_double_counts(8) == [
+    (6, 2, 21),
+    (9, 1, 18),
+    (10, 1, 14),
+]
