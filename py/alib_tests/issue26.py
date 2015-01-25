@@ -383,3 +383,26 @@ do_contribute('20') == ['20']
 do_contribute('00 00') == ['00 00', '11']
 do_contribute('00 01') == ['00 01', '12']
 do_contribute('00 02') == ['00 02', '13']
+
+# n = 5.
+do_contribute('00 10') == [
+    '00 10',                    # Unchanged.
+    '00 02',                    # Simple D rule.
+    '21',                       # Join.
+]
+
+do_contribute('10 00') == [
+    '10 00',                    # Unchanged.
+    '01 01',                    # Complex D rule.
+    '21',                       # Join.
+]
+
+# n = 6.
+do_contribute('00 00 00') == [
+    '00 00 00',                 # Unchanged.
+    '00 11', '00 03',           # Join, and simple D rule.
+    '11 00', '02 01',           # Join, and complex D rule.
+    '10 01',                    # Slide '11 00'
+    '01 02',                    # Complex D rule '10 01'.
+    '22',                       # Join both.
+]
