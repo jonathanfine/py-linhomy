@@ -37,28 +37,27 @@ from linhomy.issue27 import pairs_from_fibword
 from linhomy.constants import FIBWORDS
 
 # There's something wrong here.
-fibword_from_pairs(pairs_from_fibword(bytes([1, 2]))) == bytes([2, 1])
-fibword_from_pairs(pairs_from_fibword(bytes([2, 1]))) == bytes([1, 2])
+fibword_from_pairs(pairs_from_fibword(bytes([1, 2]))) == bytes([1, 2])
+fibword_from_pairs(pairs_from_fibword(bytes([2, 1]))) == bytes([2, 1])
 
-fibword_from_pairs(pairs_from_fibword(bytes([1, 1, 2]))) == bytes([2, 1, 1])
-fibword_from_pairs(pairs_from_fibword(bytes([2, 1, 1]))) == bytes([1, 1, 2])
+fibword_from_pairs(pairs_from_fibword(bytes([1, 1, 2]))) == bytes([1, 1, 2])
+fibword_from_pairs(pairs_from_fibword(bytes([2, 1, 1]))) == bytes([2, 1, 1])
 
-# These two are wrong.
-pairs_from_fibword(bytes([1, 2])) == [(1, 1)]
-pairs_from_fibword(bytes([2, 1])) == [(0, 0), (0, 0)]
+# These two are correct.
+pairs_from_fibword(bytes([1, 2])) == [(0, 0), (0, 0)]
+pairs_from_fibword(bytes([2, 1])) == [(1, 1)]
 
 
-# This fails.
+# This succeeds.
 for w in FIBWORDS[4]:
-    break
     (w, fibword_from_pairs(pairs_from_fibword(w))) == (w, w)
 
 
-# This does not have ones along the whole diagonal.
+# This has ones on diagonal, transpose of correct value.
 lists_from_matrix(g_from_CD_matrix(4)) == [
     [1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0],
-    [0, 0, 1, 1, 0],
     [0, 1, 1, 1, 0],
+    [0, 0, 1, 1, 0],
+    [0, 0, 0, 1, 0],
     [0, 0, 0, 0, 1],
 ]

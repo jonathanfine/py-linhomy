@@ -39,6 +39,7 @@ def g_from_CD_1(fibword):
 def pairs_from_fibword(fibword):
 
     # Convert fibword in pairs, list of pairs of integers.
+    fibword = bytes(reversed(fibword))
     index = index_from_fibword(fibword)
     iter_index = iter(index)
     pairs = list(zip(iter_index, iter_index))
