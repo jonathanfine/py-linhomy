@@ -190,3 +190,11 @@ def join_and_slide(pairs):
         # Slide the seconds and assemble answer.
         for slid_seconds in slide_helper([], seconds):
             yield list(zip(firsts, slid_seconds))
+
+
+def iter_contribute(pairs):
+    '''Yield the contributions made by pairs.
+    '''
+    for slid in join_and_slide(pairs):
+        for contrib in iter_remove(slid):
+            yield contrib

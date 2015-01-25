@@ -366,3 +366,20 @@ do_j_and_s('00 00 00') == [
     '10 01',                    # Slide.
     '22',                       # Join at both opportunities.
 ]
+
+
+from linhomy.issue26 import iter_contribute
+
+do_contribute = functools.partial(do_generic, iter_contribute)
+
+# Smoke tests.
+do_contribute('00') == ['00']
+do_contribute('01') == ['01']
+do_contribute('02') == ['02']
+
+do_contribute('10') == ['10']
+do_contribute('20') == ['20']
+
+do_contribute('00 00') == ['00 00', '11']
+do_contribute('00 01') == ['00 01', '12']
+do_contribute('00 02') == ['00 02', '13']
