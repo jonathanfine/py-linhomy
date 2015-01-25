@@ -167,3 +167,26 @@ def slide_helper(fixed, rest):
             r_rest[0] += 1
         else:
             break
+
+
+def join_and_slide(pairs):
+    '''Yield all ways to join and slide the pairs.
+    '''
+
+    # All possible ways to join the pairs.
+    iter_flags = itertools.product(
+        [False, True],
+        repeat = len(pairs) - 1
+    )
+
+    # Iterate of all possible joins.
+    for flags in iter_flags:
+        joined = join_at(pairs, flags)
+
+        # Split each joined into two sequences.
+        firsts = list(i for i, j in joined)
+        seconds = list(j for i, j in joined)
+
+        # Slide the seconds and assemble answer.
+        for slid_seconds in slide_helper([], seconds):
+            yield list(zip(firsts, slid_seconds))

@@ -344,3 +344,42 @@ len(list(slide_helper([], [4, 3, 2, 1, 0]))) == 795
 
 # Not so many this way.
 len(list(slide_helper([], [0, 1, 2, 3, 4]))) == 37
+
+
+from linhomy.issue26 import join_and_slide
+
+def do_j_and_s(pairs_str):
+
+    # Copied from do_mutate.
+    pairs = []
+    for bit in pairs_str.split():
+        a, b = bit
+        pair = [int(a), int(b)]
+        pairs.append(pair)
+
+    # Also copied.
+    value = []
+    for item in join_and_slide(pairs):
+
+        tmp = ' '.join(
+            ''.join(map(str, pair))
+            for pair in item
+        )
+
+        value.append(tmp)
+
+    return value
+
+
+# Smoke tests.
+do_j_and_s('00') == ['00']
+do_j_and_s('00 00') == ['00 00', '11']
+
+# TODO: Preserve reverse lexicographic order?
+do_j_and_s('00 00 00') == [
+    '00 00 00',                 # Unchanged.
+    '00 11',                    # Join at second opportunity.
+    '11 00',                    # Join at first opportunity.
+    '10 01',                    # Slide.
+    '22',                       # Join at both opportunities.
+]
