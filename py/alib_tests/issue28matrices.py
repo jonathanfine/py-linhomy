@@ -1,8 +1,9 @@
 from linhomy.matrices import G_matrices
 from linhomy.testtools import P_stats
+from linhomy.issue27 import g_from_CD_factory
+from linhomy.issue26 import iter_contribute
 
-from linhomy.issue27 import g_from_CD_1
-g_matrices_1 = G_matrices(g_from_CD_1)
+g_matrices_1 = G_matrices(g_from_CD_factory(iter_contribute)[1])
 
 # These are pretty much as expected.  No negatives.
 P_stats(g_matrices_1, 2) == [(0, 2), (1, 4)]

@@ -1,5 +1,7 @@
 from linhomy.issue26 import iter_contribute
-from linhomy.issue27 import g_from_CD_matrix
+from linhomy.issue27 import g_from_CD_factory
+
+g_from_CD_matrix = g_from_CD_factory(iter_contribute)[0]
 
 
 def lists_from_matrix(matrix):

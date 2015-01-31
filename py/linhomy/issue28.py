@@ -82,3 +82,12 @@ def iter_remove(pairs):
             pair[1] += c_delta
 
         yield value
+
+
+# Copied from issue26.py.
+def iter_contribute(pairs):
+    '''Yield the contributions made by pairs.
+    '''
+    for slid in join_and_slide(pairs):
+        for contrib in iter_remove(slid):
+            yield contrib
