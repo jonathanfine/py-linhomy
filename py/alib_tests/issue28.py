@@ -44,3 +44,14 @@ do_deltas('22') == [
     '11 01', '11 13', '11 25',
     '22 02', '22 14', '22 26',
 ]
+
+from linhomy.issue28 import compose_2
+
+def do_compose_2(n):
+    return list(compose_2(n))
+
+do_compose_2(-1) == []
+do_compose_2(0) == [(0, 0)]
+do_compose_2(1) == [(0, 1), (1, 0)]
+do_compose_2(2) == [(0, 2), (1, 1), (2, 0)]
+do_compose_2(3) == [(0, 3), (1, 2), (2, 1), (3, 0)]
