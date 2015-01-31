@@ -62,3 +62,23 @@ def recurse_deltas(done, carried, todo):
             suffix = (used, used + kept)
             done = prev_done + (suffix,)
             yield from recurse_deltas(done, carried, todo)
+
+
+def iter_remove(pairs):
+    '''Yield all allowed removals from pairs.
+    '''
+
+    c_vec = tuple(c for d, c in pairs)
+    d_vec = tuple(d for d, c in pairs)
+
+    for delta in iter_deltas(d_vec):
+
+        # Make deep enough copy of the pairs.
+        value = list(map(list, pairs))
+
+        for pair, (d_delta, c_delta) in zip(value, delta):
+
+            pair[0] -= d_delta
+            pair[1] += c_delta
+
+        yield value
