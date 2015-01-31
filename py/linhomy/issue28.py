@@ -1,3 +1,5 @@
+from .issue26 import join_and_slide
+
 def compose_2(n):
     '''Yield all non-negative solutions to i + j = n.
     '''
