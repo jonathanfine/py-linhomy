@@ -1,20 +1,5 @@
-from collections import Counter
-import numpy
 from linhomy.matrices import G_matrices
-
-
-def P_stats(matrices, n):
-
-    counter = Counter()
-    for i in range(n+1):
-        j = n - i
-        if i <= j:
-            mat = matrices.P_from_g[i, j]
-            vec = numpy.reshape(mat, [-1])
-            counter.update(vec)
-
-    return sorted(counter.items())
-
+from linhomy.testtools import P_stats
 
 from linhomy.issue27 import g_from_CD_1
 g_matrices_1 = G_matrices(g_from_CD_1)
@@ -44,45 +29,20 @@ P_stats(g_matrices_1, 10) == [
     (0, 34282), (1, 1478), (2, 80), (3, 4),
 ]
 
-
-# Copied from test issue25.py.
-# Code to pick out the non zero-one entries.
-def doit(matrices, n):
-
-    zero_one = set([0, 1])
-    value = []
-    for m in range(n + 1):
-        ell = n - m
-        if  m > ell:
-            continue
-        matrix = matrices[m, ell]
-        # TODO: provide an 'enumerate' for numpy matrices.
-        i_lim, j_lim, k_lim = matrix.shape
-        for i in range(i_lim):
-            for j in range(j_lim):
-                for k in range(k_lim):
-                    c = matrix[i, j, k]
-                    if c < 0:
-                        value.append((m, ell, i, j, k, c))
-
-    return value
+from linhomy.testtools import find_negatives
 
 tmp = g_matrices_1.P_from_g
-doit(tmp, 6) == []
-doit(tmp, 7) == []
-doit(tmp, 8) == [
+find_negatives(tmp, 6) == []
+find_negatives(tmp, 7) == []
+find_negatives(tmp, 8) == [
     (3, 5, 1, 4, 16, -1),
     (3, 5, 1, 6, 10, -2),
     (3, 5, 1, 6, 15, -1),
     (4, 4, 1, 1, 10, -2),
 ]
 
-# Copied from issue25.py.
-from linhomy.constants import FIBWORDS
-def str_from_word(n, r):
 
-    return ''.join(map(str, FIBWORDS[n][r]))
-
+from linhomy.testtools import str_from_word
 
 # Here are the sources of the exceptions.
 # 8 = 3 + 5.
