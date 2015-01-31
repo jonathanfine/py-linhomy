@@ -61,4 +61,4 @@ def recurse_deltas(done, carried, todo):
 
             suffix = (used, used + kept)
             done = prev_done + (suffix,)
-            yield from recurse_delta(done, carried, todo)
+            yield from recurse_deltas(done, carried, todo)
