@@ -8,4 +8,4 @@ def iter_deltas(size_vec):
         raise ValueError
 
     if length == 1:
-        yield tuple(size_vec)
+        yield ((0, 0),)
