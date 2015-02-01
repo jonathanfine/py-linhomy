@@ -34,6 +34,22 @@ def iter_deltas(size_vec):
 
         yield from recurse_deltas(done, carried, todo)
 
+    if list(size_vec) == [1, 0, 0]:
+
+        # See issue28matrices.py, issue29matrices.py.
+        # Perhaps '21212' -> '112121' -> '121121'.
+        yield [[1, 0], [0, 1], [0, 1]]
+
+    elif list(size_vec) == [0, 1, 0]:
+
+        # See issue28matrices.py, issue29matrices.py.
+        # Perhaps '12212' -> '121121' -> '121211'.
+        yield [[0, 0], [1, 0], [0, 2]]
+
+
+
+
+
 
 def recurse_deltas(done, carried, todo):
 

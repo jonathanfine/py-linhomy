@@ -1,7 +1,7 @@
 from linhomy.matrices import G_matrices
 from linhomy.testtools import P_stats
 from linhomy.issue27 import g_from_CD_factory
-from linhomy.issue28 import iter_contribute
+from linhomy.issue29 import iter_contribute
 
 g_from_CD_matrix, g_from_CD = g_from_CD_factory(iter_contribute)
 g_matrices_1 = G_matrices(g_from_CD)
@@ -17,18 +17,18 @@ P_stats(g_matrices_1, 6) == [(0, 439), (1, 80), (2, 1)]
 P_stats(g_matrices_1, 7) == [(0, 1222), (1, 141), (2, 2)]
 
 # n = 8. Two negatives - I wonder where and why.
-P_stats(g_matrices_1, 8) == [(-1, 2), (0, 4058), (1, 349), (2, 11)]
+P_stats(g_matrices_1, 8) == [(0, 4056), (1, 352), (2, 12)]
 
-# n = 9. Now have 18 negatives.
+# n = 9. Now have 5 negatives.
 P_stats(g_matrices_1, 9) == [
-    (-2, 1), (-1, 10),
-    (0, 10884), (1, 630), (2, 24), (3, 1),
+    (-2, 2), (-1, 3),
+    (0, 10870), (1, 644), (2, 27), (3, 4),
 ]
 
-# n = 10. Now have 113 negatives.
+# n = 10. Now have 118 negatives.
 P_stats(g_matrices_1, 10) == [
-    (-2, 12), (-1, 78),
-    (0, 34266), (1, 1506), (2, 90), (3, 4),
+    (-5, 1), (-4, 1), (-3, 3), (-2, 31), (-1, 82),
+    (0, 34170), (1, 1541), (2, 112), (3, 15),
 ]
 
 from linhomy.testtools import find_negatives
@@ -37,8 +37,8 @@ tmp = g_matrices_1.P_from_g
 find_negatives(tmp, 6) == []
 find_negatives(tmp, 7) == []
 find_negatives(tmp, 8) == [
-    (3, 5, 1, 4, 16, -1),
-    (3, 5, 1, 6, 15, -1),
+#    (3, 5, 1, 4, 16, -1),
+#    (3, 5, 1, 6, 15, -1),
 ]
 
 
@@ -67,7 +67,7 @@ list(g_matrices_1.CD_P_g[3, 5][1, 4]) == [
 
 list(g_matrices_1.g_from_CD[8][16,:]) == [
     0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
 
 
@@ -79,7 +79,7 @@ list(g_matrices_1.CD_P_g[3, 5][1, 6]) == [
 
 list(g_matrices_1.g_from_CD[8][15,:]) == [
     0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0,
-    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
 ]
 
 
@@ -99,7 +99,7 @@ explain(g_matrices_1, 3, 5, 1, 6, 15) == [
     ('122111', 0, -1, 0),       # 0: order.
     ('211121', 0, 1, 0),        # 0: order.
     ('211211', 0, -1, 0),       # 0: order.
-    ('21212', 0, 2, 0),         # Perhaps '21212' -> '112121' -> '121121'.
+    ('21212', 1, 2, 2),         # Perhaps '21212' -> '112121' -> '121121'.
     ('21221', 0, -1, 0),        # 0: order.
     ('22112', 0, -2, 0),        # 0: order.
     ('22211', 0, 1, 0),         # 0: order.
@@ -113,7 +113,7 @@ explain(g_matrices_1, 3, 5, 1, 4, 16) == [
     ('121211', 1, -1, -1),      # 1: same.
     ('12122', 1, 1, 1),         # 1: promote '2' to '11'.
     ('122111', 0, 1, 0),        # 0: order.
-    ('12212', 0, 1, 0),         # Perhaps '12212' -> '121121' -> '121211'.
+    ('12212', 1, 1, 1),         # Perhaps '12212' -> '121121' -> '121211'.
     ('12221', 0, -1, 0),        # 0: order.
     ('211112', 0, 1, 0),        # 0: order.
     ('211211', 0, 1, 0),        # 0: order.
