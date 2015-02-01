@@ -123,3 +123,31 @@ explain(g_matrices_1, 3, 5, 1, 4, 16) == [
     ('22211', 0, 1, 0),         # 0: order.
     # NOTE:  It's CD_P_g that's non-zero here, not g_P_g.
 ]
+
+
+# TODO: This one seems hard to explain.
+
+# It was discovered in issue29matrices.py, but was already present in
+# issue28matrices.py.  This is an order 1 calculation, so surprising
+# that it is going wrong.
+str_from_word(9, 42) == '2121111'
+sum(item[-1] for item in explain(g_matrices_1, 4, 5, 1, 6, 42)) == -1
+explain(g_matrices_1, 4, 5, 1, 6, 42) == [
+    ('1112112', 1, -1, -1),
+    ('1112121', 1, -1, -1),
+    ('1112211', 0, 1, 0),
+    ('1121112', 1, 1, 1),
+    ('1121121', 1, 2, 2),
+    ('1121211', 1, 1, 1),
+    ('1122111', 0, -2, 0),
+    ('1211121', 1, -1, -1),
+    ('1211211', 1, -1, -1),
+    ('1221111', 0, 1, 0),
+    ('211212', 1, 2, 2),
+    ('211221', 1, -1, -1),
+    ('212112', 1, -2, -2),
+    ('212121', 1, -2, -2),
+    ('212211', 1, 2, 2),
+    ('221121', 0, 2, 0),
+    ('222111', 0, -1, 0),
+]
