@@ -41,3 +41,18 @@ def find_negatives(matrices, n):
                         value.append((m, ell, i, j, k, c))
 
     return value
+
+
+def explain(g_matrices, m, ell, i, j, k):
+
+    n = m + ell
+    col = g_matrices.CD_P_g[m, ell][i, j]
+    row = g_matrices.g_from_CD[n][k,:]
+
+    value = []
+    for i, (r, c) in enumerate(zip(row, col)):
+        if c:
+            item = str_from_word(n, i), r, c, r * c
+            value.append(item)
+
+    return value
