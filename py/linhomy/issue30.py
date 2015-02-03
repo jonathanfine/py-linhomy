@@ -10,7 +10,42 @@ def compose_2(n):
 
 def multiplicity_from_delta(delta):
 
-    return 1                    # Stub implementation.
+    value = 1
+    kept = 0
+    for d, c in delta:
+
+        # Count how may ways.
+        count = 0
+        for i in range(d + 1):
+
+            cand = d + i        # Number of c's required.
+
+            # Dummy values, for smoke test.
+            low = d
+            high = d
+
+            # Check for bad delta / programming error.
+            if not low <= high:
+                raise ValueError
+
+            # If in bounds, increment the counter.
+            if low <= cand <= high:
+                count += 1
+
+        if count == 0:
+            raise ValueError
+
+        # The value is the product of the count.
+        value *= count
+
+        # At end of loop update kept.
+        # TODO: Assign kept in iterator?
+        kept += 2 * d - c
+
+    if value != 1:
+        print(delta, value)
+
+    return value
 
 
 
