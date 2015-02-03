@@ -1,7 +1,7 @@
 from linhomy.matrices import G_matrices
 from linhomy.testtools import P_stats
 from linhomy.issue27 import g_from_CD_factory
-from linhomy.issue28 import iter_contribute
+from linhomy.issue30 import iter_contribute
 
 g_from_CD_matrix, g_from_CD = g_from_CD_factory(iter_contribute)
 g_matrices_1 = G_matrices(g_from_CD)
