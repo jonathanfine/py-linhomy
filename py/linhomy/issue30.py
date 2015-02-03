@@ -8,6 +8,10 @@ def compose_2(n):
     for i in range(m):
             yield i, n - i
 
+def multiplicity_from_delta(delta):
+
+    return 1                    # Stub implementation.
+
 
 
 def iter_deltas(size_vec):
@@ -83,7 +87,10 @@ def iter_remove(pairs):
             pair[0] -= d_delta
             pair[1] += c_delta
 
-        yield value
+        multiplicity = multiplicity_from_delta(delta)
+        # TODO: We're not able yet to pass multiplicity as argument.
+        for i in range(multiplicity):
+            yield value
 
 
 # Copied from issue26.py.
